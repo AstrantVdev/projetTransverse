@@ -1,7 +1,6 @@
 # import the pygame module, so you can use it
 import pygame
 
-
 # define a main function
 def main():
     # initialize the pygame module
@@ -17,12 +16,14 @@ def main():
     print('PygameInit :', pygame.get_init(), '\n')
 
     # load and set the logo
-    logo = pygame.image.load("logo32x32.jpg")
-    pygame.display.set_icon(logo)
-    pygame.display.set_caption("minimal program")
+    pygame.display.set_icon(ICON)
 
-    # create a surface on screen that has the size of 240 x 180
-    screen = pygame.display.set_mode()
+    # set title
+    pygame.display.set_caption(TITLE)
+
+    # create a surface on screen that has the size of 200 x 800
+    screen = pygame.display.set_mode((200, 800), pygame.RESIZABLE)
+
     x, y = screen.get_size()
     print("Screen : {:^4} x {:^4}\n".format(x, y))
 
@@ -31,16 +32,37 @@ def main():
 
     # main loop
     while running:
-        # event handling, gets all event from the event queue
+        FPS = clock.tick(60)
+
+        screen.fill(RED)
+        screen.blit(ICON, (100, 100))
+
+        pygame.display.flip()
+
+
         for event in pygame.event.get():
-            # only do something if the event is of type QUIT
-            if event.type == pygame.QUIT:
-                # change the value to False, to exit the main loop
-                running = False
+
+            match(event.type):
+
+                case pygame.QUIT:
+                    running = False
+
+                case pygame.KEYDOWN:
+                    key = event.key
 
 
 # run the main function only if this module is executed as the main script
 # (if you import this as a module then nothing is executed)
 if __name__ == "__main__":
     # call the main function
+    TITLE = "Tuhou"
+    ICON = pygame.image.load("logo32x32.jpg")
+    RED = (100, 0, 0)
+    ENTITIES = []
+
+    clock = pygame.time.Clock()
+    clock.tick(60)
+
+    FPS = clock.tick(60)
+
     main()
