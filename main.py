@@ -1,28 +1,46 @@
-import sys, pygame
+# import the pygame module, so you can use it
+import pygame
 
-pygame.init()
 
-size = width, height = 320, 240
-speed = [2, 2]
-black = 0, 0, 0
+# define a main function
+def main():
+    # initialize the pygame module
+    (numpass, numfail) = pygame.init()
 
-screen = pygame.display.set_mode(size)
+    # printing the number of modules
+    # initialized successfully
+    print('Pygames Modules:\n',
+          numpass, ' sucess\n',
+          numfail, ' fails\n'
+          )
 
-ball = pygame.image.load("RedBallpng.png")
-ballrect = ball.get_rect()
+    print('PygameInit :', pygame.get_init(), '\n')
 
-while 1:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
+    # load and set the logo
+    logo = pygame.image.load("logo32x32.jpg")
+    pygame.display.set_icon(logo)
+    pygame.display.set_caption("minimal program")
 
-    ballrect = ballrect.move(speed)
+    # create a surface on screen that has the size of 240 x 180
+    screen = pygame.display.set_mode()
+    x, y = screen.get_size()
+    print("Screen : {:^4} x {:^4}\n".format(x, y))
 
-    if ballrect.left < 0 or ballrect.right > width:
-        speed[0] = -speed[0]
+    # define a variable to control the main loop
+    running = True
 
-    if ballrect.top < 0 or ballrect.bottom > height:
-        speed[1] = -speed[1]
+    # main loop
+    while running:
+        # event handling, gets all event from the event queue
+        for event in pygame.event.get():
+            # only do something if the event is of type QUIT
+            if event.type == pygame.QUIT:
+                # change the value to False, to exit the main loop
+                running = False
 
-    screen.fill(black)
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
+
+# run the main function only if this module is executed as the main script
+# (if you import this as a module then nothing is executed)
+if __name__ == "__main__":
+    # call the main function
+    main()
