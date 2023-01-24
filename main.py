@@ -8,7 +8,7 @@ black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 
-ball = pygame.image.load("ball.bmp")
+ball = pygame.image.load("RedBallpng.png")
 ballrect = ball.get_rect()
 
 while 1:
