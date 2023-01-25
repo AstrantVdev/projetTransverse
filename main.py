@@ -1,6 +1,9 @@
 # import the pygame module, so you can use it
 import pygame
 
+import entity
+from config import Controls
+
 # define a main function
 def main():
     # initialize the pygame module
@@ -35,7 +38,10 @@ def main():
         FPS = clock.tick(60)
 
         screen.fill(RED)
-        screen.blit(ICON, (100, 100))
+
+        #SCREEN DISPLAY
+        for e in entities:
+            screen.blit(e.texture, (e.x, e.y))
 
         pygame.display.flip()
 
@@ -49,6 +55,12 @@ def main():
 
                 case pygame.KEYDOWN:
                     key = event.key
+                    print('key : ', key)
+
+                    match(key):
+                        case Controls.down:
+                            print('d')
+                            PLAYER.y += 1
 
 
 # run the main function only if this module is executed as the main script
@@ -58,11 +70,14 @@ if __name__ == "__main__":
     TITLE = "Tuhou"
     ICON = pygame.image.load("logo32x32.jpg")
     RED = (100, 0, 0)
-    ENTITIES = []
+    entities = []
 
     clock = pygame.time.Clock()
     clock.tick(60)
 
     FPS = clock.tick(60)
+
+    PLAYER = entity.Player()
+    entities.append(PLAYER)
 
     main()
