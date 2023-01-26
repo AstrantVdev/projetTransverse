@@ -2,18 +2,34 @@ import pygame
 import entity
 class Scene():
      def __init__(self):
-         self.name
-         self.entities
+         self.name = "name"
+         self.entities = []
          self.userInterfaces = []
          self.userInterfaceIndex = 0
          self.blocks = []
          self.fronts = []
 
+     def addEntity(self, entity):
+         self.entities.append(entity)
+         return self
+
+     def addUserInterface(self, userInterface):
+         self.userInterfaces.append(userInterface)
+         return self
+
+     def addBlock(self, block):
+         self.blocks.append(block)
+         return self
+
+     def addFront(self, front):
+         self.fronts.append(front)
+         return self
+
 class Game():
     def __int__(self):
-        self.scene
+        self.scene = ""
         self.running = False
-        self.screen
+        self.screen = ""
 
     def setUp(self):
         (numpass, numfail) = pygame.init()
@@ -39,19 +55,18 @@ class Game():
     def run(self):
 
         while self.running:
-
             pygame.display.flip()
 
-            for event in pygame.event.get():
+            self.eventsHandler()
 
-                match (event.type):
+    def eventsHandler(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                pygame.quit()
+                #ferme la fenetre
+                exit()
 
-                    case pygame.QUIT:
-                        running = False
-
-                    case pygame.KEYDOWN:
-                        key = event.key
-                        print('key : ', key)
 
 class Blocks(pygame.sprite.Sprite, Game):
     def __init__(self, img, x = 350, y = 350):
