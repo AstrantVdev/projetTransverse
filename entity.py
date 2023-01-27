@@ -18,7 +18,7 @@ class Entity(pygame.sprite.Sprite):
 class Player(Entity):
 
 	def __init__(self):
-		self.name = 'player'
+		self.name = 'uwu'
 		self.life = 5
 		self.mod = 0
 		self.x = 184
