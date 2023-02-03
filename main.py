@@ -98,7 +98,7 @@ def getFont(tall = 50):
 
 GAME = 'the game object'
 if __name__ == "__main__":
-    TITLE = "Block"
+    TITLE = "BlockUwU"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
     RED = (100, 0, 0)
 
