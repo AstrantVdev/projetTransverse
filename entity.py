@@ -5,8 +5,7 @@ class Entity(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
 		self.name = 'name'
-		self.speed = [0,0,0]
-		self.weight
+		self.weight = 50
 		self.life = -1
 		self.fly = False
 		self.x = 0
@@ -14,15 +13,15 @@ class Entity(pygame.sprite.Sprite):
 		self.pitch = 0
 		self.texture
 		self.type = "PROJECTILE"
+		self.mod = 0
 
 class Player(Entity):
 
 	def __init__(self):
-		self.name = 'owo'
-		self.life = 5
-		self.mod = 0
-		self.x = 184
-		self.y = 184
-		self.pitch = 0
+		self.name="Player"
+		self.weight=150
+		self.life=500556448879
+		self.type="PLAYER"
+		self.nickname=""
+		self.inventory=[50]
 		self.texture = pygame.image.load("graphics/logo32x32.jpg")
-		self.type = "PLAYER"
