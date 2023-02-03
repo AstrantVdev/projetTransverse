@@ -26,7 +26,7 @@ class Scene():
          return self
 
 class Game():
-    def __int__(self):
+    def __init__(self):
         self.scene = ""
         self.running = False
         self.screen = ""
