@@ -7,7 +7,7 @@ screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Bloockey')
 tile_size = 50
-bg_img = pygame.image.load('img/sky.png')
+background_level1 = pygame.image.load('img/sky1.jpeg')
 class Scene():
     def __init__(self):
         self.name = "name"
@@ -47,7 +47,7 @@ class Game():
         print("Screen : {:^4} x {:^4}\n".format(x, y))
         self.running = True
     def run(self):
-        world_data = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        level1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -61,8 +61,8 @@ class Game():
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
-        world = level.World(world_data)
-        screen.blit(bg_img, (0, 0))
+        world = level.World(level1)
+        screen.blit(background_level1, (0, 0))
         world.draw()
         pygame.display.update()
         while self.running:
