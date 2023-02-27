@@ -11,15 +11,15 @@ class World():
 			colonne_count = 0
 			for nb in ligne:
 				if nb == 1:
-					terre = pygame.transform.scale(dirt_img, (100, 100))
+					terre = pygame.transform.scale(dirt_img, (50, 50))
 					img_rect = terre.get_rect()
-					img_rect.x = colonne_count * 100
+					img_rect.x = colonne_count * 50
 					img_rect.y = ligne_count * 50
 					self.list.append((terre, img_rect))
 				if nb == 2:
-					sol = pygame.transform.scale(grass_img, (100, 100))
+					sol = pygame.transform.scale(grass_img, (50, 50))
 					img_rect = sol.get_rect()
-					img_rect.x = colonne_count * 100
+					img_rect.x = colonne_count * 50
 					img_rect.y = ligne_count * 50
 					self.list.append((sol, img_rect))
 				colonne_count += 1
