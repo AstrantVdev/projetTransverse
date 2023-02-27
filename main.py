@@ -7,7 +7,7 @@ screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Bloockey')
 tile_size = 50
-background_level1 = pygame.image.load('img/sky1.jpeg')
+background_level1 = pygame.image.load('img/sky.png')
 class Scene():
     def __init__(self):
         self.name = "name"
