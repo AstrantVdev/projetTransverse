@@ -81,6 +81,16 @@ class Game:
     def run(self):
 
         while self.running:
+            if not player.speed_first[2]:
+                player.speed_first[0]=player.x
+                player.speed_first[1]=player.y
+                player.speed_first[2]=True
+                player.speed_first[3]=getCurrentTime()/1000
+            else:
+                player.speed_first[2]=False
+                tt=(getCurrentTime()/1000)-(player.speed_first[3]/1000)
+                player.instant_speed=math.sqrt((player.x-player.speed_first[0])**2 + (player.y-player.speed_first[1])**2)/tt
+
             pygame.display.flip()
 
             self.eventsHandler()
