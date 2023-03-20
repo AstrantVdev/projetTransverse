@@ -7,5 +7,3 @@ class Scene1(main.Scene):
         super().__init__(game)
         player = main.Player
         player.setX()
-
-
