@@ -1,15 +1,17 @@
+import os
 from abc import abstractmethod
+from enum import Enum
 
 import pygame
 import time
 
-import scenes
-
+import Scenes
+import Items
 
 class Game:
     def __init__(self):
         self.scenes = []
-        self.currentScene = Scene(self)
+        self.currentScene = Scenes.Scene1()
         self.running = False
         self.screen = None
         self.width = 800
@@ -91,50 +93,78 @@ class Game:
                 
             """
 
-
-
             self.screen.fill((255, 255, 0))
             pygame.display.flip()
             # fond = pygame.image.load('sky.png')
             # fond = fond.convert()
             # self.screen.blit(fond, (0, 0))
-            self.currentScene = scenes.Scene1
-            for e in self.currentScene.entities:
+            self.currentScene = Scenes.Scene1
+            for e in self.currentScene.getEntities:
                 e.blit()
             self.eventsHandler()
 
     def eventsHandler(self):
-        import events
+        import Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                events.quit(self, event)
+                Events.quit(self, event)
 
 
 class Scene:
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         self.name = "name"
-        self.game = game
+        self.game = ''
         self.userInterfaces = []
-        self.currentUserInterfaceIndex = 0  # index de l'interface en cours
-        self.blocks = []
+        self.currentUserInterfaceIndex = -1  # index de l'interface en cours (-1 s'il  n'y en a pas d'affiché)
+
+        self.bricks = []
+        self.entities = []
         self.fonts = []
+        self.buttons = []
 
         self.background = "graphics/background_start.jpeg"
 
-        self.buttons = []
-
-        self.entities = []
         self.player = Player()
-        # si c'est une interface ou non
-        self.play = False
+
+    def setName(self, name):
+        self.name = name
+        return self
+
+    def getName(self):
+        return self.name
+
+    def setGame(self, game):
+        self.game = game
+        return self
+
+    def getGame(self):
+        return self.game
 
     def addUserInterface(self, userInterface):
         self.userInterfaces.append(userInterface)
         return self
 
+    def setCurrentUserInterfaceIndex(self, index):
+        self.currentUserInterfaceIndex = index
+        return self
+
+    def getCurrentUserInterfaceIndex(self):
+        return self.currentUserInterfaceIndex
+
     def getPlayer(self):
         return self.entities.filter(lambda e: e.type == "PLAYER")[0]
+
+    def addBricks(self, e):
+        self.bricks.append(e)
+        return self
+
+    def popBricks(self, e):
+        self.bricks.pop(e)
+        return self
+
+    def getBricks(self):
+        return self.bricks
 
     def addEntities(self, e):
         self.entities.append(e)
@@ -144,139 +174,182 @@ class Scene:
         self.entities.pop(e)
         return self
 
-    def addBlocks(self, block):
-        self.blocks.append(block)
-        return self
-
-    def popBlocks(self, b):
-        self.blocks.pop(b)
-        return self
+    def getEntities(self):
+        return self.entities
 
     def addFronts(self, front):
-        self.fronts.append(front)
+        self.fonts.append(front)
         return self
 
     def popFronts(self, front):
-        self.fronts.pop(front)
+        self.fonts.pop(front)
         return self
+
+    def getFonts(self):
+        return self.fonts
+
+    def addButton(self, button):
+        self.buttons.append(button)
+        return self
+
+    def popButton(self, button):
+        self.buttons.pop(button)
+        return self
+
+    def getButton(self):
+        return self.buttons
+
+    def setBackground(self, background):
+        self.background = background
+        return self
+
+    def getBackground(self):
+        return self.background
 
 
 class Brick(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y, type, subtype, id, scene, rect):
         super().__init__()
-        self.scene = None
-        self.x = 0
-        self.y = 0
-        self.img = None
-        self.rect = None
+        self.x = x
+        self.y = y
+        self.type = type
+        self.subtype = subtype
+        self.id = id
+        self.scene = scene
+        self.rect = rect
+        self.frame = -1
+
+        class Color(Enum):
+            DEFAULT = "default"
+
+        self.states = Color
+        self.currentState = self.states.DEFAULT
 
     def blit(self):
-        self.rect.move(10, 10)
-        self.scene.blit(self.img, self.rect)
+        tick = 10 # => une animation tous les 10 affichages
+
+        dir = "graphics/" + self.type + "/" + self.subtype + "/" + self.currentState
+        len = len([name for name in os.listdir(dir) if os.path.isfile(name)])
+        print(len)
+
+        self.frame %= len*tick
+        self.frame += 1
+
+        self.rect.move(self.x, self.y)
+        self.scene.blit(dir + (self.frame // tick) + ".jpg")
 
     def setX(self, x):
         self.x = x
+        return self
 
     def getX(self):
         return self.x
 
     def setY(self, y):
         self.y = y
+        return self
 
     def getY(self):
         return self.y
 
-    def setImg(self, img):
-        self.img = pygame.image.load("graphics/" + img + ".jpg")
-        self.rect = self.img.get_rect()
+    def setType(self, type):
+        self.type = type
+        return self
 
-    def getImg(self):
-        return self.img
+    def getType(self):
+        return self.type
+
+    def setSubType(self, subtype):
+        self.subtype = subtype
+        return subtype
+
+    def getSubType(self):
+        return self.subtype
+
+    def setId(self, id):
+        self.id = id
+        return id
+
+    def getId(self):
+        return self.id
+
+    def setScene(self, scene):
+        self.scene = scene
+        return self
+
+    def getScene(self):
+        return self.scene
+
+    def setRect(self, rect):
+        self.rect = rect
+        return self
+
+    def getRect(self):
+        return self.rect
+
+    def setFrame(self, frame):
+        self.frame = frame
+
+    def getFrame(self):
+        return self.frame
+
+    def setStates(self, states):
+        self.states = states
+        return self
+
+    def getStates(self):
+        return self.states
+
+    def setCurrentState(self, state):
+        self.currentState = state
+        return self
+
+    def getCurrentState(self):
+        return self.currentState
 
 
 class Entity(Brick):
 
-    def __init__(self):
-        super().__init__()
-        self.name = "ENTITY_NAME"
+    def __init__(self, x, y, subtype, id):
+        super().__init__(x, y, "entity", subtype, id)
         self.speed = [0, 0, 0]
         self.weight = 0
         self.life = 15
         self.fly = False
         self.pitch = 0
-        self.texture = None
-        self.type = "ENTITY_TYPE"
         self.ground = False
         self.instant_speed = 0.0
         self.speed_first = [0, 0, False, getCurrentTime()]
         self.falling = False
-        self.pitch = 0
-
-    def setName(self, name):
-        self.name = name
-
-    def getName(self):
-        return self.name
+        self.inv = Items.Inventory
 
     def setSpeed(self, speed):
         self.speed = speed
+        return self
 
     def getSpeed(self):
         return self.speed
 
     def setWeight(self, weight):
         self.weight = weight
+        return self
 
     def getWeight(self):
         return self.weight
 
     def setLife(self, life):
         self.life = life
+        return self
 
     def getLife(self):
         return self.life
 
     def setFly(self, fly):
         self.fly = fly
+        return self
 
     def getFly(self):
         return self.fly
-
-    def setTexture(self, texture):
-        self.texture = texture
-
-    def getTexture(self):
-        return self.texture
-
-    def setType(self, eType):
-        self.type = eType
-
-    def getType(self):
-        return self.type
-
-    def setGround(self, ground):
-        self.ground = ground
-
-    def getGround(self):
-        return self.ground
-
-    def setInstant_speed(self, instant_speed):
-        self.instant_speed = instant_speed
-
-    def getInstant_speed(self):
-        return self.instant_speed
-
-    def setSpeed_first(self, speed_first):
-        self.speed_first = speed_first
-
-    def getSpeed_first(self):
-        return self.speed_first
-
-    def setFalling(self, falling):
-        self.falling = falling
-
-    def getFalling(self):
-        return self.falling
 
     def setPitch(self, pitch):
         self.pitch = pitch
@@ -284,40 +357,71 @@ class Entity(Brick):
     def getPitch(self):
         return self.pitch
 
+    def setGround(self, ground):
+        self.ground = ground
+        return self
 
-def getCurrentTime():
-    return round(time.time() * 1000)
+    def getGround(self):
+        return self.ground
+
+    def setInstant_speed(self, instant_speed):
+        self.instant_speed = instant_speed
+        return self
+
+    def getInstant_speed(self):
+        return self.instant_speed
+
+    def setSpeed_first(self, speed_first):
+        self.speed_first = speed_first
+        return self
+
+    def getSpeed_first(self):
+        return self.speed_first
+
+    def setFalling(self, falling):
+        self.falling = falling
+        return self
+
+    def getFalling(self):
+        return self.falling
+
+    def setInv(self, inv):
+        self.inv = inv
+        return self
+
+    def getInv(self):
+        return self.inv
+
+    def getCurrentTime(self):
+        return round(time.time() * 1000)
 
 
 class Player(Entity):
 
     def __init__(self):
         super().__init__()
+
         self.mod = 0
-        self.weight = 65
         self.fall_time = 1
-        self.when_jumped = 0.0
+        self.when_jumped = 0
 
     def setMod(self, mod):
         self.mod = mod
+        return self
 
     def getMod(self):
         return self.mod
 
-    def setWeight(self, weight):
-        self.weight = weight
-
-    def getWeight(self):
-        return self.weight
-
     def setFall_time(self, fall_time):
         self.fall_time = fall_time
+        return self
 
     def getFall_time(self):
         return self.fall_time
 
     def setWhen_jumped(self, when_jumped):
         self.when_jumped = when_jumped
+        return self
 
     def getWhen_jumped(self):
         return self.when_jumped
@@ -390,7 +494,7 @@ def getFont(tall=50):
 
 GAME = 'the game object'
 if __name__ == "__main__":
-    TITLE = "BLOCKEY"
+    TITLE = "BrickEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
     RED = (100, 0, 0)
 
