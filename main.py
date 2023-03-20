@@ -101,9 +101,8 @@ class Game:
     def eventsHandler(self):
         import events
         for event in pygame.event.get():
-            match event.type:
-                case pygame.QUIT:
-                    events.quit(self, event)
+            if event.type == pygame.QUIT:
+                events.quit(self, event)
 
 
 class Scene:
@@ -381,7 +380,7 @@ def getFont(tall=50):
 
 GAME = 'the game object'
 if __name__ == "__main__":
-    TITLE = "Tuhou"
+    TITLE = "BLOCKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
     RED = (100, 0, 0)
 
