@@ -22,8 +22,14 @@ screen.blit(fond, (0, 0))
 fond_option = pygame.image.load('img/fondrouge.jpg')
 fond_option = fond_option.convert()
 
+mouse = pygame.mouse.get_pos()
+bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
+bouton2 = pygame.draw.rect(screen, "black", [380, 390, 140, 40])
+bouton3 = pygame.draw.rect(screen, "black", [380, 590, 140, 40])
 screen.blit(image_Game, (350, 235))
-
+screen.blit(image_texte, (400, 385))
+screen.blit(image_texte2, (395, 485))
+screen.blit(image_texte3, (390, 585))
 def option():
     screen.blit(fond_option, (0, 0))
     bouton1.move_ip(1000,1000)
@@ -31,23 +37,7 @@ def option():
     bouton3.move_ip(1000, 100)
 while True:
     mouse = pygame.mouse.get_pos()
-    if 390 <= mouse[0] <= 530 and 490 <= mouse[1] <= 530:
-        bouton1=pygame.draw.rect(screen, "blue", [380, 490, 140, 40])
-    else:
-        bouton1=pygame.draw.rect(screen, "black", [380, 490, 140, 40])
 
-    if 390 <= mouse[0] <= 530 and 390 <= mouse[1] <= 430:
-        bouton2=pygame.draw.rect(screen, "blue", [380, 390, 140, 40])
-    else:
-        bouton2=pygame.draw.rect(screen, "black", [380, 390, 140, 40])
-
-    if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
-        bouton3=pygame.draw.rect(screen, "blue", [380, 590, 140, 40])
-    else:
-        bouton3=pygame.draw.rect(screen, "black", [380, 590, 140, 40])
-    screen.blit(image_texte, (400, 385))
-    screen.blit(image_texte2, (395, 485))
-    screen.blit(image_texte3, (390, 585))
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             cv.destroyAllWindows()
