@@ -1,9 +1,11 @@
 import main
 
+Scene = main.Scene.__init__()
 
-class Scene1(main.Scene):
 
-    def __init__(self, game):
-        super().__init__(game)
+class Scene1:
+
+    def __init__(self, Scene):
+        super().__init__()
         player = main.Player
-        player.setX()
+

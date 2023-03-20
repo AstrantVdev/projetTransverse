@@ -113,7 +113,8 @@ class Scene:
         self.userInterfaces = []
         self.currentUserInterfaceIndex = 0  # index de l'interface en cours
         self.blocks = []
-        self.fronts = []
+        self.fonts = []
+        self.buttons = []
         self.entities = []
         self.player = Player()
         # si c'est une interface ou non
