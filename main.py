@@ -3,6 +3,8 @@ from abc import abstractmethod
 import pygame
 import time
 
+import scenes
+
 
 class Game:
     def __init__(self):
@@ -89,11 +91,14 @@ class Game:
                 
             """
 
+
+
             self.screen.fill((255, 255, 0))
             pygame.display.flip()
             # fond = pygame.image.load('sky.png')
             # fond = fond.convert()
             # self.screen.blit(fond, (0, 0))
+            self.currentScene = scenes.Scene1
             for e in self.currentScene.entities:
                 e.blit()
             self.eventsHandler()
@@ -113,7 +118,12 @@ class Scene:
         self.userInterfaces = []
         self.currentUserInterfaceIndex = 0  # index de l'interface en cours
         self.blocks = []
-        self.fronts = []
+        self.fonts = []
+
+        self.background = "graphics/background_start.jpeg"
+
+        self.buttons = []
+
         self.entities = []
         self.player = Player()
         # si c'est une interface ou non
