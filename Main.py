@@ -101,14 +101,10 @@ class Game:
                 
             """
 
-            self.screen.fill((255, 255, 0))
-            pygame.display.flip()
-            # fond = pygame.image.load('sky.png')
-            # fond = fond.convert()
-            #
-
             for e in self.currentScene.getEntities():
-                e.blit()
+                e.blit(self.screen)
+
+            pygame.display.flip()
 
             self.eventsHandler()
 

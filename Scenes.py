@@ -100,21 +100,16 @@ class Scene:
     def setUpping(self, setUp):
         self.setUp = setUp
         return self
+
     def isSetUpping(self):
         return self.setUp
-
-    def setUp(self):
-
-        for e in self.entities:
-            e.
-
 
 
 def Scene1():
     s = (
         Scene("scene1")
-            .addEntity(
-                Main.Player()
+        .addEntity(
+            Main.Player()
 
         )
     )

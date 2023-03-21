@@ -12,7 +12,7 @@ class Brick(pygame.sprite.Sprite):
         self.subtype = subtype
         self.id = id
         self.rect = ''
-        self.frame = -1
+        self.frame = 0
 
         class STATE(str, Enum):
             DEFAULT = "default"
@@ -27,21 +27,24 @@ class Brick(pygame.sprite.Sprite):
         self.scene = scene
         scene.addEntity(self)
 
-    def blit(self):
+    def blit(self, screen):
         tick = 10  # => une animation tous les 10 affichages
 
         dir = "graphics/" + self.type + "/" + self.subtype + "/" + self.currentState  # => entity images directory
         l = len(os.listdir(dir))
 
         self.frame %= l * tick
+        print(self.frame)
+
+        img = pygame.image.load(dir + '/' + str(self.frame // tick) + ".jpg").convert_alpha()
+        self.rect = img.get_rect()
+        self.rect.center = (self.x, self.y)
+
+        print(self.rect.center)
+
+        screen.blit(img, self.rect)
+
         self.frame += 1
-
-        img = pygame.image.load(dir + (self.frame // tick) + ".jpg")
-        self.rect = img.get_rect().center = self.x, self.y
-
-        self.rect.move(self.x, self.y)
-
-        self.scene.blit(img, self.rect)
 
     def setX(self, x):
         self.x = x
