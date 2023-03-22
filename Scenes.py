@@ -106,12 +106,10 @@ class Scene:
 
 
 def Scene1():
-    s = (
+    return (
         Scene("scene1")
         .addEntity(
             Main.Player()
 
         )
     )
-
-    return s

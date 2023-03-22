@@ -116,7 +116,6 @@ class Game:
 
         for event in pygame.event.get():
             name = pygame.event.event_name(event.type)
-            print(name)
 
             module = importName("events." + name, "Exe") #classe
 
