@@ -7,15 +7,14 @@ class Entity(Bricks.Brick):
 
     def __init__(self, x, y, subtype, id):
         super().__init__(x, y, "entity", subtype, id)
+        self.forces = [] # => forces applied to entity
         self.speed = [0, 0, 0]
         self.weight = 0
         self.life = 15
+        self.Falling = -1
         self.fly = False
         self.pitch = 0
         self.ground = False
-        self.instant_speed = 0.0
-        self.speed_first = [0, 0, False, self.getCurrentTime()]
-        self.falling = False
         self.inv = Items.Inventory
 
     def setSpeed(self, speed):
