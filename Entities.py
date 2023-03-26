@@ -1,5 +1,4 @@
 import time
-from math import cos, sin, sqrt, acos, pi
 
 import Bricks
 import Items

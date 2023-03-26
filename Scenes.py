@@ -111,7 +111,7 @@ def Scene1():
         .addEntity(
             Main.Player()
             .setX(700)
-            .setY(700)
+            .setY(0)
 
         )
     )
