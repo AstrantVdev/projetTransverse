@@ -1,3 +1,5 @@
+from math import pi
+
 import pygame
 
 import Entities
@@ -84,6 +86,7 @@ class Game:
         self.running = True
 
     def run(self):
+        a = 0
 
         while self.running:
 
@@ -104,8 +107,19 @@ class Game:
 
             self.screen.fill("red")  # => reset screen
 
-            for e in self.currentScene.getEntities():
-                e.set
+            entities = self.currentScene.getEntities()
+            for i in range(len(entities)-1):
+                e = entities[i+1]
+
+                if not e.isFlying():
+                    if a == 0:
+                        e.addAppliedForce([-100, 0])
+                    a += 1
+
+                    e.applyGravity()
+
+                e.setResultantSpeed()
+                e.tickMove()
                 e.blit(self.screen)
 
             pygame.display.flip()
@@ -172,7 +186,6 @@ GAME = 'the game object'
 if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
-    RED = (100, 0, 0)
 
     GAME = Game()
     GAME.setUp()

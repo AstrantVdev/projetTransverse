@@ -1,8 +1,5 @@
-import Bricks
 import Entities
 import Main
-import Fonts
-import Buttons
 
 
 class Scene:
@@ -13,10 +10,10 @@ class Scene:
         self.userInterfaces = []
         self.currentUserInterfaceIndex = -1  # index de l'interface en cours (-1 s'il  n'y en a pas d'affiché)
 
-        self.bricks = [Bricks.Brick]
+        self.bricks = []
         self.entities = [Entities.Entity]
-        self.fonts = [Fonts.Font]
-        self.buttons = [Buttons.Button]
+        self.fonts = []
+        self.buttons = []
 
         self.background = "graphics/background_start.jpeg"
         self.setUp = True
@@ -113,6 +110,8 @@ def Scene1():
         Scene("scene1")
         .addEntity(
             Main.Player()
+            .setX(700)
+            .setY(700)
 
         )
     )

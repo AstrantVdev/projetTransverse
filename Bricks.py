@@ -11,7 +11,7 @@ class Brick(pygame.sprite.Sprite):
         self.type = type
         self.subtype = subtype
         self.id = id
-        self.rect = ''
+        self.rect = None
         self.frame = 0
 
         class STATE(str, Enum):
@@ -19,7 +19,7 @@ class Brick(pygame.sprite.Sprite):
 
         self.currentState = STATE.DEFAULT
 
-        self.scene = ''
+        self.scene = None
         if scene:
             self.scene = scene
 

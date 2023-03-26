@@ -1,8 +1,10 @@
 import time
-from math import cos, sin, sqrt, acos
+from math import cos, sin, sqrt, acos, pi
 
 import Bricks
 import Items
+
+METER = 16
 
 
 def getForcesAddition():
@@ -14,8 +16,8 @@ class Entity(Bricks.Brick):
 
     def __init__(self, x, y, subtype, id):
         super().__init__(x, y, "entity", subtype, id)
-        self.appliedForces = [[int, int]]  # => forces applied to entity [(angle, value (-+ for sense ), ...]
-        self.speed = [0, 0] # => entity speed [(angle, value (-+ for sense ), ...]
+        self.appliedForces = []  # => forces applied to entity [[x, y] ...]
+        self.speed = [0, 0]  # => entity speed [[x, y] ...]
         self.weight = 32
         self.life = 15
         self.Falling = -1
@@ -30,20 +32,31 @@ class Entity(Bricks.Brick):
     def getAppliedForces(self):
         return self.appliedForces
 
-    def getTotalForces(self):
+    def getTotalForce(self):
         x = 0
         y = 0
 
         for f in self.appliedForces:
-            x += cos(f[0])*f[0]
-            y += sin(f[0])*f[1]
+            x += f[0]
+            y += f[1]
 
-        value = sqrt(x**2 + y**2)
-        angle = acos(x/value)
-        return [angle, value]
+        return [x, y]
 
     def getResultantForce(self):
-        return self.weight*
+        return [self.speed[0]*self.weight, self.speed[1]*self.weight]
+
+    def setResultantSpeed(self):
+        totalForce = self.getTotalForce()
+        self.speed[0] += totalForce[0] / self.weight * (1 / 30)
+        self.speed[1] += totalForce[1] / self.weight * (1 / 30)
+        self.appliedForces = []
+
+    def tickMove(self):
+        self.x += self.speed[0]*METER
+        self.y += self.speed[1]*METER
+
+    def applyGravity(self):
+        self.appliedForces.append([0, 9.81/30*self.weight])
 
     def setSpeed(self, speed):
         self.speed = speed
@@ -70,7 +83,7 @@ class Entity(Bricks.Brick):
         self.fly = fly
         return self
 
-    def getFly(self):
+    def isFlying(self):
         return self.fly
 
     def setPitch(self, pitch):
