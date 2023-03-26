@@ -19,10 +19,8 @@ class Entity(Bricks.Brick):
         self.speed = [0, 0]  # => entity speed [[x, y] ...]
         self.weight = 32
         self.life = 15
-        self.Falling = -1
         self.fly = False
         self.pitch = 0
-        self.ground = False
         self.inv = Items.Inventory
 
     def addAppliedForce(self, force):
@@ -90,34 +88,6 @@ class Entity(Bricks.Brick):
 
     def getPitch(self):
         return self.pitch
-
-    def setGround(self, ground):
-        self.ground = ground
-        return self
-
-    def getGround(self):
-        return self.ground
-
-    def setInstant_speed(self, instant_speed):
-        self.instant_speed = instant_speed
-        return self
-
-    def getInstant_speed(self):
-        return self.instant_speed
-
-    def setSpeed_first(self, speed_first):
-        self.speed_first = speed_first
-        return self
-
-    def getSpeed_first(self):
-        return self.speed_first
-
-    def setFalling(self, falling):
-        self.falling = falling
-        return self
-
-    def getFalling(self):
-        return self.falling
 
     def setInv(self, inv):
         self.inv = inv

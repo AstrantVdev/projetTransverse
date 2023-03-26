@@ -29,6 +29,18 @@ class Game:
 
     def setCurrentScene(self, currentScene):
         self.currentScene = currentScene
+
+        bricks = currentScene.getBricks()
+        entities = currentScene.getEntities()
+
+        for i in range(len(bricks) - 1):
+            b = bricks[i + 1]
+            b.blit(self.screen)
+
+        for i in range(len(entities) - 1):
+            e = entities[i + 1]
+            e.blit(self.screen)
+
         return self
 
     def getCurrentScene(self):
@@ -81,7 +93,7 @@ class Game:
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
 
-        self.currentScene = Scenes.Scene1()
+        self.setCurrentScene(Scenes.Scene1())
 
         self.running = True
 
@@ -107,9 +119,14 @@ class Game:
 
             self.screen.fill("red")  # => reset screen
 
+            bricks = self.currentScene.getBricks()
+            for i in range(len(bricks) - 1):
+                b = bricks[i + 1]
+                b.blit()
+
             entities = self.currentScene.getEntities()
-            for i in range(len(entities)-1):
-                e = entities[i+1]
+            for i in range(len(entities) - 1):
+                e = entities[i + 1]
 
                 if not e.isFlying():
                     if a == 0:
@@ -117,6 +134,12 @@ class Game:
                     a += 1
 
                     e.applyGravity()
+
+                for o in range(len(bricks) - 1):
+                    brick = bricks[o + 1]
+
+                    if e.getRect().colliderect(brick.getRect()):
+                        print("f")
 
                 e.setResultantSpeed()
                 e.tickMove()
@@ -133,11 +156,11 @@ class Game:
         for event in pygame.event.get():
             name = pygame.event.event_name(event.type)
 
-            module = importName("events." + name, "Exe") #classe
+            module = importName("events." + name, "Exe")  # classe
 
             if module:
-                module = module() #nouvelle instance de la classe
-                module.exe(self, event) #exécution d'une fonction dans l'instance créée
+                module = module()  # nouvelle instance de la classe
+                module.exe(self, event)  # exécution d'une fonction dans l'instance créée
 
 
 # https://www.oreilly.com/library/view/python-cookbook/0596001673/ch15s04.html
@@ -157,8 +180,6 @@ class Player(Entities.Entity):
         super().__init__(400, 400, "player", "player")
 
         self.mod = 0
-        self.fall_time = 1
-        self.when_jumped = 0
 
     def setMod(self, mod):
         self.mod = mod
@@ -166,20 +187,6 @@ class Player(Entities.Entity):
 
     def getMod(self):
         return self.mod
-
-    def setFall_time(self, fall_time):
-        self.fall_time = fall_time
-        return self
-
-    def getFall_time(self):
-        return self.fall_time
-
-    def setWhen_jumped(self, when_jumped):
-        self.when_jumped = when_jumped
-        return self
-
-    def getWhen_jumped(self):
-        return self.when_jumped
 
 
 GAME = 'the game object'
