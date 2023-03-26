@@ -12,6 +12,7 @@ class Game:
         self.screen = None
         self.width = 800
         self.height = 800
+        self.t = 1
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -104,13 +105,14 @@ class Game:
             self.screen.fill("red")  # => reset screen
 
             for e in self.currentScene.getEntities():
+                e.set
                 e.blit(self.screen)
 
             pygame.display.flip()
 
             self.eventsHandler()
 
-            pygame.time.Clock().tick(30)  # => wait a certain amount (slowdown the game)
+            self.t = pygame.time.Clock().tick(30)
 
     def eventsHandler(self):
 
