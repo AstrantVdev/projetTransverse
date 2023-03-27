@@ -1,5 +1,7 @@
 import time
 
+import pygame
+
 import Bricks
 import Items
 
@@ -40,7 +42,7 @@ class Entity(Bricks.Brick):
         return [x, y]
 
     def getResultantForce(self):
-        return [self.speed[0]*self.weight, self.speed[1]*self.weight]
+        return [self.speed[0] * self.weight, self.speed[1] * self.weight]
 
     def setResultantSpeed(self):
         totalForce = self.getTotalForce()
@@ -48,12 +50,17 @@ class Entity(Bricks.Brick):
         self.speed[1] += totalForce[1] / self.weight * (1 / 30)
         self.appliedForces = []
 
-    def tickMove(self):
-        self.x += self.speed[0]*METER
-        self.y += self.speed[1]*METER
+    def getCollisionRect(self, rect=pygame.rect.Rect, collidedRect=pygame.rect.Rect):
+        return 1
+
+    def getTickNewCenter(self):
+        return [
+            self.x + self.speed[0] * METER,
+            self.y + self.speed[1] * METER
+        ]
 
     def applyGravity(self):
-        self.appliedForces.append([0, 9.81/30*self.weight])
+        self.appliedForces.append([0, 9.81 / 30 * self.weight])
 
     def setSpeed(self, speed):
         self.speed = speed

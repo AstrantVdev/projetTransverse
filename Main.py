@@ -98,7 +98,7 @@ class Game:
         self.running = True
 
     def run(self):
-        a = 0
+        TEST = 0
 
         while self.running:
 
@@ -129,23 +129,36 @@ class Game:
                 e = entities[i + 1]
 
                 if not e.isFlying():
-                    if a == 0:
+                    if TEST == 0:
                         e.addAppliedForce([-100, 0])
-                    a += 1
+                    TEST += 1
 
                     e.applyGravity()
+
+                for a in range(len(entities) - 1):
+
+                    if a != i:
+                        otherE = entities[a + 1]
+
+                        if otherE.getRect().colliderect(otherE.getRect()):
+                            e.addAppliedForce(otherE.getResultantForce())
+
+                e.setResultantSpeed()
+
+                rect = e.getRect()
+                rect.center = e.getTickNewCenter()
+                e.setX(e.getTickNewCenter()[0])
+                e.setY(e.getTickNewCenter()[1])
 
                 for o in range(len(bricks) - 1):
                     brick = bricks[o + 1]
 
-                    if e.getRect().colliderect(brick.getRect()):
-                        print("f")
+                    if rect.colliderect(brick.getRect()):
+                        collisionRect = e.getCollisionRect(rect, brick.getRect())
 
-                e.setResultantSpeed()
-                e.tickMove()
                 e.blit(self.screen)
 
-            pygame.display.flip()
+            pygame.display.update()
 
             self.eventsHandler()
 
