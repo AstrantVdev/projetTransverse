@@ -50,8 +50,19 @@ class Entity(Bricks.Brick):
         self.speed[1] += totalForce[1] / self.weight * (1 / 30)
         self.appliedForces = []
 
-    def getCollisionRect(self, rect=pygame.rect.Rect, collidedRect=pygame.rect.Rect):
-        return 1
+    def getCollisionRectCenter(self, rect=pygame.rect.Rect, collidedRect=pygame.rect.Rect):
+        x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+        y1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+
+        x2 = min(rect.topright[0], collidedRect.topright[0])
+        y2 = min(rect.topright[0], collidedRect.topright[0])
+        return [(x2-x1)/2, (y2-y1)/2]
+
+    def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
+        x1 = collidedRect.
+        print("ghj")
+
+
 
     def getTickNewCenter(self):
         return [

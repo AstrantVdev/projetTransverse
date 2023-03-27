@@ -146,6 +146,7 @@ class Game:
                 e.setResultantSpeed()
 
                 rect = e.getRect()
+                print(rect.bottomleft)
                 rect.center = e.getTickNewCenter()
                 e.setX(e.getTickNewCenter()[0])
                 e.setY(e.getTickNewCenter()[1])
@@ -154,7 +155,7 @@ class Game:
                     brick = bricks[o + 1]
 
                     if rect.colliderect(brick.getRect()):
-                        collisionRect = e.getCollisionRect(rect, brick.getRect())
+                        collisionRect = e.getCollisionRectCenter(rect, brick.getRect())
 
                 e.blit(self.screen)
 
