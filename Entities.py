@@ -59,7 +59,7 @@ class Entity(Bricks.Brick):
         return [(x2-x1)/2, (y2-y1)/2]
 
     def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
-        x1 = collidedRect.
+        x1 = 0
         print("ghj")
 
 
