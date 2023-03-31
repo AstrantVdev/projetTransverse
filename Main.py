@@ -29,6 +29,18 @@ class Game:
 
     def setCurrentScene(self, currentScene):
         self.currentScene = currentScene
+
+        bricks = currentScene.getBricks()
+        entities = currentScene.getEntities()
+
+        for i in range(len(bricks) - 1):
+            b = bricks[i + 1]
+            b.blit(self.screen)
+
+        for i in range(len(entities) - 1):
+            e = entities[i + 1]
+            e.blit(self.screen)
+
         return self
 
     def getCurrentScene(self):
@@ -81,12 +93,12 @@ class Game:
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
 
-        self.currentScene = Scenes.Scene1()
+        self.setCurrentScene(Scenes.Scene1())
 
         self.running = True
 
     def run(self):
-        a = 0
+        TEST = 0
 
         while self.running:
 
@@ -135,22 +147,47 @@ class Game:
 
             #self.screen.fill("red")  # => reset screen
 
+            bricks = self.currentScene.getBricks()
+            for i in range(len(bricks) - 1):
+                b = bricks[i + 1]
+                b.blit()
+
             entities = self.currentScene.getEntities()
-            for i in range(len(entities)-1):
-                e = entities[i+1]
+            for i in range(len(entities) - 1):
+                e = entities[i + 1]
 
                 if not e.isFlying():
-                    if a == 0:
+                    if TEST == 0:
                         e.addAppliedForce([-100, 0])
-                    a += 1
+                    TEST += 1
 
                     e.applyGravity()
 
+                for a in range(len(entities) - 1):
+
+                    if a != i:
+                        otherE = entities[a + 1]
+
+                        if otherE.getRect().colliderect(otherE.getRect()):
+                            e.addAppliedForce(otherE.getResultantForce())
+
                 e.setResultantSpeed()
-                e.tickMove()
+
+                rect = e.getRect()
+                print(rect.bottomleft)
+                rect.center = e.getTickNewCenter()
+                e.setX(e.getTickNewCenter()[0])
+                e.setY(e.getTickNewCenter()[1])
+
+                for o in range(len(bricks) - 1):
+                    brick = bricks[o + 1]
+
+                    if rect.colliderect(brick.getRect()):
+                        collisionRect = e.getCollisionRectCenter(rect, brick.getRect())
+
                 e.blit(self.screen)
 
-            pygame.display.flip()
+            pygame.display.update()
 
             self.eventsHandler()
 
@@ -179,11 +216,11 @@ class Game:
             mouse = pygame.mouse.get_pos()
             name = pygame.event.event_name(event.type)
 
-            module = importName("events." + name, "Exe") #classe
+            module = importName("events." + name, "Exe")  # classe
 
             if module:
-                module = module() #nouvelle instance de la classe
-                module.exe(self, event) #exécution d'une fonction dans l'instance créée
+                module = module()  # nouvelle instance de la classe
+                module.exe(self, event)  # exécution d'une fonction dans l'instance créée
 
             if event.type == pygame.QUIT:
                 event.destroyAllWindows()
@@ -235,8 +272,6 @@ class Player(Entities.Entity):
         super().__init__(400, 400, "player", "player")
 
         self.mod = 0
-        self.fall_time = 1
-        self.when_jumped = 0
 
     def setMod(self, mod):
         self.mod = mod
@@ -244,20 +279,6 @@ class Player(Entities.Entity):
 
     def getMod(self):
         return self.mod
-
-    def setFall_time(self, fall_time):
-        self.fall_time = fall_time
-        return self
-
-    def getFall_time(self):
-        return self.fall_time
-
-    def setWhen_jumped(self, when_jumped):
-        self.when_jumped = when_jumped
-        return self
-
-    def getWhen_jumped(self):
-        return self.when_jumped
 
 
 GAME = 'the game object'

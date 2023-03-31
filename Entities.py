@@ -1,5 +1,7 @@
 import time
 
+import pygame
+
 import Bricks
 import Items
 
@@ -19,10 +21,8 @@ class Entity(Bricks.Brick):
         self.speed = [0, 0]  # => entity speed [[x, y] ...]
         self.weight = 32
         self.life = 15
-        self.Falling = -1
         self.fly = False
         self.pitch = 0
-        self.ground = False
         self.inv = Items.Inventory
 
     def addAppliedForce(self, force):
@@ -42,7 +42,7 @@ class Entity(Bricks.Brick):
         return [x, y]
 
     def getResultantForce(self):
-        return [self.speed[0]*self.weight, self.speed[1]*self.weight]
+        return [self.speed[0] * self.weight, self.speed[1] * self.weight]
 
     def setResultantSpeed(self):
         totalForce = self.getTotalForce()
@@ -50,12 +50,28 @@ class Entity(Bricks.Brick):
         self.speed[1] += totalForce[1] / self.weight * (1 / 30)
         self.appliedForces = []
 
-    def tickMove(self):
-        self.x += self.speed[0]*METER
-        self.y += self.speed[1]*METER
+    def getCollisionRectCenter(self, rect=pygame.rect.Rect, collidedRect=pygame.rect.Rect):
+        x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+        y1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+
+        x2 = min(rect.topright[0], collidedRect.topright[0])
+        y2 = min(rect.topright[0], collidedRect.topright[0])
+        return [(x2-x1)/2, (y2-y1)/2]
+
+    def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
+        x1 = 0
+        print("ghj")
+
+
+
+    def getTickNewCenter(self):
+        return [
+            self.x + self.speed[0] * METER,
+            self.y + self.speed[1] * METER
+        ]
 
     def applyGravity(self):
-        self.appliedForces.append([0, 9.81/30*self.weight])
+        self.appliedForces.append([0, 9.81 / 30 * self.weight])
 
     def setSpeed(self, speed):
         self.speed = speed
@@ -90,34 +106,6 @@ class Entity(Bricks.Brick):
 
     def getPitch(self):
         return self.pitch
-
-    def setGround(self, ground):
-        self.ground = ground
-        return self
-
-    def getGround(self):
-        return self.ground
-
-    def setInstant_speed(self, instant_speed):
-        self.instant_speed = instant_speed
-        return self
-
-    def getInstant_speed(self):
-        return self.instant_speed
-
-    def setSpeed_first(self, speed_first):
-        self.speed_first = speed_first
-        return self
-
-    def getSpeed_first(self):
-        return self.speed_first
-
-    def setFalling(self, falling):
-        self.falling = falling
-        return self
-
-    def getFalling(self):
-        return self.falling
 
     def setInv(self, inv):
         self.inv = inv

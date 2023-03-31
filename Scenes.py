@@ -1,3 +1,4 @@
+import Bricks
 import Entities
 import Main
 
@@ -10,7 +11,7 @@ class Scene:
         self.userInterfaces = []
         self.currentUserInterfaceIndex = -1  # index de l'interface en cours (-1 s'il  n'y en a pas d'affiché)
 
-        self.bricks = []
+        self.bricks = [Bricks.Brick]
         self.entities = [Entities.Entity]
         self.fonts = []
         self.buttons = []
