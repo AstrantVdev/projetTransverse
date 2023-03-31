@@ -4,7 +4,7 @@ from enum import Enum
 
 
 class Brick(pygame.sprite.Sprite):
-    def __init__(self, x, y, type, subtype, id, scene=None):
+    def __init__(self, x, y, type, subtype, id):
         super().__init__()
         self.x = x
         self.y = y
@@ -20,8 +20,6 @@ class Brick(pygame.sprite.Sprite):
         self.currentState = STATE.DEFAULT
 
         self.scene = None
-        if scene:
-            self.scene = scene
 
     def spawn(self, scene):
         self.scene = scene

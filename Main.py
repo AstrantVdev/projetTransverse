@@ -150,17 +150,13 @@ class Game:
             bricks = self.currentScene.getBricks()
             for i in range(len(bricks) - 1):
                 b = bricks[i + 1]
-                b.blit()
+                b.blit(self.screen)
 
             entities = self.currentScene.getEntities()
             for i in range(len(entities) - 1):
                 e = entities[i + 1]
 
                 if not e.isFlying():
-                    if TEST == 0:
-                        e.addAppliedForce([-100, 0])
-                    TEST += 1
-
                     e.applyGravity()
 
                 for a in range(len(entities) - 1):
@@ -172,18 +168,19 @@ class Game:
                             e.addAppliedForce(otherE.getResultantForce())
 
                 e.setResultantSpeed()
-
                 rect = e.getRect()
-                print(rect.bottomleft)
-                rect.center = e.getTickNewCenter()
-                e.setX(e.getTickNewCenter()[0])
-                e.setY(e.getTickNewCenter()[1])
-
                 for o in range(len(bricks) - 1):
                     brick = bricks[o + 1]
 
                     if rect.colliderect(brick.getRect()):
+                        e.setSpeed([0, 0])
                         collisionRect = e.getCollisionRectCenter(rect, brick.getRect())
+
+
+                print(rect.bottomleft)
+                rect.center = e.getTickNewCenter()
+                e.setX(e.getTickNewCenter()[0])
+                e.setY(e.getTickNewCenter()[1])
 
                 e.blit(self.screen)
 

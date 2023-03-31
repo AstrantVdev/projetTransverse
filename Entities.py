@@ -25,6 +25,8 @@ class Entity(Bricks.Brick):
         self.fly = False
         self.pitch = 0
         self.inv = Items.Inventory
+        self.last_x=0
+        self.last_y=0
 
     def addAppliedForce(self, force):
         self.appliedForces.append(force)
@@ -117,3 +119,9 @@ class Entity(Bricks.Brick):
 
     def getCurrentTime(self):
         return round(time.time() * 1000)
+
+    def getLastX(self):
+        return self.last_x
+
+    def getLastY(self):
+        return self.last_y

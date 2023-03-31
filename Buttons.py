@@ -28,5 +28,4 @@ class Quit(Button):
     def __init__(self):
         super().__init__(x, y, id, text, font, textSize, color)
 
-    def exe(self):
 
