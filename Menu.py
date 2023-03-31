@@ -44,8 +44,6 @@ song_right = song_right.convert()
 pygame.mixer.init()
 pygame.mixer.music.load('music/fond_music.mp3')
 pygame.mixer.music.play(-1)
-SONG_END_EVENT = pygame.USEREVENT + 1
-x=1
 def low_song(x):
     pygame.mixer.music.set_volume(1.0-x/10)
 def high_song(x):
