@@ -4,6 +4,7 @@ import pygame
 
 import Bricks
 import Items
+import Buttons
 
 METER = 16
 
