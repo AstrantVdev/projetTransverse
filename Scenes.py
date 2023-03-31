@@ -115,4 +115,5 @@ def Scene1():
             .setY(0)
 
         )
+        .addBrick(Bricks.Brick())
     )
