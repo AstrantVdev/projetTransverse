@@ -4,6 +4,7 @@ import pygame
 
 import Entities
 import Scenes
+import Utils
 
 
 class Game:
@@ -144,8 +145,7 @@ class Game:
             pygame.mixer.music.load('music/fond_music.mp3')
             pygame.mixer.music.play(-1)
 
-
-            #self.screen.fill("red")  # => reset screen
+            # self.screen.fill("red")  # => reset screen
 
             bricks = self.currentScene.getBricks()
             for i in range(len(bricks) - 1):
@@ -169,16 +169,48 @@ class Game:
 
                 e.setResultantSpeed()
                 rect = e.getRect()
+                rect.center = e.getTickNewCenter()
+
                 for o in range(len(bricks) - 1):
                     brick = bricks[o + 1]
+                    bR = brick.getRect()
 
-                    if rect.colliderect(brick.getRect()):
-                        e.setSpeed([0, 0])
-                        collisionRect = e.getCollisionRectCenter(rect, brick.getRect())
+                    if rect.colliderect(bR):
+                        moveLine = [
+                            [e.getX(), e.getY()],
+                            [e.getX() + e.getSpeed()[0] * 1000, e.getY() + e.getSpeed()[1] * 1000]
+                        ]
 
+                        left = [bR.bottomleft, bR.topleft, bR.topleft]
+                        right = [bR.bottomright, bR.topright]
+                        top = [bR.topleft, bR.topright]
+                        bottom = [bR.bottomleft, bR.bottomright]
 
-                print(rect.bottomleft)
-                rect.center = e.getTickNewCenter()
+                        brickEdges = [left, right, top, bottom]
+
+                        xCollide = []
+                        yCollide = []
+                        for oi in range(4):
+                            edge = brickEdges[oi]
+                            intersection = Utils.getLineIntersection(moveLine, edge)
+
+                            if intersection:
+
+                                if oi < 2:
+                                    xCollide.append(intersection)
+                                else:
+                                    yCollide.append(intersection)
+
+                        if len(xCollide) == 1:
+
+                            if len(yCollide) == 1:
+
+                            else:
+                                e.setSpeed()[0] = 0
+
+                        else:
+                            e.setSpeed()[1] = 0
+
                 e.setX(e.getTickNewCenter()[0])
                 e.setY(e.getTickNewCenter()[1])
 
@@ -193,6 +225,7 @@ class Game:
     def eventsHandler(self):
         def low_song(x):
             pygame.mixer.music.set_volume(1.0 - x / 10)
+
         def high_song(x):
             pygame.mixer.music.set_volume(1.0 + x / 10)
 

@@ -65,8 +65,6 @@ class Entity(Bricks.Brick):
         x1 = 0
         print("ghj")
 
-
-
     def getTickNewCenter(self):
         return [
             self.x + self.speed[0] * METER,
