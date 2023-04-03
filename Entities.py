@@ -6,7 +6,7 @@ import Bricks
 import Items
 import Buttons
 
-METER = 64
+METER = 64  # 64 pixels représentent 1 mètre dans le jeu
 
 
 def getForcesAddition():
@@ -60,7 +60,7 @@ class Entity(Bricks.Brick):
         x2 = min(rect.topright[0], collidedRect.topright[0])
         y2 = max(rect.topright[1], collidedRect.topright[1])
 
-        return [x1+((x2 - x1) / 2), y1+((y2 - y1) / 2)]
+        return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
 
     def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
         x1 = 0
