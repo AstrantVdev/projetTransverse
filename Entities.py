@@ -6,7 +6,7 @@ import Bricks
 import Items
 import Buttons
 
-METER = 16
+METER = 64
 
 
 def getForcesAddition():
@@ -73,7 +73,7 @@ class Entity(Bricks.Brick):
         ]
 
     def applyGravity(self):
-        self.appliedForces.append([0, 9.81 / 30 * self.weight])
+        self.appliedForces.append([0, 9.81 / 20 * self.weight])
 
     def setSpeed(self, speed):
         self.speed = speed

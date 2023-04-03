@@ -218,7 +218,7 @@ class Game:
 
             self.eventsHandler()
 
-            self.t.tick(30)
+            self.t.tick(20)
 
     def eventsHandler(self):
         def low_song(x):
