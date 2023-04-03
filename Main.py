@@ -15,7 +15,7 @@ class Game:
         self.screen = None
         self.width = 800
         self.height = 850
-        self.t = 1
+        self.t = pygame.time.Clock()
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -167,6 +167,11 @@ class Game:
                         if otherE.getRect().colliderect(otherE.getRect()):
                             e.addAppliedForce(otherE.getResultantForce())
 
+                TEST += 1
+                if TEST == 50:
+                    print("TEST DONE---------------------------------------------------------------------------")
+                    e.addAppliedForce([-100, 0])
+
                 e.setResultantSpeed()
                 rect = e.getRect()
                 rect.center = e.getTickNewCenter()
@@ -178,41 +183,34 @@ class Game:
                     if rect.colliderect(bR):
                         moveLine = [
                             [e.getX(), e.getY()],
-                            [e.getX() + e.getSpeed()[0] * 1000, e.getY() + e.getSpeed()[1] * 1000]
+                            e.getCollisionRectCenter(rect, bR)
                         ]
 
-                        left = [bR.bottomleft, bR.topleft, bR.topleft]
+                        left = [bR.bottomleft, bR.topleft]
                         right = [bR.bottomright, bR.topright]
                         top = [bR.topleft, bR.topright]
                         bottom = [bR.bottomleft, bR.bottomright]
 
                         brickEdges = [left, right, top, bottom]
 
-                        xCollide = []
-                        yCollide = []
                         for oi in range(4):
                             edge = brickEdges[oi]
                             intersection = Utils.getLineIntersection(moveLine, edge)
 
                             if intersection:
-
+                                speed = e.getSpeed()
                                 if oi < 2:
-                                    xCollide.append(intersection)
+                                    print("LOL")
+                                    speed[0] = 0
                                 else:
-                                    yCollide.append(intersection)
+                                    speed[1] = 0
 
-                        if len(xCollide) == 1:
+                                e.setSpeed(speed)
+                                break
 
-                            if len(yCollide) == 1:
-
-                            else:
-                                e.setSpeed()[0] = 0
-
-                        else:
-                            e.setSpeed()[1] = 0
-
-                e.setX(e.getTickNewCenter()[0])
-                e.setY(e.getTickNewCenter()[1])
+                co = e.getTickNewCenter()
+                e.setX(co[0])
+                e.setY(co[1])
 
                 e.blit(self.screen)
 
@@ -220,7 +218,7 @@ class Game:
 
             self.eventsHandler()
 
-            self.t = pygame.time.Clock().tick(30)
+            self.t.tick(30)
 
     def eventsHandler(self):
         def low_song(x):

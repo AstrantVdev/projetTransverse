@@ -25,8 +25,8 @@ class Entity(Bricks.Brick):
         self.fly = False
         self.pitch = 0
         self.inv = Items.Inventory
-        self.last_x=0
-        self.last_y=0
+        self.last_x = 0
+        self.last_y = 0
 
     def addAppliedForce(self, force):
         self.appliedForces.append(force)
@@ -53,13 +53,14 @@ class Entity(Bricks.Brick):
         self.speed[1] += totalForce[1] / self.weight * (1 / 30)
         self.appliedForces = []
 
-    def getCollisionRectCenter(self, rect=pygame.rect.Rect, collidedRect=pygame.rect.Rect):
+    def getCollisionRectCenter(self, rect, collidedRect):
         x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
-        y1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+        y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
 
         x2 = min(rect.topright[0], collidedRect.topright[0])
-        y2 = min(rect.topright[0], collidedRect.topright[0])
-        return [(x2-x1)/2, (y2-y1)/2]
+        y2 = max(rect.topright[1], collidedRect.topright[1])
+
+        return [x1+((x2 - x1) / 2), y1+((y2 - y1) / 2)]
 
     def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
         x1 = 0
