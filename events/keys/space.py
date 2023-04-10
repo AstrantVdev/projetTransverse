@@ -7,4 +7,4 @@ class Exe:
             return
 
         if player.isLanded():
-            player.addAppliedForce([-player.getWeight(), 0])
+            player.addAppliedForce([0, player.getWeight() * -10])

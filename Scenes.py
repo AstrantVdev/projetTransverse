@@ -45,7 +45,10 @@ class Scene:
         return self.currentUserInterfaceIndex
 
     def getPlayer(self):
-        return filter(lambda e: e.type == "PLAYER", self.entities)[0]
+        filtered = list(filter(lambda e: e.getSubType() == "player", self.entities[1:]))
+        if filtered:
+            return filtered[0]
+        return None
 
     def addBrick(self, e):
         self.bricks.append(e)

@@ -24,18 +24,12 @@ def getLineIntersection(line1, line2):
     y = round(y/z, 4)
 
     if not ((line1[0][0] <= x <= line1[1][0]) or (line1[1][0] <= x <= line1[0][0])):
-        print(line1)
-        print(x)
-        print("a")
         return None
     elif not ((line2[0][0] <= x <= line2[1][0]) or (line2[1][0] <= x <= line2[0][0])):
-        print("b")
         return None
     elif not ((line1[0][1] <= y <= line1[1][1]) or (line1[1][1] <= y <= line1[0][1])):
-        print("c")
         return None
     elif not ((line2[0][1] <= y <= line2[1][1]) or (line2[1][1] <= y <= line2[0][1])):
-        print("d")
         return None
 
     return x, y

@@ -25,8 +25,7 @@ class Entity(Bricks.Brick):
         self.fly = False
         self.pitch = 0
         self.inv = Items.Inventory
-        self.last_x = 0
-        self.last_y = 0
+        self.landed = False
 
     def addAppliedForce(self, force):
         self.appliedForces.append(force)
@@ -61,10 +60,6 @@ class Entity(Bricks.Brick):
         y2 = max(rect.topright[1], collidedRect.topright[1])
 
         return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
-
-    def getCollidedEdge(self, collidedRect=pygame.rect.Rect, rectCenter=None, oldRectCenter=None):
-        x1 = 0
-        print("ghj")
 
     def getTickNewCenter(self):
         return [
@@ -119,8 +114,8 @@ class Entity(Bricks.Brick):
     def getCurrentTime(self):
         return round(time.time() * 1000)
 
-    def getLastX(self):
-        return self.last_x
+    def isLanded(self):
+        return self.landed
 
-    def getLastY(self):
-        return self.last_y
+    def setLanded(self, landed):
+        self.landed = landed

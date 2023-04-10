@@ -170,17 +170,19 @@ class Game:
                 TEST += 1
                 if TEST == 50:
                     print("TEST DONE---------------------------------------------------------------------------")
-                    e.addAppliedForce([-100, 0])
 
                 e.setResultantSpeed()
                 rect = e.getRect()
                 rect.center = e.getTickNewCenter()
 
+                e.setLanded(False)
                 for o in range(len(bricks) - 1):
                     brick = bricks[o + 1]
                     bR = brick.getRect()
 
                     if rect.colliderect(bR):
+                        e.setLanded(True)
+
                         moveLine = [
                             [e.getX(), e.getY()],
                             e.getCollisionRectCenter(rect, bR)
@@ -200,7 +202,6 @@ class Game:
                             if intersection:
                                 speed = e.getSpeed()
                                 if oi < 2:
-                                    print("LOL")
                                     speed[0] = 0
                                 else:
                                     speed[1] = 0
@@ -309,7 +310,6 @@ class Player(Entities.Entity):
         return self.mod
 
 
-GAME = 'the game object'
 if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
