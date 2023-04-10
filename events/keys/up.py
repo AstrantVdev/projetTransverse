@@ -1,6 +1,10 @@
 class Exe:
 
     def exe(self, game, event):
-        print("pfesgrdthfy")
+        player = game.getCurrentScene().getPlayer()
 
-        space.Exe().exe(game, event)
+        if not player:
+            return
+
+        if player.isLanded():
+            player.addAppliedForce([0, player.getWeight() * -10])
