@@ -26,6 +26,6 @@ class Button(ABC):
 
 class Quit(Button):
     def __init__(self):
-        super().__init__(x, y, id, text, font, textSize, color)
+        super().__init__(400, 400, "quit", "quitter", pygame.font.SysFont("dubai"), 30, "red")
 
 
