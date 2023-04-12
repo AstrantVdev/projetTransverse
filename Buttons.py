@@ -29,3 +29,20 @@ class Quit(Button):
         super().__init__(x, y, id, text, font, textSize, color)
 
 
+class Buttons():
+    def __init__(self, x, y, id, text, font, textSize, color):
+        self.x = x
+        self.y = y
+        self.id = id
+        self.text = text
+        self.font = font
+        self.textSize = textSize
+        self.color = color
+        self.rect = None
+
+    def blit(self, screen):
+        font = pygame.font.SysFont(self.font, self.textSize)
+        img = font.render(self.text, True, self.color)
+        screen.blit(img, (self.x, self.y))
+
+

@@ -2,14 +2,12 @@
 import pygame
 
 pygame.init()
-res = (880, 1080)
-screen = pygame.display.set_mode(res)
-width = screen.get_width()
-height = screen.get_height()
+width = 880
+height = 1080
+screen = pygame.display.set_mode((width,height))
 
 police = pygame.font.SysFont("chiller" ,80)
 image_Game = police.render ( "Bloockey", 1 , "white")
-
 police1 = pygame.font.SysFont("dubai" ,30)
 image_texte = police1.render ( "JOUER", 1 , "white")
 police2 = pygame.font.SysFont("dubai" ,30)
@@ -21,11 +19,6 @@ fond = fond.convert()
 screen.blit(fond, (0, 0))
 fond_option = pygame.image.load('img/fondrouge.jpg')
 fond_option = fond_option.convert()
-
-mouse = pygame.mouse.get_pos()
-#bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
-#bouton2 = pygame.draw.rect(screen, "black", [380, 390, 140, 40])
-#bouton3 = pygame.draw.rect(screen, "black", [380, 590, 140, 40])
 screen.blit(image_Game, (350, 235))
 #bouton menu
 screen.blit(image_texte, (400, 385))
