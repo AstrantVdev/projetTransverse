@@ -103,20 +103,6 @@ class Game:
 
         while self.running:
 
-            """
-            if not self.player.speed_first[2]:
-                self.player.speed_first[0] = self.player.x
-                self.player.speed_first[1] = self.player.y
-                self.player.speed_first[2] = True
-                self.player.speed_first[3] = getCurrentTime() / 1000
-            else:
-                self.player.speed_first[2] = False
-                tt = (getCurrentTime() / 1000) - (self.player.speed_first[3] / 1000)
-                self.player.instant_speed = math.sqrt(
-                    (self.player.x - self.player.speed_first[0]) ** 2 + (
-                            self.player.y - self.player.speed_first[1]) ** 2) / tt
-                
-            """
             police = pygame.font.SysFont("chiller", 80)
             image_Game = police.render("Bloockey", 1, "white")
 
@@ -155,70 +141,82 @@ class Game:
             entities = self.currentScene.getEntities()
             for i in range(len(entities) - 1):
                 e = entities[i + 1]
-
-                if not e.isFlying():
-                    e.applyGravity()
-
-                for a in range(len(entities) - 1):
-
-                    if a != i:
-                        otherE = entities[a + 1]
-
-                        if otherE.getRect().colliderect(otherE.getRect()):
-                            e.addAppliedForce(otherE.getResultantForce())
-
-                TEST += 1
-                if TEST == 50:
-                    print("TEST DONE---------------------------------------------------------------------------")
-                    e.addAppliedForce([-100, 0])
-
-                e.setResultantSpeed()
-                rect = e.getRect()
-                rect.center = e.getTickNewCenter()
-
-                for o in range(len(bricks) - 1):
-                    brick = bricks[o + 1]
-                    bR = brick.getRect()
-
-                    if rect.colliderect(bR):
-                        moveLine = [
-                            [e.getX(), e.getY()],
-                            e.getCollisionRectCenter(rect, bR)
-                        ]
-
-                        left = [bR.bottomleft, bR.topleft]
-                        right = [bR.bottomright, bR.topright]
-                        top = [bR.topleft, bR.topright]
-                        bottom = [bR.bottomleft, bR.bottomright]
-
-                        brickEdges = [left, right, top, bottom]
-
-                        for oi in range(4):
-                            edge = brickEdges[oi]
-                            intersection = Utils.getLineIntersection(moveLine, edge)
-
-                            if intersection:
-                                speed = e.getSpeed()
-                                if oi < 2:
-                                    print("LOL")
-                                    speed[0] = 0
-                                else:
-                                    speed[1] = 0
-
-                                e.setSpeed(speed)
-                                break
-
-                co = e.getTickNewCenter()
-                e.setX(co[0])
-                e.setY(co[1])
-
                 e.blit(self.screen)
+
+            print(self.getCurrentScene().getCurrentUserInterfaceIndex())
+            if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
+                self.moveEntities(TEST, entities, bricks)
+            else:
+                self.getCurrentScene().getCurrentUserInterface().blit()
 
             pygame.display.update()
 
             self.eventsHandler()
 
             self.t.tick(20)
+
+    def moveEntities(self, TEST, entities, bricks):
+
+        for i in range(len(entities) - 1):
+            e = entities[i + 1]
+
+            if not e.isFlying():
+                e.applyGravity()
+
+            for a in range(len(entities) - 1):
+
+                if a != i:
+                    otherE = entities[a + 1]
+
+                    if otherE.getRect().colliderect(otherE.getRect()):
+                        e.addAppliedForce(otherE.getResultantForce())
+
+            TEST += 1
+            if TEST == 50:
+                print("TEST DONE---------------------------------------------------------------------------")
+
+            e.setResultantSpeed()
+            rect = e.getRect()
+            rect.center = e.getTickNewCenter()
+
+            e.setLanded(False)
+            for o in range(len(bricks) - 1):
+                brick = bricks[o + 1]
+                bR = brick.getRect()
+
+                if rect.colliderect(bR):
+                    e.setLanded(True)
+
+                    moveLine = [
+                        [e.getX(), e.getY()],
+                        e.getCollisionRectCenter(rect, bR)
+                    ]
+
+                    left = [bR.bottomleft, bR.topleft]
+                    right = [bR.bottomright, bR.topright]
+                    top = [bR.topleft, bR.topright]
+                    bottom = [bR.bottomleft, bR.bottomright]
+
+                    brickEdges = [left, right, top, bottom]
+
+                    for oi in range(4):
+                        edge = brickEdges[oi]
+                        intersection = Utils.getLineIntersection(moveLine, edge)
+
+                        if intersection:
+                            speed = e.getSpeed()
+                            if oi < 2:
+                                speed[0] = 0
+                            else:
+                                speed[1] = 0
+
+                            e.setSpeed(speed)
+                            break
+
+            co = e.getTickNewCenter()
+            e.setX(co[0])
+            e.setY(co[1])
+
 
     def eventsHandler(self):
         def low_song(x):
@@ -309,7 +307,6 @@ class Player(Entities.Entity):
         return self.mod
 
 
-GAME = 'the game object'
 if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")

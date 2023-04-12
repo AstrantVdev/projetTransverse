@@ -1,6 +1,8 @@
 import Bricks
+import Buttons
 import Entities
 import Main
+import UserInterfaces
 
 
 class Scene:
@@ -44,8 +46,14 @@ class Scene:
     def getCurrentUserInterfaceIndex(self):
         return self.currentUserInterfaceIndex
 
+    def getCurrentUserInterface(self):
+        return self.userInterfaces[self.getCurrentUserInterfaceIndex()]
+
     def getPlayer(self):
-        return filter(lambda e: e.type == "PLAYER", self.entities)[0]
+        filtered = list(filter(lambda e: e.getSubType() == "player", self.entities[1:]))
+        if filtered:
+            return filtered[0]
+        return None
 
     def addBrick(self, e):
         self.bricks.append(e)
@@ -107,7 +115,7 @@ class Scene:
 
 
 def Scene1():
-    return (
+    scene = (
         Scene("scene1")
         .addEntity(
             Main.Player()
@@ -115,5 +123,20 @@ def Scene1():
             .setY(0)
 
         )
-        .addBrick(Bricks.Brick(700, 100, "block", "block", 99))
+        .addUserInterface(
+            UserInterfaces.UserInterface("menu")
+            .addButton(
+                Buttons.Quit
+            )
+        )
+
     )
+
+    for i in range(0, 801, 32):
+        scene.addBrick(
+            Bricks.Brick(i, 800, "block", "block", "edge" + str(i))
+        )
+
+    scene.setCurrentUserInterfaceIndex(-1)
+
+    return scene
