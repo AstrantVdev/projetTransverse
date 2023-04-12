@@ -47,8 +47,6 @@ def options():
                     main_menu()
 
         pygame.display.update()
-
-
 def main_menu():
     while True:
         screen.blit(BG, (0, 0))
