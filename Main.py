@@ -101,21 +101,20 @@ class Game:
     def run(self):
         TEST = 0
 
+        police = pygame.font.SysFont("chiller", 80)
+        police1 = pygame.font.SysFont("dubai", 30)
+        police2 = pygame.font.SysFont("dubai", 30)
+        police3 = pygame.font.SysFont("dubai", 30)
+
+        fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
+
+        image_Game = police.render("Bloockey", 1, "white")
+        image_texte = police1.render("JOUER", 1, "white")
+        image_texte2 = police2.render("OPTION", 1, "white")
+        image_texte3 = police3.render("QUITTER", 1, "white")
+
         while self.running:
-
-            police = pygame.font.SysFont("chiller", 80)
-            image_Game = police.render("Bloockey", 1, "white")
-
-            police1 = pygame.font.SysFont("dubai", 30)
-            image_texte = police1.render("JOUER", 1, "white")
-            police2 = pygame.font.SysFont("dubai", 30)
-            image_texte2 = police2.render("OPTION", 1, "white")
-            police3 = pygame.font.SysFont("dubai", 30)
-            image_texte3 = police3.render("QUITTER", 1, "white")
-            fond = pygame.image.load('img/fondbleu.jpg')
-            fond = fond.convert()
             self.screen.blit(fond, (0, 0))
-
             mouse = pygame.mouse.get_pos()
             # bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
             # bouton2 = pygame.draw.rect(screen, "black", [380, 390, 140, 40])
@@ -143,17 +142,16 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self.screen)
 
-            print(self.getCurrentScene().getCurrentUserInterfaceIndex())
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
                 self.moveEntities(TEST, entities, bricks)
             else:
-                self.getCurrentScene().getCurrentUserInterface().blit()
+                self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
 
             pygame.display.update()
 
             self.eventsHandler()
 
-            self.t.tick(20)
+            self.t.tick(FPS)
 
     def moveEntities(self, TEST, entities, bricks):
 
@@ -310,6 +308,7 @@ class Player(Entities.Entity):
 if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
+    FPS = 20
 
     GAME = Game()
     GAME.setUp()

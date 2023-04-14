@@ -30,7 +30,7 @@ def play():
 
 def options():
     while True:
-        mouse= pygame.mouse.get_pos()
+        mouse = pygame.mouse.get_pos()
 
         screen.fill("red")
 

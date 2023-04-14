@@ -21,6 +21,7 @@ class UserInterface:
     def getId(self):
         return self.id
 
-    def blit(self):
+    def blit(self, screen):
         for b in self.buttons:
-            b.blit()
+            b = b()
+            b.blit(screen)
