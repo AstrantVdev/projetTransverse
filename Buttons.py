@@ -17,7 +17,11 @@ class Button(ABC):
     def blit(self, screen):
         font = pygame.font.SysFont(self.font, self.size)
         img = font.render(self.text, True, self.color)
+        self.rect = img.get_rect()
         screen.blit(img, (self.x, self.y))
+
+    def getRect(self):
+        return self.rect
 
     @abstractmethod
     def exe(self):

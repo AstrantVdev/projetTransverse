@@ -23,5 +23,4 @@ class UserInterface:
 
     def blit(self, screen):
         for b in self.buttons:
-            b = b()
             b.blit(screen)

@@ -130,7 +130,7 @@ def Scene1():
         .addUserInterface(
             UserInterfaces.UserInterface("menu")
             .addButton(
-                Buttons.Quit
+                Buttons.Quit()
             )
         )
     )
