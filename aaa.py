@@ -4,17 +4,17 @@ import Buttons
 pygame.init()
 
 screen = pygame.display.set_mode((880, 1080))
-pygame.display.set_caption("Menu")
+pygame.display.set_caption("Blockey")
 
 BG = pygame.image.load("img/fondbleu.jpg")
 
 def play():
     while True:
-        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+        mouse = pygame.mouse.get_pos()
 
         screen.fill("red")
 
-        PLAY_BACK = Buttons.Buttons(640, 460, 1, "BACK", "dubai", 75, "White")
+        PLAY_BACK = Buttons.Buttons(390, 585, 1, "BACK", "dubai", 30, "White")
         PLAY_BACK.blit(screen)
         #PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         for event in pygame.event.get():
@@ -23,18 +23,18 @@ def play():
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 390 <= PLAY_MOUSE_POS[0] <= 530 and 590 <= PLAY_MOUSE_POS[1] <= 630:
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
                     main_menu()
         pygame.display.update()
 
 
 def options():
     while True:
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
+        mouse= pygame.mouse.get_pos()
 
         screen.fill("red")
 
-        OPTIONS_BACK = Buttons.Buttons(640, 460, 1, "BACK", "dubai", 75, "black")
+        OPTIONS_BACK = Buttons.Buttons(390, 585, 1, "BACK", "dubai", 30, "black")
         OPTIONS_BACK.blit(screen)
         #OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
 
@@ -43,14 +43,15 @@ def options():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
                     main_menu()
+            pygame.display.update()
 
-        pygame.display.update()
+
 def main_menu():
     while True:
         screen.blit(BG, (0, 0))
-        MENU_MOUSE_POS = pygame.mouse.get_pos()
+        mouse = pygame.mouse.get_pos()
 
         police = pygame.font.SysFont("chiller", 80)
         image_Game = police.render("Bloockey", 1, "white")
@@ -73,11 +74,11 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 390 <= MENU_MOUSE_POS[0] <= 530 and 390 <= MENU_MOUSE_POS[1] <= 430:
+                if 390 <= mouse[0] <= 530 and 390 <= mouse[1] <= 430:
                     play()
-                if 390 <= MENU_MOUSE_POS[0] <= 530 and 490 <= MENU_MOUSE_POS[1] <= 530:
+                if 390 <= mouse[0] <= 530 and 490 <= mouse[1] <= 530:
                     options()
-                if 390 <= MENU_MOUSE_POS[0] <= 530 and 590 <= MENU_MOUSE_POS[1] <= 630:
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
                     pygame.quit()
                     sys.exit()
 
