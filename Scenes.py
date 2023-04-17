@@ -55,6 +55,10 @@ class Scene:
             return filtered[0]
         return None
 
+    def addListBrick(self, list):
+        for i in list:
+            self.addBrick(i)
+
     def addBrick(self, e):
         self.bricks.append(e)
         return self
@@ -126,10 +130,9 @@ def Scene1():
         .addUserInterface(
             UserInterfaces.UserInterface("menu")
             .addButton(
-                Buttons.Quit
+                Buttons.Quit()
             )
         )
-
     )
 
     for i in range(0, 801, 32):

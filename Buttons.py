@@ -4,20 +4,24 @@ import pygame
 
 
 class Button(ABC):
-    def __init__(self, x, y, id, text, font, textSize, color):
+    def __init__(self, x, y, id, text, font, size, color):
         self.x = x
         self.y = y
         self.id = id
         self.text = text
         self.font = font
-        self.textSize = textSize
+        self.size = size
         self.color = color
         self.rect = None
 
     def blit(self, screen):
-        font = pygame.font.SysFont(self.font, self.textSize)
+        font = pygame.font.SysFont(self.font, self.size)
         img = font.render(self.text, True, self.color)
+        self.rect = img.get_rect()
         screen.blit(img, (self.x, self.y))
+
+    def getRect(self):
+        return self.rect
 
     @abstractmethod
     def exe(self, game, event):
@@ -85,19 +89,3 @@ class higher(Button):
         game.running = False
         game.currentScene.setCurrentUserInterfaceIndex(7)
         exit()
-
-class Buttons():
-    def __init__(self, x, y, id, text, font, textSize, color):
-        self.x = x
-        self.y = y
-        self.id = id
-        self.text = text
-        self.font = font
-        self.textSize = textSize
-        self.color = color
-        self.rect = None
-
-    def blit(self, screen):
-        font = pygame.font.SysFont(self.font, self.textSize)
-        img = font.render(self.text, True, self.color)
-        screen.blit(img, (self.x, self.y))

@@ -25,6 +25,7 @@ def play():
 def options():
     while True:
         mouse= pygame.mouse.get_pos()
+
         screen.fill("red")
         OPTIONS_BACK = Buttons.Buttons(390, 585, 1, "BACK", "dubai", 30, "black")
         OPTIONS_BACK.blit(screen)
