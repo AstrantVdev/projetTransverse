@@ -85,11 +85,10 @@ class Game:
 
         print('PygameInit :', pygame.get_init(), '\n')
 
-        pygame.display.set_icon(ICON)
-
         pygame.display.set_caption(TITLE)
-
         self.screen = pygame.display.set_mode((self.width, self.height))
+        ICON = pygame.image.load("graphics/logo32x32.jpg").convert()
+        pygame.display.set_icon(ICON)
 
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
@@ -112,8 +111,7 @@ class Game:
             image_texte2 = police2.render("OPTION", 1, "white")
             police3 = pygame.font.SysFont("dubai", 30)
             image_texte3 = police3.render("QUITTER", 1, "white")
-            fond = pygame.image.load('img/fondbleu.jpg')
-            fond = fond.convert()
+            fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
             self.screen.blit(fond, (0, 0))
 
             mouse = pygame.mouse.get_pos()
@@ -153,7 +151,7 @@ class Game:
 
             self.eventsHandler()
 
-            self.t.tick(20)
+            self.t.tick(60)
 
     def moveEntities(self, TEST, entities, bricks):
 
@@ -217,7 +215,6 @@ class Game:
             e.setX(co[0])
             e.setY(co[1])
 
-
     def eventsHandler(self):
         def low_song(x):
             pygame.mixer.music.set_volume(1.0 - x / 10)
@@ -225,19 +222,14 @@ class Game:
         def high_song(x):
             pygame.mixer.music.set_volume(1.0 + x / 10)
 
-        song_play = pygame.image.load('img/play.png')
-        song_play = song_play.convert()
-        song_pause = pygame.image.load('img/pause.png')
-        song_pause = song_pause.convert()
-        song_left = pygame.image.load('img/song_left.png')
-        song_left = song_left.convert()
-        song_right = pygame.image.load('img/song_right.png')
-        song_right = song_right.convert()
+        song_play = pygame.image.load('img/play.png').convert()
+        song_pause = pygame.image.load('img/pause.png').convert()
+        song_left = pygame.image.load('img/song_left.png').convert()
+        song_right = pygame.image.load('img/song_right.png').convert()
         police3 = pygame.font.SysFont("dubai", 30)
         image_texte3 = police3.render("QUITTER", 1, "white")
-        fond = pygame.image.load('img/fondbleu.jpg')
-        fond_option = pygame.image.load('img/fondrouge.jpg')
-        fond_option = fond_option.convert()
+        fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
+        fond_option = pygame.image.load('img/fondrouge.jpg').convert()
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             name = pygame.event.event_name(event.type)
@@ -309,7 +301,6 @@ class Player(Entities.Entity):
 
 if __name__ == "__main__":
     TITLE = "BricKEY"
-    ICON = pygame.image.load("graphics/logo32x32.jpg")
 
     GAME = Game()
     GAME.setUp()
