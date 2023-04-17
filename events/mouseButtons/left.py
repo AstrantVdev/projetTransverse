@@ -5,5 +5,3 @@ class Exe:
 
         if scene.getCurrentUserInterfaceIndex() != -1:
             userInter = scene.getCurrentUserInterface()
-
-
