@@ -5,7 +5,6 @@ pygame.init()
 screen = pygame.display.set_mode((880, 1080))
 pygame.display.set_caption("Blockey")
 BG = pygame.image.load("img/fondbleu.jpg")
-
 pygame.mixer.init()
 pygame.mixer.music.load('music/fond_music.mp3')
 pygame.mixer.music.play(-1)
