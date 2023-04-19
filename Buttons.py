@@ -26,15 +26,65 @@ class Button(ABC):
     def exe(self, game, event):
         pass
 
-
 class Quit(Button):
     def __init__(self):
         super().__init__(400, 400, "quit", "quitter", "dubai", 30, "red")
 
     def exe(self, game, event):
-        game.running = False
-        game.currentScene.setCurrentUserInterfaceIndex(-1)
-        # ferme la fenetre
+        game.running=False
+        game.currentScene.setCurrentUserInterfaceIndex(1)
         exit()
 
+class Option(Button):
+    def __init__(self):
+        super().__init__(400, 400, "option", "option", "dubai", 30, "red")
 
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(2)
+        exit()
+
+class Back(Button):
+    def __init__(self):
+        super().__init__(400, 400, "back", "retour", "dubai", 30, "red")
+
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(3)
+        exit()
+
+class Play(Button):
+    def __init__(self):
+        super().__init__(400, 400, "play", "play", "dubai", 30, "red")
+
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(-1)
+        exit()
+
+class Stop(Button):
+    def __init__(self):
+        super().__init__(400, 400, "stop", "stop", "dubai", 30, "red")
+
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(5)
+        exit()
+
+class lower(Button):
+    def __init__(self):
+        super().__init__(400, 400, "lower", "-", "dubai", 30, "red")
+
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(6)
+        exit()
+
+class higher(Button):
+    def __init__(self):
+        super().__init__(400, 400, "higher", "+", "dubai", 30, "red")
+
+    def exe(self, game, event):
+        game.running = False
+        game.currentScene.setCurrentUserInterfaceIndex(7)
+        exit()

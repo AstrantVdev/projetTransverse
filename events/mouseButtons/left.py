@@ -4,6 +4,7 @@ class Exe:
         scene = game.getCurrentScene()
 
         if scene.getCurrentUserInterfaceIndex() != -1:
+
             userInter = scene.getCurrentUserInterface()
 
             for b in userInter.getButtons():
