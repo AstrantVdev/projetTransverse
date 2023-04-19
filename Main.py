@@ -33,14 +33,15 @@ class Game:
 
         bricks = currentScene.getBricks()
         entities = currentScene.getEntities()
+        player = self.currentScene.getPlayer()
 
         for i in range(len(bricks) - 1):
             b = bricks[i + 1]
-            b.blit(self.screen)
+            b.blit(self.screen, player)
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
-            e.blit(self.screen)
+            e.blit(self.screen, player)
 
         return self
 
@@ -130,22 +131,22 @@ class Game:
             pygame.mixer.music.load('music/fond_music.mp3')
             pygame.mixer.music.play(-1)
 
-            # self.screen.fill("red")  # => reset screen
+            player = self.currentScene.getPlayer()
 
             bricks = self.currentScene.getBricks()
-            for i in range(len(bricks) - 1):
-                b = bricks[i + 1]
-                b.blit(self.screen)
-
-            entities = self.currentScene.getEntities()
-            for i in range(len(entities) - 1):
-                e = entities[i + 1]
-                e.blit(self.screen)
-
+            entities = self.getCurrentScene().getEntities()
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
-                self.moveEntities(TEST, entities, bricks)
+                self.moveEntities(TEST, entities, bricks, player)
             else:
                 self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
+
+            for i in range(len(bricks) - 1):
+                b = bricks[i + 1]
+                b.blit(self.screen, player)
+
+            for i in range(len(entities) - 1):
+                e = entities[i + 1]
+                e.blit(self.screen, player)
 
             pygame.display.update()
 
@@ -153,7 +154,7 @@ class Game:
 
             self.t.tick(FPS)
 
-    def moveEntities(self, TEST, entities, bricks):
+    def moveEntities(self, TEST, entities, bricks, player):
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
@@ -161,21 +162,22 @@ class Game:
             if not e.isFlying():
                 e.applyGravity()
 
-            for a in range(len(entities) - 1):
-
-                if a != i:
-                    otherE = entities[a + 1]
-
-                    if otherE.getRect().colliderect(otherE.getRect()):
-                        e.addAppliedForce(otherE.getResultantForce())
-
             TEST += 1
             if TEST == 50:
                 print("TEST DONE---------------------------------------------------------------------------")
 
             e.setResultantSpeed()
+
             rect = e.getRect()
-            rect.center = e.getTickNewCenter()
+            rect.center = e.getTickNewCenter(player, False)
+
+            for a in range(len(entities) - 1):
+
+                if a != i:
+                    otherE = entities[a + 1]
+
+                    if e.getRect().colliderect(otherE.getRect()):
+                        e.addAppliedForce(otherE.getResultantForce())
 
             e.setLanded(False)
             for o in range(len(bricks) - 1):
@@ -186,7 +188,7 @@ class Game:
                     e.setLanded(True)
 
                     moveLine = [
-                        [e.getX(), e.getY()],
+                        [rect.x, rect.y],
                         e.getCollisionRectCenter(rect, bR)
                     ]
 
@@ -211,7 +213,7 @@ class Game:
                             e.setSpeed(speed)
                             break
 
-            co = e.getTickNewCenter()
+            co = e.getTickNewCenter(player, True)
             e.setX(co[0])
             e.setY(co[1])
 

@@ -7,4 +7,6 @@ class Exe:
             return
 
         if player.isLanded():
+            print("azertyu")
+
             player.addAppliedForce([0, player.getWeight() * -10])

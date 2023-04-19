@@ -25,7 +25,7 @@ class Brick(pygame.sprite.Sprite):
         self.scene = scene
         scene.addEntity(self)
 
-    def blit(self, screen):
+    def blit(self, screen, player):
         tick = 10  # => une animation tous les 10 affichages
 
         dir = "graphics/" + self.type + "/" + self.subtype + "/" + self.currentState  # => entity images directory
@@ -36,7 +36,7 @@ class Brick(pygame.sprite.Sprite):
 
         img = pygame.image.load(dir + '/' + images[self.frame // tick]).convert_alpha()
         self.rect = img.get_rect()
-        self.rect.center = (self.x, self.y)
+        self.rect.center = (self.x - player.x + 400, self.y - abs(player.y) + 400)
 
         screen.blit(img, self.rect)
 

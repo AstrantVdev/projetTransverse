@@ -61,11 +61,19 @@ class Entity(Bricks.Brick):
 
         return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
 
-    def getTickNewCenter(self):
-        return [
-            self.x + self.speed[0] * METER,
-            self.y + self.speed[1] * METER
-        ]
+    def getTickNewCenter(self, player, real):
+        center = [
+                self.x + self.speed[0] * METER,
+                self.y + self.speed[1] * METER
+            ]
+
+        if not real:
+            return [
+                center[0] - player.x + 400,
+                center[1] - abs(player.y) + 400
+            ]
+
+        return center
 
     def applyGravity(self):
         self.appliedForces.append([0, 9.81 / 20 * self.weight])
