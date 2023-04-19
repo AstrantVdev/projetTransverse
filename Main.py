@@ -1,14 +1,30 @@
+import os
 from math import pi
 
 import pygame
+from pygame import key, K_DOWN, K_LEFT
 
+import Bricks
+import Buttons
 import Entities
+import Main
 import Scenes
+import UserInterfaces
 import Utils
-
+from os import listdir
+from os.path import isfile, join
+import time
 
 class Game:
     def __init__(self):
+        self.fond_option = None
+        self.fond = None
+        self.image_texte3 = None
+        self.police3 = None
+        self.song_right = None
+        self.song_left = None
+        self.song_pause = None
+        self.song_play = None
         self.scenes = []
         self.currentScene = Scenes.Scene1()
         self.running = False
@@ -36,11 +52,11 @@ class Game:
 
         for i in range(len(bricks) - 1):
             b = bricks[i + 1]
-            b.blit(self.screen)
+            b.blit(self.screen, self)
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
-            e.blit(self.screen)
+            e.blit(self.screen, self)
 
         return self
 
@@ -90,16 +106,40 @@ class Game:
         ICON = pygame.image.load("graphics/logo32x32.jpg").convert()
         pygame.display.set_icon(ICON)
 
+        self.load_images()
+
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
 
-        self.setCurrentScene(Scenes.Scene1())
+        self.setCurrentScene(Scenes.load_map("map1"))
 
         self.running = True
 
+    def current_milli_time(self):
+        return round(time.time() * 1000)
+
+    def load_images(self):
+        time1 = self.current_milli_time()
+        self.song_play = pygame.image.load('img/play.png').convert()
+        self.song_pause = pygame.image.load('img/pause.png').convert()
+        self.song_left = pygame.image.load('img/song_left.png').convert()
+        self.song_right = pygame.image.load('img/song_right.png').convert()
+        self.police3 = pygame.font.SysFont("dubai", 30)
+        self.image_texte3 = self.police3.render("QUITTER", 1, "white")
+        self.fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
+        self.fond_option = pygame.image.load('img/fondrouge.jpg').convert()
+        self.images = {}
+
+        path = "graphics/"
+        for (root, dirs, file) in os.walk(path):
+            for f in file:
+                dir = os.path.join(root, f).replace("\\", "/")
+                img = pygame.image.load(dir).convert_alpha()
+                self.images[dir] = img
+        print("Loaded all image in", self.current_milli_time() - time1, "ms")
+
     def run(self):
         TEST = 0
-
         while self.running:
 
             police = pygame.font.SysFont("chiller", 80)
@@ -111,8 +151,7 @@ class Game:
             image_texte2 = police2.render("OPTION", 1, "white")
             police3 = pygame.font.SysFont("dubai", 30)
             image_texte3 = police3.render("QUITTER", 1, "white")
-            fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
-            self.screen.blit(fond, (0, 0))
+            self.screen.blit(self.fond, (0, 0))
 
             mouse = pygame.mouse.get_pos()
             # bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
@@ -134,12 +173,12 @@ class Game:
             bricks = self.currentScene.getBricks()
             for i in range(len(bricks) - 1):
                 b = bricks[i + 1]
-                b.blit(self.screen)
+                b.blit(self.screen, self)
 
             entities = self.currentScene.getEntities()
             for i in range(len(entities) - 1):
                 e = entities[i + 1]
-                e.blit(self.screen)
+                e.blit(self.screen, self)
 
             print(self.getCurrentScene().getCurrentUserInterfaceIndex())
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
@@ -148,10 +187,16 @@ class Game:
                 self.getCurrentScene().getCurrentUserInterface().blit()
 
             pygame.display.update()
+            #print(pygame.mouse.get_pos())
+            if(self.getCurrentScene().getPlayer().getY()> 900):
+                print("Vous êtes mort !!!")
+                self.running=False
+
 
             self.eventsHandler()
 
-            self.t.tick(60)
+            print(self.t)
+            self.t.tick(32)
 
     def moveEntities(self, TEST, entities, bricks):
 
@@ -222,14 +267,6 @@ class Game:
         def high_song(x):
             pygame.mixer.music.set_volume(1.0 + x / 10)
 
-        song_play = pygame.image.load('img/play.png').convert()
-        song_pause = pygame.image.load('img/pause.png').convert()
-        song_left = pygame.image.load('img/song_left.png').convert()
-        song_right = pygame.image.load('img/song_right.png').convert()
-        police3 = pygame.font.SysFont("dubai", 30)
-        image_texte3 = police3.render("QUITTER", 1, "white")
-        fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
-        fond_option = pygame.image.load('img/fondrouge.jpg').convert()
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             name = pygame.event.event_name(event.type)
@@ -250,12 +287,12 @@ class Game:
                     pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 390 <= mouse[0] <= 530 and 490 <= mouse[1] <= 530:
-                    self.screen.blit(fond_option, (0, 0))
-                    self.screen.blit(song_pause, (390, 500))
-                    self.screen.blit(song_play, (470, 500))
-                    self.screen.blit(song_left, (390, 380))
-                    self.screen.blit(song_right, (470, 380))
-                    self.screen.blit(image_texte3, (390, 585))
+                    self.screen.blit(self.fond_option, (0, 0))
+                    self.screen.blit(self.song_pause, (390, 500))
+                    self.screen.blit(self.song_play, (470, 500))
+                    self.screen.blit(self.song_left, (390, 380))
+                    self.screen.blit(self.song_right, (470, 380))
+                    self.screen.blit(self.image_texte3, (390, 585))
                     police_pause = pygame.font.SysFont("dubai", 80)
                     image_pause = police_pause.render("OPTION", 1, "white")
                     self.screen.blit(image_pause, (300, 200))

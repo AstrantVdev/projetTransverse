@@ -3,6 +3,7 @@ import Buttons
 import Entities
 import Main
 import UserInterfaces
+from entity.Key import Key
 
 
 class Scene:
@@ -137,6 +138,46 @@ def Scene1():
             Bricks.Brick(i, 800, "block", "block", "edge" + str(i))
         )
 
+    scene.addBrick(
+        Bricks.Brick(500, 700, "block", "block", "edge" + str(i))
+    )
     scene.setCurrentUserInterfaceIndex(-1)
 
+    return scene
+
+def load_map(map):
+    mapname=""
+    spawn=(0, 0)
+    scene=Scene(map)
+    with open("maps/" + map, "r") as file:
+        y=0
+        for line in file.readlines():
+            if y == 0:
+                mapname = line
+            else:
+                x=0
+                for colonne in line:
+                    if colonne == ".":
+                        print("placed at x=", x, "and y=",y-32)
+                        scene.addBrick(
+                            Bricks.Brick(x, y-32, "block", "block", "edge" + str(x))
+                        )
+                    elif colonne == "x":
+                        scene.addEntity(Main.
+                                            Player().
+                                            setX(x).
+                                            setY(y-32))
+                    elif colonne == "+":
+                        scene.addEntity(Key().setX(x).setY(y-32))
+                        print("coucou je suis une clé")
+                    x+=32
+            y+=32
+
+        scene.addUserInterface(UserInterfaces.
+            UserInterface("menu")
+            .addButton(
+                Buttons.Quit
+            ))
+        scene.setCurrentUserInterfaceIndex(-1)
+        print("scene chargée ", scene.getBricks())
     return scene
