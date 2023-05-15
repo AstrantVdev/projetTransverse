@@ -35,7 +35,7 @@ class Brick(pygame.sprite.Sprite):
 
         img = game.images[dir + '/' + images[self.frame // tick]]
         self.rect = img.get_rect()
-        self.rect.center = (self.x - player.x + 400, self.y - abs(player.y) + 400)
+        self.rect.center = (self.x - player.x + 960, self.y - abs(player.y) + 540)
 
         screen.blit(img, self.rect)
 

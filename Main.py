@@ -106,6 +106,7 @@ class Game:
             for f in file:
                 dir = os.path.join(root, f).replace("\\", "/")
                 img = pygame.image.load(dir).convert_alpha()
+
                 if "block\default" in str(root):
                     img = pygame.transform.scale(img, (32, 32))
                 self.images[dir] = img
@@ -118,30 +119,8 @@ class Game:
     def run(self):
         TEST = 0
 
-        police = pygame.font.SysFont("chiller", 80)
-        police1 = pygame.font.SysFont("dubai", 30)
-        police2 = pygame.font.SysFont("dubai", 30)
-        police3 = pygame.font.SysFont("dubai", 30)
-
-        fond = pygame.image.load('img/fondbleu.jpg').convert_alpha()
-
-        image_Game = police.render("Bloockey", 1, "white")
-        image_texte = police1.render("JOUER", 1, "white")
-        image_texte2 = police2.render("OPTION", 1, "white")
-        image_texte3 = police3.render("QUITTER", 1, "white")
-
         while self.running:
-            self.screen.blit(fond, (0.1 * (384 - self.getCurrentScene().getPlayer().getX()),
-                                    0 + 0.1 * (400 - self.getCurrentScene().getPlayer().getY())))
-            mouse = pygame.mouse.get_pos()
-            # bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
-            # bouton2 = pygame.draw.rect(screen, "black", [380, 390, 140, 40])
-            # bouton3 = pygame.draw.rect(screen, "black", [380, 590, 140, 40])
-            self.screen.blit(image_Game, (350, 235))
-            # bouton menu
-            self.screen.blit(image_texte, (400, 385))
-            self.screen.blit(image_texte2, (395, 485))
-            self.screen.blit(image_texte3, (390, 585))
+            self.screen.blit(self.images[self.currentScene.getBackground()], (195, 0))
 
             # music
             pygame.mixer.init()
@@ -235,25 +214,7 @@ class Game:
             e.setY(co[1])
 
     def eventsHandler(self):
-        def low_song(x):
-            pygame.mixer.music.set_volume(1.0 - x / 10)
 
-        def high_song(x):
-            pygame.mixer.music.set_volume(1.0 + x / 10)
-
-        song_play = pygame.image.load('img/play.png')
-        song_play = song_play.convert()
-        song_pause = pygame.image.load('img/pause.png')
-        song_pause = song_pause.convert()
-        song_left = pygame.image.load('img/song_left.png')
-        song_left = song_left.convert()
-        song_right = pygame.image.load('img/song_right.png')
-        song_right = song_right.convert()
-        police3 = pygame.font.SysFont("dubai", 30)
-        image_texte3 = police3.render("QUITTER", 1, "white")
-        fond = pygame.image.load('img/fondbleu.jpg')
-        fond_option = pygame.image.load('img/fondrouge.jpg')
-        fond_option = fond_option.convert()
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             name = pygame.event.event_name(event.type)
@@ -263,38 +224,6 @@ class Game:
             if module:
                 module = module()  # nouvelle instance de la classe
                 module.exe(self, event)  # exécution d'une fonction dans l'instance créée
-
-            if event.type == pygame.QUIT:
-                event.destroyAllWindows()
-                pygame.mixer.quit()
-                pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
-                    pygame.mixer.quit()
-                    pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if 390 <= mouse[0] <= 530 and 490 <= mouse[1] <= 530:
-                    self.screen.blit(fond_option, (0, 0))
-                    self.screen.blit(song_pause, (390, 500))
-                    self.screen.blit(song_play, (470, 500))
-                    self.screen.blit(song_left, (390, 380))
-                    self.screen.blit(song_right, (470, 380))
-                    self.screen.blit(image_texte3, (390, 585))
-                    police_pause = pygame.font.SysFont("dubai", 80)
-                    image_pause = police_pause.render("OPTION", 1, "white")
-                    self.screen.blit(image_pause, (300, 200))
-                    if 390 <= mouse[0] <= 440 and 500 <= mouse[1] <= 550:
-                        pygame.mixer.music.pause()
-                    if 470 <= mouse[0] <= 520 and 500 <= mouse[1] <= 550:
-                        pygame.mixer.music.unpause()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if 390 <= mouse[0] <= 440 and 380 <= mouse[1] <= 430:
-                    x = pygame.mixer.music.get_volume()
-                    pygame.mixer.music.set_volume(x - 0.1)
-                if 470 <= mouse[0] <= 520 and 380 <= mouse[1] <= 430:
-                    x = pygame.mixer.music.get_volume()
-                    pygame.mixer.music.set_volume(x + 0.1)
 
 
 # https://www.oreilly.com/library/view/python-cookbook/0596001673/ch15s04.html

@@ -69,8 +69,8 @@ class Entity(Bricks.Brick):
 
         if not real:
             return [
-                center[0] - player.x + 400,
-                center[1] - abs(player.y) + 400
+                center[0] - player.x + 960,
+                center[1] - abs(player.y) + 540
             ]
 
         return center

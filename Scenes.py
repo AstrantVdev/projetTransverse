@@ -18,7 +18,7 @@ class Scene:
         self.fonts = []
         self.buttons = []
 
-        self.background = "graphics/background_start.jpeg"
+        self.background = "graphics/background_scene1.jpg"
         self.setUp = True
 
     def setId(self, id):
@@ -144,39 +144,43 @@ def Scene1():
 
     return scene
 
+
 def load_map(map):
-    mapname=""
-    spawn=(0, 0)
-    scene=Scene(map)
+    mapname = ""
+    spawn = (0, 0)
+    scene = Scene(map)
+    scene.setBackground("graphics/background_scene1.jpg")
+
     with open("maps/" + map, "r") as file:
-        y=0
+        y = 0
         for line in file.readlines():
             if y == 0:
                 mapname = line
             else:
-                x=0
+                x = 0
                 for colonne in line:
                     if colonne == ".":
-                        print("placed at x=", x, "and y=",y-32)
+                        print("placed at x=", x, "and y=", y - 32)
                         scene.addBrick(
-                            Bricks.Brick(x, y-32, "block", "block", "edge" + str(x))
+                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x))
                         )
                     elif colonne == "x":
                         scene.addEntity(Main.
-                                            Player().
-                                            setX(x).
-                                            setY(y-32))
+                                        Player().
+                                        setX(x).
+                                        setY(y - 32))
                     elif colonne == "+":
                         scene.addEntity(Entities.Key().setX(x).setY(y - 32))
                         print("coucou je suis une clé")
-                    x+=32
-            y+=32
+                    x += 32
+            y += 32
 
-        scene.addUserInterface(UserInterfaces.
-            UserInterface("menu")
+        scene.addUserInterface(
+            UserInterfaces.UserInterface("menu")
             .addButton(
                 Buttons.Quit
-            ))
-        scene.setCurrentUserInterfaceIndex(-1)
+            )
+        )
+
         print("scene chargée ", scene.getBricks())
     return scene
