@@ -63,9 +63,9 @@ class Entity(Bricks.Brick):
 
     def getTickNewCenter(self, player, real):
         center = [
-                self.x + self.speed[0] * METER,
-                self.y + self.speed[1] * METER
-            ]
+            self.x + self.speed[0] * METER,
+            self.y + self.speed[1] * METER
+        ]
 
         if not real:
             return [
@@ -127,3 +127,9 @@ class Entity(Bricks.Brick):
 
     def setLanded(self, landed):
         self.landed = landed
+
+
+class Key(Entity):
+
+    def __init__(self):
+        super().__init__(400, 400, "key", "key")

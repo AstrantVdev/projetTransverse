@@ -1,6 +1,8 @@
 from math import pi
 
 import pygame
+import os
+import time
 
 import Entities
 import Scenes
@@ -13,9 +15,10 @@ class Game:
         self.currentScene = Scenes.Scene1()
         self.running = False
         self.screen = None
-        self.width = 800
-        self.height = 850
+        self.width = 1920
+        self.height = 1080
         self.t = pygame.time.Clock()
+        self.images = {}
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -37,11 +40,11 @@ class Game:
 
         for i in range(len(bricks) - 1):
             b = bricks[i + 1]
-            b.blit(self.screen, player)
+            b.blit(self, self.screen, player)
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
-            e.blit(self.screen, player)
+            e.blit(self, self.screen, player)
 
         return self
 
@@ -95,7 +98,20 @@ class Game:
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
 
-        self.setCurrentScene(Scenes.Scene1())
+        time1 = round(time.time() * 1000)
+        self.images = {}
+        path = "graphics/"
+
+        for (root, dirs, file) in os.walk(path):
+            for f in file:
+                dir = os.path.join(root, f).replace("\\", "/")
+                img = pygame.image.load(dir).convert_alpha()
+                if "block\default" in str(root):
+                    img = pygame.transform.scale(img, (32, 32))
+                self.images[dir] = img
+        print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
+
+        self.setCurrentScene(Scenes.load_map("map1"))
 
         self.running = True
 
@@ -115,7 +131,8 @@ class Game:
         image_texte3 = police3.render("QUITTER", 1, "white")
 
         while self.running:
-            self.screen.blit(fond, (0, 0))
+            self.screen.blit(fond, (0.1 * (384 - self.getCurrentScene().getPlayer().getX()),
+                                    0 + 0.1 * (400 - self.getCurrentScene().getPlayer().getY())))
             mouse = pygame.mouse.get_pos()
             # bouton1 = pygame.draw.rect(screen, "black", [380, 490, 140, 40])
             # bouton2 = pygame.draw.rect(screen, "black", [380, 390, 140, 40])
@@ -142,11 +159,11 @@ class Game:
 
             for i in range(len(bricks) - 1):
                 b = bricks[i + 1]
-                b.blit(self.screen, player)
+                b.blit(self, self.screen, player)
 
             for i in range(len(entities) - 1):
                 e = entities[i + 1]
-                e.blit(self.screen, player)
+                e.blit(self, self.screen, player)
 
             pygame.display.update()
 
@@ -216,7 +233,6 @@ class Game:
             co = e.getTickNewCenter(player, True)
             e.setX(co[0])
             e.setY(co[1])
-
 
     def eventsHandler(self):
         def low_song(x):
