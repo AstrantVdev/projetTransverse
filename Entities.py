@@ -1,4 +1,6 @@
 import time
+from math import sqrt
+
 import Bricks
 import Items
 
@@ -22,6 +24,16 @@ class Entity(Bricks.Brick):
         self.pitch = 0
         self.inv = Items.Inventory
         self.landed = False
+        self.last_location = [0, 0]
+
+    def setLastLocation(self):
+        self.last_location = [self.getX(), self.getY()]
+
+    def isFalling(self):
+        return self.last_location[1] - self.getY() > 0
+
+    def isMoving(self):
+        return sqrt(pow((self.last_location[0] - self.getX()), 2) + pow(self.last_location[1] - self.getY(), 2)) > 0
 
     def addAppliedForce(self, force):
         self.appliedForces.append(force)

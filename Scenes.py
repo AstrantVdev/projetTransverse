@@ -3,6 +3,7 @@ import Buttons
 import Entities
 import Main
 import UserInterfaces
+from entity.Octopus import Octopus
 
 
 class Scene:
@@ -172,6 +173,9 @@ def load_map(map):
                     elif colonne == "+":
                         scene.addEntity(Entities.Key().setX(x).setY(y - 32))
                         print("coucou je suis une clé")
+                    elif colonne == "p":
+                        #spawning an octopus
+                        scene.addEntity(Octopus().setX(x).setY(y - 32).setLife(100))
                     x += 32
             y += 32
 

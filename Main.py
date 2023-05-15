@@ -7,6 +7,7 @@ import time
 import Entities
 import Scenes
 import Utils
+from entity.Bullet import Bullet
 
 
 class Game:
@@ -109,6 +110,9 @@ class Game:
 
                 if "block\default" in str(root):
                     img = pygame.transform.scale(img, (32, 32))
+                if "bullet\default" in str(root):
+                    img = pygame.transform.scale(img, (34, 42))
+                    print("Bullet spawn " + str(root))
                 self.images[dir] = img
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
 
@@ -151,9 +155,10 @@ class Game:
             self.t.tick(FPS)
 
     def moveEntities(self, TEST, entities, bricks, player):
-
+        hasToBeRemoved = []
         for i in range(len(entities) - 1):
             e = entities[i + 1]
+            e.setLastLocation()
 
             if not e.isFlying():
                 e.applyGravity()
@@ -171,9 +176,19 @@ class Game:
 
                 if a != i:
                     otherE = entities[a + 1]
-
-                    if e.getRect().colliderect(otherE.getRect()):
-                        e.addAppliedForce(otherE.getResultantForce())
+                    print(otherE.getRect())
+                    if otherE.getRect().colliderect(e.getRect()):
+                        # player interacting with another entity
+                        if otherE.getSubType() == "key":
+                            print("interact with key !!!")
+                            hasToBeRemoved.append(otherE)
+                        if otherE.getSubType() == "octopus" and e.getSubType() == "bullet":
+                            otherE.setLife(otherE.getLife() - 1)
+                            otherE.setSpeed([0.1, 0.1])
+                            hasToBeRemoved.append(e)
+                            if otherE.getLife() == 0:
+                                hasToBeRemoved.append(otherE)
+                            # e.addAppliedForce(otherE.getResultantForce())
 
             e.setLanded(False)
             for o in range(len(bricks) - 1):
@@ -212,6 +227,11 @@ class Game:
             co = e.getTickNewCenter(player, True)
             e.setX(co[0])
             e.setY(co[1])
+        for e in hasToBeRemoved:
+            if e in entities:
+                print("in")
+                entities.remove(e)
+
 
     def eventsHandler(self):
 
@@ -224,6 +244,18 @@ class Game:
             if module:
                 module = module()  # nouvelle instance de la classe
                 module.exe(self, event)  # exécution d'une fonction dans l'instance créée
+
+            if event.type == pygame.KEYDOWN:
+                # vérifier si la touche appuyée est "a"
+                if event.key == pygame.K_a:
+                    self.currentScene.addEntity(Bullet().setX(self.getCurrentScene().getPlayer().getX()).setY(
+                        self.getCurrentScene().getPlayer().getY()).setSpeed(
+                        [0.3, -0.2] if self.currentScene.getPlayer().getPitch() == 90 else [-0.3, -0.2]))
+                    #self.currentScene.addEntity(
+                     #   Bullet()
+                      #  .setX(self.getCurrentScene().getPlayer().getX())
+                       # .setY(self.getCurrentScene().getPlayer().getY())
+                        #.setSpeed([0.3, -0.2] if self.currentScene.getPlayer().getPitch() == 90 else [-0.3, -0.2]))
 
 
 # https://www.oreilly.com/library/view/python-cookbook/0596001673/ch15s04.html
@@ -255,8 +287,8 @@ class Player(Entities.Entity):
 if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
-    FPS = 20
-
+    FPS = 60
     GAME = Game()
     GAME.setUp()
     GAME.run()
+
