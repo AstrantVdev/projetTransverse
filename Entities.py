@@ -1,10 +1,6 @@
 import time
-
-import pygame
-
 import Bricks
 import Items
-import Buttons
 
 METER = 64  # 64 pixels représentent 1 mètre dans le jeu
 

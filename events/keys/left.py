@@ -6,5 +6,7 @@ class Exe:
         if not player:
             return
 
+        player.setPitch(270)
+
         if player.isLanded():
             player.addAppliedForce([-player.getWeight(), 0])

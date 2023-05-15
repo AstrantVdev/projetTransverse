@@ -2,6 +2,7 @@ import pygame
 import os
 from enum import Enum
 
+
 class Brick(pygame.sprite.Sprite):
     def __init__(self, x, y, type, subtype, id):
         super().__init__()
@@ -36,6 +37,10 @@ class Brick(pygame.sprite.Sprite):
         img = game.images[dir + '/' + images[self.frame // tick]]
         self.rect = img.get_rect()
         self.rect.center = (self.x - player.x + 960, self.y - abs(player.y) + 540)
+
+        if self.type == "entity":
+            if self.getPitch() == 270:
+                img = pygame.transform.flip(img, True, False)
 
         screen.blit(img, self.rect)
 
