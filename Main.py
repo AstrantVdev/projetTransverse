@@ -176,7 +176,7 @@ class Game:
 
                 if a != i:
                     otherE = entities[a + 1]
-                    print(otherE.getRect())
+
                     if otherE.getRect().colliderect(e.getRect()):
                         # player interacting with another entity
                         if otherE.getSubType() == "key":
@@ -229,7 +229,6 @@ class Game:
             e.setY(co[1])
         for e in hasToBeRemoved:
             if e in entities:
-                print("in")
                 entities.remove(e)
 
 
@@ -244,18 +243,6 @@ class Game:
             if module:
                 module = module()  # nouvelle instance de la classe
                 module.exe(self, event)  # exécution d'une fonction dans l'instance créée
-
-            if event.type == pygame.KEYDOWN:
-                # vérifier si la touche appuyée est "a"
-                if event.key == pygame.K_a:
-                    self.currentScene.addEntity(Bullet().setX(self.getCurrentScene().getPlayer().getX()).setY(
-                        self.getCurrentScene().getPlayer().getY()).setSpeed(
-                        [0.3, -0.2] if self.currentScene.getPlayer().getPitch() == 90 else [-0.3, -0.2]))
-                    #self.currentScene.addEntity(
-                     #   Bullet()
-                      #  .setX(self.getCurrentScene().getPlayer().getX())
-                       # .setY(self.getCurrentScene().getPlayer().getY())
-                        #.setSpeed([0.3, -0.2] if self.currentScene.getPlayer().getPitch() == 90 else [-0.3, -0.2]))
 
 
 # https://www.oreilly.com/library/view/python-cookbook/0596001673/ch15s04.html

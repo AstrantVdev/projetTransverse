@@ -1,3 +1,5 @@
+import pygame
+
 import Bricks
 import Buttons
 import Entities
@@ -117,6 +119,10 @@ class Scene:
 
     def isSetUpping(self):
         return self.setUp
+
+    def spawn(self, entity):
+        entity.setRect(pygame.Rect(0, 0, 0, 0))
+        self.addEntity(entity)
 
 
 def Scene1():
