@@ -20,7 +20,7 @@ class Game:
         self.height = 1080
         self.t = pygame.time.Clock()
         self.images = {}
-        self.cached_image_directory = {}
+        self.total_circle=0
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -161,6 +161,9 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self, self.screen, player)
 
+            self.total_circle -= 10
+            if self.total_circle == -360:
+                self.total_circle=0
             pygame.display.update()
 
             self.eventsHandler()
