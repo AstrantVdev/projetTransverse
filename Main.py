@@ -125,7 +125,6 @@ class Game:
         self.running = True
 
     def run(self):
-        TEST = 0
         loc = [163, 0]
         while self.running:
             if 180 > 163 - 0.05 * self.getCurrentScene().getPlayer().getX() > - 350:
@@ -149,7 +148,7 @@ class Game:
             bricks = self.currentScene.getBricks()
             entities = self.getCurrentScene().getEntities()
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
-                self.moveEntities(TEST, entities, bricks, player)
+                self.moveEntities(entities, bricks, player)
             else:
                 self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
 
@@ -170,23 +169,21 @@ class Game:
 
             self.t.tick(FPS)
 
-    def moveEntities(self, TEST, entities, bricks, player):
+    def moveEntities(self, entities, bricks, player):
         hasToBeRemoved = []
         for i in range(len(entities) - 1):
             e = entities[i + 1]
             e.setLastLocation()
-
+            e.update_health(self.screen)
             if not e.isFlying():
                 e.applyGravity()
-
-            TEST += 1
-            if TEST == 50:
-                print("TEST DONE---------------------------------------------------------------------------")
-
             e.setResultantSpeed()
 
             rect = e.getRect()
             rect.center = e.getTickNewCenter(player, False)
+            if e.getSubType() == "bullet":
+                if e.getY() > 1000:
+                    hasToBeRemoved.append(e)
 
             for a in range(len(entities) - 1):
 
@@ -212,6 +209,10 @@ class Game:
                 bR = brick.getRect()
 
                 if rect.colliderect(bR):
+                    if e.getSubType() == "bullet":
+                        hasToBeRemoved.append(e)
+                        continue
+
                     e.setLanded(True)
 
                     moveLine = [

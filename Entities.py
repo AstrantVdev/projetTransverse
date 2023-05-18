@@ -1,6 +1,8 @@
 import time
 from math import sqrt
 
+import pygame.draw
+
 import Bricks
 import Items
 
@@ -20,11 +22,21 @@ class Entity(Bricks.Brick):
         self.speed = [0, 0]  # => entity speed [[x, y] ...]
         self.weight = 32
         self.life = 15
+        self.max_life=15
         self.fly = False
         self.pitch = 0
         self.inv = Items.Inventory
         self.landed = False
         self.last_location = [0, 0]
+
+    def update_health(self, screen):
+        color = (71, 209, 71)
+        back_bar_color = (230, 0, 0)
+        position = [self.rect.x + 20, self.rect.y - 20, self.life + 20, 5]
+        back_bar_position = [self.rect.x + 20, self.rect.y - 20, self.max_life + 20, 5]
+        pygame.draw.rect(screen, back_bar_color, back_bar_position)
+        pygame.draw.rect(screen, color, position)
+
 
     def setLastLocation(self):
         self.last_location = [self.getX(), self.getY()]
