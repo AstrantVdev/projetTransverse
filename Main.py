@@ -20,6 +20,7 @@ class Game:
         self.height = 1080
         self.t = pygame.time.Clock()
         self.images = {}
+        self.cached_image_directory = {}
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -110,10 +111,13 @@ class Game:
 
                 if "block\default" in str(root):
                     img = pygame.transform.scale(img, (32, 32))
-                if "bullet\default" in str(root):
+                elif "bullet\default" in str(root):
                     img = pygame.transform.scale(img, (34, 42))
                     print("Bullet spawn " + str(root))
+                elif "background_start" in str(file):
+                    img = pygame.transform.scale(img, (1920 * 1.2, 1080 * 1.2))
                 self.images[dir] = img
+        self.font = {"chiller": pygame.font.SysFont("chiller", 80), "dubai": pygame.font.SysFont("dubai", 30)}
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
 
         self.setCurrentScene(Scenes.load_map("map1"))
@@ -122,9 +126,18 @@ class Game:
 
     def run(self):
         TEST = 0
-
+        loc = [163, 0]
         while self.running:
-            self.screen.blit(self.images[self.currentScene.getBackground()], (195, 0))
+            if 180 > 163 - 0.05 * self.getCurrentScene().getPlayer().getX() > - 350:
+                loc[0] = 163 - 0.05 * self.getCurrentScene().getPlayer().getX()
+            loc[1] = 0 - 0.05 * self.getCurrentScene().getPlayer().getY()
+
+            self.screen.blit(self.images[self.currentScene.getBackground()],
+                             [loc[0] if loc[0] is not None else 195, loc[1] if loc[1] is not None else 0])
+            fps = self.font["dubai"].render(
+                "fps: " + str(round(self.t.get_fps())) + " locscreen: x " + str(round(loc[0])) + ",y " + str(
+                    round(loc[1])), 1, "white")
+            self.screen.blit(fps, (1340, 130))
 
             # music
             pygame.mixer.init()
@@ -182,7 +195,7 @@ class Game:
                         if otherE.getSubType() == "key":
                             print("interact with key !!!")
                             hasToBeRemoved.append(otherE)
-                        if otherE.getSubType() == "octopus" and e.getSubType() == "bullet":
+                        elif otherE.getSubType() == "octopus" and e.getSubType() == "bullet":
                             otherE.setLife(otherE.getLife() - 1)
                             otherE.setSpeed([0.1, 0.1])
                             hasToBeRemoved.append(e)
@@ -231,7 +244,6 @@ class Game:
             if e in entities:
                 entities.remove(e)
 
-
     def eventsHandler(self):
 
         for event in pygame.event.get():
@@ -278,4 +290,3 @@ if __name__ == "__main__":
     GAME = Game()
     GAME.setUp()
     GAME.run()
-

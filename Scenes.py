@@ -167,7 +167,6 @@ def load_map(map):
                 x = 0
                 for colonne in line:
                     if colonne == ".":
-                        print("placed at x=", x, "and y=", y - 32)
                         scene.addBrick(
                             Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x))
                         )
@@ -178,7 +177,6 @@ def load_map(map):
                                         setY(y - 32))
                     elif colonne == "+":
                         scene.addEntity(Entities.Key().setX(x).setY(y - 32))
-                        print("coucou je suis une clé")
                     elif colonne == "p":
                         #spawning an octopus
                         scene.addEntity(Octopus().setX(x).setY(y - 32).setLife(100))

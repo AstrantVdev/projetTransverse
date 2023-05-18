@@ -18,7 +18,7 @@ class Scene:
         self.fonts = []
         self.buttons = []
 
-        self.background = "graphics/background_scene1.jpg"
+        self.background = "graphics/_background_scene1.jpg"
         self.setUp = True
 
     def setId(self, id):
@@ -149,7 +149,7 @@ def load_map(map):
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
-    scene.setBackground("graphics/background_scene1.jpg")
+    scene.setBackground("graphics/_background_scene1.jpg")
 
     with open("maps/" + map, "r") as file:
         y = 0
