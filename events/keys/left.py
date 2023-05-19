@@ -8,3 +8,5 @@ class Exe:
 
         if player.isLanded():
             player.addAppliedForce([-player.getWeight(), 0])
+
+        print("left")

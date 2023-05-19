@@ -1,33 +1,28 @@
 from abc import abstractmethod, ABC
+import Bricks
 import pygame
-
 import Menu
 
-
 class Button(ABC):
-    def __init__(self, x, y, id, text, font, size, color):
+    def __init__(self, x, y, id, text, font, textSize, color):
         self.x = x
         self.y = y
         self.id = id
         self.text = text
         self.font = font
-        self.size = size
+        self.textSize = textSize
         self.color = color
         self.rect = None
 
     def blit(self, screen):
-        font = pygame.font.SysFont(self.font, self.size)
+        font = pygame.font.SysFont(self.font, self.textSize)
         img = font.render(self.text, True, self.color)
-        self.rect = img.get_rect()
-        self.rect.center = (self.x + self.rect.centerx, self.y + self.rect.centery)
         screen.blit(img, (self.x, self.y))
 
-    def getRect(self):
-        return self.rect
-
     @abstractmethod
-    def exe(self, game, event):
+    def exe(self, ):
         pass
+
 
 class Quit(Button):
     def __init__(self):
@@ -69,3 +64,4 @@ class Creator(Button):
     def exe(self, game, event):
         game.currentScene.setCurrentUserInterfaceIndex(1)
         Menu.Menu.CREATOR()
+

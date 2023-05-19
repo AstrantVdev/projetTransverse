@@ -9,6 +9,7 @@ import UserInterfaces
 pygame.init()
 screen = pygame.display.set_mode((1920, 1080))
 pygame.display.set_caption("Blockey")
+
 BG = pygame.image.load("img/fondbleu.jpg")
 pygame.mixer.init()
 pygame.mixer.music.load('music/fond_music.mp3')
@@ -259,3 +260,82 @@ class Menu():
                         sys.exit()
             pygame.display.update()
 #Menu().menu()
+
+def play():
+    while True:
+        mouse = pygame.mouse.get_pos()
+
+        screen.fill("red")
+
+        PLAY_BACK = Buttons.Buttons(390, 585, 1, "BACK", "dubai", 30, "White")
+        PLAY_BACK.blit(screen)
+        #PLAY_BACK.changeColor(PLAY_MOUSE_POS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
+                    main_menu()
+        pygame.display.update()
+
+
+def options():
+    while True:
+        mouse= pygame.mouse.get_pos()
+
+        screen.fill("red")
+
+        OPTIONS_BACK = Buttons.Buttons(390, 585, 1, "BACK", "dubai", 30, "black")
+        OPTIONS_BACK.blit(screen)
+        #OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
+                    main_menu()
+            pygame.display.update()
+
+
+def main_menu():
+    while True:
+        screen.blit(BG, (0, 0))
+        mouse = pygame.mouse.get_pos()
+
+        police = pygame.font.SysFont("chiller", 80)
+        image_Game = police.render("Bloockey", 1, "white")
+        screen.blit(image_Game, (350, 235))
+
+        police1 = pygame.font.SysFont("dubai", 30)
+        image_texte = police1.render("JOUER", 1, "white")
+        police2 = pygame.font.SysFont("dubai", 30)
+        image_texte2 = police2.render("OPTION", 1, "white")
+        police3 = pygame.font.SysFont("dubai", 30)
+        image_texte3 = police3.render("QUITTER", 1, "white")
+        # bouton menu
+        screen.blit(image_texte, (400, 385))
+        screen.blit(image_texte2, (395, 485))
+        screen.blit(image_texte3, (390, 585))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                event.destroyAllWindows()
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 390 <= mouse[0] <= 530 and 390 <= mouse[1] <= 430:
+                    play()
+                if 390 <= mouse[0] <= 530 and 490 <= mouse[1] <= 530:
+                    options()
+                if 390 <= mouse[0] <= 530 and 590 <= mouse[1] <= 630:
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.display.update()
+
+
+main_menu()
