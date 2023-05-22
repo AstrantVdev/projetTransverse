@@ -5,6 +5,7 @@ import os
 import time
 
 import Entities
+import Items
 import Scenes
 import Utils
 from entity.Bullet import Bullet
@@ -111,11 +112,16 @@ class Game:
 
                 if "block\default" in str(root):
                     img = pygame.transform.scale(img, (32, 32))
+                elif "block\grass" in str(root):
+                    img = pygame.transform.scale(img, (34, 34))
+                elif "block\door" in str(root):
+                    img = pygame.transform.scale(img, (60, 120))
                 elif "bullet\default" in str(root):
                     img = pygame.transform.scale(img, (34, 42))
-                    print("Bullet spawn " + str(root))
                 elif "background_start" in str(file):
                     img = pygame.transform.scale(img, (1920 * 1.2, 1080 * 1.2))
+                elif "coeur.jpg" in str(file):
+                    img = pygame.transform.scale(img, (40, 40))
                 self.images[dir] = img
         self.font = {"chiller": pygame.font.SysFont("chiller", 80), "dubai": pygame.font.SysFont("dubai", 30)}
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
@@ -137,6 +143,8 @@ class Game:
                 "fps: " + str(round(self.t.get_fps())) + " locscreen: x " + str(round(loc[0])) + ",y " + str(
                     round(loc[1])), 1, "white")
             self.screen.blit(fps, (1340, 130))
+            for i in range(self.getCurrentScene().getPlayer().getLife()):
+                self.screen.blit(self.images["graphics/images/coeur.jpg"], (200 + i * 45, 125))
 
             # music
             pygame.mixer.init()
@@ -160,6 +168,10 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self, self.screen, player)
 
+
+            if self.getCurrentScene().getPlayer().getY()>2000:
+                self.getCurrentScene().getPlayer().death()
+
             self.total_circle -= 10
             if self.total_circle == -360:
                 self.total_circle=0
@@ -174,7 +186,10 @@ class Game:
         for i in range(len(entities) - 1):
             e = entities[i + 1]
             e.setLastLocation()
-            e.update_health(self.screen)
+
+            if e.getSubType() == "octopus":
+                e.update_health(self.screen)
+
             if not e.isFlying():
                 e.applyGravity()
             e.setResultantSpeed()
@@ -197,7 +212,7 @@ class Game:
                             hasToBeRemoved.append(otherE)
                         elif otherE.getSubType() == "octopus" and e.getSubType() == "bullet":
                             otherE.setLife(otherE.getLife() - 1)
-                            otherE.setSpeed([0.1, 0.1])
+                            otherE.addAppliedForce(e.getResultantForce())
                             hasToBeRemoved.append(e)
                             if otherE.getLife() == 0:
                                 hasToBeRemoved.append(otherE)
@@ -208,7 +223,10 @@ class Game:
                 brick = bricks[o + 1]
                 bR = brick.getRect()
 
+                t = time.time()
+
                 if rect.colliderect(bR):
+
                     if e.getSubType() == "bullet":
                         hasToBeRemoved.append(e)
                         continue
@@ -227,9 +245,17 @@ class Game:
 
                     brickEdges = [left, right, top, bottom]
 
+                    e.setSpeed([e.getSpeed()[0], 0])
+                    if(1==1):
+                        continue
                     for oi in range(4):
+
                         edge = brickEdges[oi]
+                        #very very laggy must be replaced
+                        print(moveLine)
+                        print(edge)
                         intersection = Utils.getLineIntersection(moveLine, edge)
+
 
                         if intersection:
                             speed = e.getSpeed()
@@ -240,6 +266,7 @@ class Game:
 
                             e.setSpeed(speed)
                             break
+                    print("collide",round(time.time() * 1000) - t*1000,"ms")
 
             co = e.getTickNewCenter(player, True)
             e.setX(co[0])

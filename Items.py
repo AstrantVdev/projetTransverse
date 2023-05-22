@@ -2,7 +2,7 @@ class Inventory:
 
     def __init__(self):
         self.maxSlot = 0
-        self.slots = [] #[item, number of items]
+        self.slots = []
 
     def setMaxSlot(self, maxSlot):
         self.maxSlot = maxSlot
@@ -18,6 +18,15 @@ class Inventory:
             return True
 
         return False
+
+    def hasItem(self, id):
+        for i in range(self.maxSlot):
+            if self.slots[i][0].id == id:
+                return True
+        return False
+
+    def removeAllItems(self):
+        self.slots.clear()
 
     def removeItemsBySlot(self, slot, n):
         self.slots[slot][1] -= n

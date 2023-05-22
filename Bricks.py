@@ -4,7 +4,12 @@ from enum import Enum
 
 
 class Brick(pygame.sprite.Sprite):
-    def __init__(self, x, y, type, subtype, id):
+    class STATE(str, Enum):
+        DEFAULT = "default"
+        GRASS = "grass"
+        DOOR = "door"
+
+    def __init__(self, x, y, type, subtype, id, state=STATE.DEFAULT):
         super().__init__()
         self.x = x
         self.y = y
@@ -13,13 +18,15 @@ class Brick(pygame.sprite.Sprite):
         self.id = id
         self.rect = None
         self.frame = 0
+        self.size = [False]
 
-        class STATE(str, Enum):
-            DEFAULT = "default"
-
-        self.currentState = STATE.DEFAULT
-
+        self.currentState = state
         self.scene = None
+
+    def setSize(self, size):
+        self.size[0] = True
+        self.size[1] = size[0]
+        self.size[2] = size[1]
 
     def spawn(self, scene):
         self.scene = scene
@@ -45,7 +52,6 @@ class Brick(pygame.sprite.Sprite):
         if self.subtype == "bullet":
             img = pygame.transform.rotate(img, -game.total_circle)
         screen.blit(img, self.rect)
-
 
         self.frame += 1
 

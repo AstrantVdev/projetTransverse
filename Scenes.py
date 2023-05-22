@@ -170,16 +170,25 @@ def load_map(map):
                         scene.addBrick(
                             Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x))
                         )
+                    elif colonne == "d":
+                        scene.addBrick(
+                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.GRASS)
+                        )
+                    elif colonne == "b":
+                        scene.addBrick(
+                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.DOOR)
+                        )
                     elif colonne == "x":
                         scene.addEntity(Main.
                                         Player().
                                         setX(x).
-                                        setY(y - 32))
+                                        setY(y - 32)
+                                        .setLife(3))
                     elif colonne == "+":
                         scene.addEntity(Entities.Key().setX(x).setY(y - 32))
                     elif colonne == "p":
                         #spawning an octopus
-                        scene.addEntity(Octopus().setX(x).setY(y - 32).setLife(100))
+                        scene.addEntity(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
                     x += 32
             y += 32
 
