@@ -9,6 +9,7 @@ import Items
 
 METER = 64  # 64 pixels représentent 1 mètre dans le jeu
 
+
 def getCollisionRectCenter(rect, collidedRect):
     x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
     y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
@@ -31,7 +32,7 @@ class Entity(Bricks.Brick, ABC):
         self.fly = False
         self.pitch = 0
         self.damage = 0
-        self.defence = 0 #en pourcentages de dégats non recus
+        self.defence = 0  # en pourcentages de dégats non recus
         self.inv = Items.Inventory
         self.landed = False
         self.last_location = [0, 0]
@@ -40,10 +41,8 @@ class Entity(Bricks.Brick, ABC):
         self.checkpoint = None
 
     def update_health(self, screen):
-        pos = self.rect.topleft, self.rect.y - 20
-        position = [pos, self.life, 7]
-        back_bar_position = [pos, self.max_life, 7]
-
+        position = [self.rect.x, self.rect.y - 20, self.life, 5]
+        back_bar_position = [self.rect.x, self.rect.y - 20, self.max_life, 5]
         pygame.draw.rect(screen, (230, 0, 0), back_bar_position)
         pygame.draw.rect(screen, (71, 209, 71), position)
 
@@ -54,7 +53,7 @@ class Entity(Bricks.Brick, ABC):
 
     @abstractmethod
     def collide(self, collider):
-        self.life -= collider.damage*(100-self.defence)
+        self.life -= collider.damage * (100 - self.defence)
 
     def respawn(self):
         self.setX(self.spawn[0])

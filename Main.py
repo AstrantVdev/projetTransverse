@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 
+import Entities
 import Scenes
 import Utils
 
@@ -9,7 +10,7 @@ import Utils
 class Game:
     def __init__(self):
         self.scenes = []
-        self.currentScene = Scenes.Scene1()
+        self.currentScene = None
         self.running = False
         self.screen = None
         self.width = 1920
@@ -17,6 +18,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.images = {}
         self.bottleAngle = 0
+        self.font = None
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -127,10 +129,12 @@ class Game:
         x, y = self.screen.get_size()
         print("Screen : {:^4} x {:^4}\n".format(x, y))
 
+        self.font = {"chiller": pygame.font.SysFont("chiller", 80), "dubai": pygame.font.SysFont("dubai", 30)}
+
         self.loadGraphics()
         self.loadMusic()
 
-        self.setCurrentScene(Scenes.MENU())
+        self.setCurrentScene(Scenes.MENU(self))
         self.running = True
 
     def turnBottle(self):
@@ -149,7 +153,7 @@ class Game:
     def run(self):
 
         while self.running:
-            self.screen.blit(self.images[self.currentScene.getBackground()], (400, 400))
+            self.screen.blit(self.images[self.currentScene.getBackground()], (200, 100))
 
             p = self.currentScene.getPlayer()
             if p is not None:
@@ -180,9 +184,13 @@ class Game:
             pygame.display.update()
 
     def moveEntities(self, entities, bricks, player):
+        updatedEntities = [Entities.Entity]
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
+            updatedEntities.append(e)
+            e = updatedEntities[i + 1]
+
             e.setLastLocation()
 
             e.setResultantSpeed()
@@ -199,7 +207,7 @@ class Game:
                     otherE = entities[a + 1]
 
                     if otherE.getRect().colliderect(e.getRect()):
-                        e.
+                        e.collide(otherE)
 
             e.update_health(self.screen)
 
@@ -251,9 +259,11 @@ class Game:
             e.setX(co[0])
             e.setY(co[1])
 
-        for e in bin:
-            if e in entities:
-                entities.death(e)
+        entities = updatedEntities
+
+        for e in entities:
+            if e.getLife() < 0:
+                e.death(e)
 
     def eventsHandler(self):
 
@@ -271,7 +281,6 @@ if __name__ == "__main__":
     TITLE = "BricKEY"
     ICON = pygame.image.load("graphics/logo32x32.jpg")
     FPS = 60
-    global GAME
     GAME = Game()
     GAME.setUp()
     GAME.run()

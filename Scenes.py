@@ -3,16 +3,17 @@ import pygame
 import Bricks
 import Buttons
 import Entities
-import Main
 import UserInterfaces
+from entity.Key import Key
 from entity.Octopus import Octopus
+from entity.Player import Player
 
 
 class Scene:
-    def __init__(self, id):
+    def __init__(self, id, game):
         super().__init__()
         self.id = id
-        self.game = ''
+        self.game = game
         self.userInterfaces = []
         self.currentUserInterfaceIndex = -1  # index de l'interface en cours (-1 s'il  n'y en a pas d'affiché)
 
@@ -63,8 +64,6 @@ class Scene:
             self.addBrick(i)
 
     def addBrick(self, e):
-        img = self.game.images[dir + '/' + self.game.images[dir][0]]
-        e.setRect(img.get_rect())
         self.bricks.append(e)
         return self
 
@@ -127,170 +126,153 @@ class Scene:
         self.addEntity(entity)
 
 
-def Scene1():
-    scene = (
-        Scene("scene1")
-        .setGame(Main.GAME)
-        .addEntity(
-            Main.Player()
-            .setX(700)
-            .setY(0)
+class loaded_map(Scene):
+    def __init__(self, map, game):
+        super().__init__(map, game)
+        self.setGame(game)
+        self.setBackground("graphics/background_"+map+".jpg")
 
-        )
-        .addUserInterface(
-            UserInterfaces.UserInterface("menu")
-            .addButton(
-                Buttons.Quit()
+        with open("maps/" + map, "r") as file:
+            y = 0
+            for line in file.readlines():
+                if y != 0:
+                    x = 0
+                    for colonne in line:
+                        if colonne == ".":
+                            self.addBrick(
+                                Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x))
+                            )
+                        elif colonne == "d":
+                            self.addBrick(
+                                Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.GRASS)
+                            )
+                        elif colonne == "b":
+                            self.addBrick(
+                                Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.DOOR)
+                            )
+                        elif colonne == "x":
+                            self.spawn(
+                                Player().
+                                setX(x).
+                                setY(y - 32)
+                                .setLife(3))
+                        elif colonne == "+":
+                            self.spawn(Key().setX(x).setY(y - 32))
+                        elif colonne == "p":
+                            # spawning an octopus
+                            self.spawn(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
+                        x += 32
+                y += 32
+
+            self.addUserInterface(
+                UserInterfaces.UserInterface("menu")
+                .addButton(
+                    Buttons.Quit
+                )
             )
-        )
-    )
 
-    for i in range(0, 801, 32):
-        scene.addBrick(
-            Bricks.Brick(i, 800, "block", "block", "edge" + str(i))
-        )
-
-    scene.setCurrentUserInterfaceIndex(-1)
-    return scene
+            print("scene chargée ", self.getBricks())
+        self.setGame('LEVEL 1')
 
 
-def load_map(game, map):
-    mapname = ""
-    spawn = (0, 0)
-    scene = Scene(map)
-    scene.setGame(game)
-    scene.setBackground("graphics/background_scene1.jpg")
+class MENU(Scene):
+    def __init__(self, game):
+        super().__init__("scene0", game)
+        TITLE = Buttons.Title()
+        JOUER = Buttons.Play()
+        OPTION = Buttons.Setting()
+        REGLE = Buttons.Rule()
+        CREATOR = Buttons.Creator()
+        QUITTER = Buttons.Quit()
+        (self.addUserInterface(
+            UserInterfaces
+            .UserInterface("menu")
+            .addButton(TITLE)
+            .addButton(JOUER)
+            .addButton(OPTION)
+            .addButton(REGLE)
+            .addButton(CREATOR)
+            .addButton(QUITTER))
+         .setBackground("graphics/background_menu.jpg")
+         .setCurrentUserInterfaceIndex(0)
+         .setGame('MENU'))
 
-    with open("maps/" + map, "r") as file:
-        y = 0
-        for line in file.readlines():
-            if y == 0:
-                mapname = line
-            else:
-                x = 0
-                for colonne in line:
-                    if colonne == ".":
-                        scene.addBrick(
-                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x))
-                        )
-                    elif colonne == "d":
-                        scene.addBrick(
-                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.GRASS)
-                        )
-                    elif colonne == "b":
-                        scene.addBrick(
-                            Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.DOOR)
-                        )
-                    elif colonne == "x":
-                        scene.spawn(Main.
-                                        Player().
-                                        setX(x).
-                                        setY(y - 32)
-                                        .setLife(3))
-                    elif colonne == "+":
-                        scene.spawn(Entities.Key().setX(x).setY(y - 32))
-                    elif colonne == "p":
-                        #spawning an octopus
-                        scene.spawn(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
-                    x += 32
-            y += 32
 
-        scene.addUserInterface(
-            UserInterfaces.UserInterface("menu")
-            .addButton(
-                Buttons.Quit
-            )
-        )
+class NIVEAU(Scene):
+    def __init__(self, game):
+        super().__init__("scene1", game)
+        LEVEL1 = Buttons.LEVEL1()
+        LEVEL2 = Buttons.LEVEL2()
+        LEVEL3 = Buttons.LEVEL3()
+        BACK = Buttons.Back()
+        (self.addUserInterface(
+            UserInterfaces
+            .UserInterface("niveau")
+            .addButton(BACK)
+            .addButton(LEVEL1)
+            .addButton(LEVEL2)
+            .addButton(LEVEL3))
+         .setGame('NIVEAU')
+         .setBackground("graphics/fondrouge.jpg")
+         .setCurrentUserInterfaceIndex(0))
 
-        print("scene chargée ", scene.getBricks())
-    scene.setGame('LEVEL 1')
-    return scene
 
-def MENU():
-    TITLE = Buttons.Title()
-    JOUER = Buttons.Play()
-    OPTION = Buttons.Setting()
-    REGLE = Buttons.Rule()
-    CREATOR = Buttons.Creator()
-    QUITTER = Buttons.Quit()
-    scene = (Scene("scene0")
-             .addUserInterface(UserInterfaces
-                               .UserInterface("menu")
-                               .addButton(TITLE)
-                               .addButton(JOUER)
-                               .addButton(OPTION)
-                               .addButton(REGLE)
-                               .addButton(CREATOR)
-                               .addButton(QUITTER)))
-    scene.setBackground("graphics/background_menu.jpg")
-    scene.setCurrentUserInterfaceIndex(0)
-    scene.setGame('MENU')
-    return scene
-def NIVEAU():
-    LEVEL1 = Buttons.LEVEL1()
-    LEVEL2 = Buttons.LEVEL2()
-    LEVEL3 = Buttons.LEVEL3()
-    BACK = Buttons.Back()
-    scene = (Scene("scene1")
-             .addUserInterface(UserInterfaces
-                               .UserInterface("niveau")
-                               .addButton(BACK)
-                               .addButton(LEVEL1)
-                               .addButton(LEVEL2)
-                               .addButton(LEVEL3)))
-    scene.setBackground("graphics/fondrouge.jpg")
-    scene.setCurrentUserInterfaceIndex(0)
-    scene.setGame('NIVEAU')
-    return scene
-def OPTION():
-    TITLE = Buttons.Title_Setting()
-    SONG = Buttons.Song()
-    PLAY = Buttons.Play_song()
-    STOP = Buttons.Stop_song()
-    VOLUME = Buttons.Volume()
-    HIGH = Buttons.High_song()
-    LOW = Buttons.Low_song()
-    HOWTOPLAY = Buttons.Howtoplay()
-    click_howtoplay = Buttons.how_play()
-    BACK = Buttons.Back()
-    scene = (Scene("scene2")
-             .addUserInterface(UserInterfaces
-                               .UserInterface("option")
-                               .addButton(TITLE)
-                               .addButton(BACK)
-                               .addButton(SONG)
-                               .addButton(PLAY)
-                               .addButton(STOP)
-                               .addButton(VOLUME)
-                               .addButton(HIGH)
-                               .addButton(LOW)
-                               .addButton(HOWTOPLAY)
-                               .addButton(click_howtoplay)))
-    scene.setBackground("graphics/fondrouge.jpg")
-    scene.setCurrentUserInterfaceIndex(0)
-    scene.setGame('OPTION')
-    return scene
-def RULES():
-    TITLE = Buttons.Title_Rule()
-    BACK = Buttons.Back()
-    scene = (Scene("scene3")
-             .addUserInterface(UserInterfaces
-                               .UserInterface("rules")
-                               .addButton(TITLE)
-                               .addButton(BACK)))
-    scene.setBackground("graphics/fondrouge.jpg")
-    scene.setCurrentUserInterfaceIndex(0)
-    scene.setGame('RULES')
-    return scene
-def CREATOR():
-    TITLE = Buttons.Title_creator()
-    BACK = Buttons.Back()
-    scene = (Scene("scene4")
-             .addUserInterface(UserInterfaces
-                               .UserInterface("creator")
-                               .addButton(TITLE)
-                               .addButton(BACK)))
-    scene.setBackground("graphics/fondrouge.jpg")
-    scene.setCurrentUserInterfaceIndex(0)
-    scene.setGame('CREATOR')
-    return scene
+class OPTION(Scene):
+    def __init__(self, game):
+        super().__init__("scene2", game)
+        TITLE = Buttons.Title_Setting()
+        SONG = Buttons.Song()
+        PLAY = Buttons.Play_song()
+        STOP = Buttons.Stop_song()
+        VOLUME = Buttons.Volume()
+        HIGH = Buttons.High_song()
+        LOW = Buttons.Low_song()
+        HOWTOPLAY = Buttons.Howtoplay()
+        click_howtoplay = Buttons.how_play()
+        BACK = Buttons.Back()
+        (self.addUserInterface(
+            UserInterfaces
+            .UserInterface("option")
+            .addButton(TITLE)
+            .addButton(BACK)
+            .addButton(SONG)
+            .addButton(PLAY)
+            .addButton(STOP)
+            .addButton(VOLUME)
+            .addButton(HIGH)
+            .addButton(LOW)
+            .addButton(HOWTOPLAY)
+            .addButton(click_howtoplay))
+         .setBackground("graphics/fondrouge.jpg")
+         .setCurrentUserInterfaceIndex(0)
+         .setGame('OPTION'))
+
+
+class RULES(Scene):
+    def __init__(self, game):
+        super().__init__("scene3", game)
+        TITLE = Buttons.Title_Rule()
+        BACK = Buttons.Back()
+        (self.addUserInterface(
+            UserInterfaces
+            .UserInterface("rules")
+            .addButton(TITLE)
+            .addButton(BACK))
+         .setBackground("graphics/fondrouge.jpg")
+         .setCurrentUserInterfaceIndex(0)
+         .setGame('RULES'))
+
+
+class CREATOR(Scene):
+    def __init__(self, game):
+        super().__init__("scene4", game)
+        TITLE = Buttons.Title_creator()
+        BACK = Buttons.Back()
+        (self.addUserInterface(
+            UserInterfaces
+            .UserInterface("creator")
+            .addButton(TITLE)
+            .addButton(BACK))
+         .setBackground("graphics/fondrouge.jpg")
+         .setCurrentUserInterfaceIndex(0)
+         .setGame('CREATOR'))

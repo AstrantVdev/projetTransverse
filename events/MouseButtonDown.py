@@ -1,5 +1,4 @@
-import pygame
-from Main import importName
+from Utils import importName
 
 
 class Exe:

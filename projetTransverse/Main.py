@@ -112,7 +112,7 @@ class Game:
                 self.images[dir] = img
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
 
-        self.setCurrentScene(Scenes.load_map("map1"))
+        self.setCurrentScene(Scenes.load_map("scene1"))
 
         self.running = True
 
