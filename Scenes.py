@@ -148,7 +148,6 @@ def Scene1():
         )
 
     scene.setCurrentUserInterfaceIndex(-1)
-
     return scene
 
 
@@ -156,7 +155,7 @@ def load_map(map):
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
-    scene.setBackground("graphics/background_scene1.jpg")
+    scene.setBackground("graphics/background_level1.jpg")
 
     with open("maps/" + map, "r") as file:
         y = 0
@@ -200,4 +199,94 @@ def load_map(map):
         )
 
         print("scene chargée ", scene.getBricks())
+    scene.setGame('LEVEL 1')
+    return scene
+
+def MENU():
+    TITLE = Buttons.Title()
+    JOUER = Buttons.Play()
+    OPTION = Buttons.Setting()
+    REGLE = Buttons.Rule()
+    CREATOR = Buttons.Creator()
+    QUITTER = Buttons.Quit()
+    scene = (Scene("scene0")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("menu")
+                               .addButton(TITLE)
+                               .addButton(JOUER)
+                               .addButton(OPTION)
+                               .addButton(REGLE)
+                               .addButton(CREATOR)
+                               .addButton(QUITTER)))
+    scene.setBackground("graphics/background_menu.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('MENU')
+    return scene
+def NIVEAU():
+    LEVEL1 = Buttons.LEVEL1()
+    LEVEL2 = Buttons.LEVEL2()
+    LEVEL3 = Buttons.LEVEL3()
+    BACK = Buttons.Back()
+    scene = (Scene("scene1")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("niveau")
+                               .addButton(BACK)
+                               .addButton(LEVEL1)
+                               .addButton(LEVEL2)
+                               .addButton(LEVEL3)))
+    scene.setBackground("graphics/background_level.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('NIVEAU')
+    return scene
+def OPTION():
+    TITLE = Buttons.Title_Setting()
+    SONG = Buttons.Song()
+    PLAY = Buttons.Play_song()
+    STOP = Buttons.Stop_song()
+    VOLUME = Buttons.Volume()
+    HIGH = Buttons.High_song()
+    LOW = Buttons.Low_song()
+    HOWTOPLAY = Buttons.Howtoplay()
+    click_howtoplay = Buttons.how_play()
+    BACK = Buttons.Back()
+    scene = (Scene("scene2")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("option")
+                               .addButton(TITLE)
+                               .addButton(BACK)
+                               .addButton(SONG)
+                               .addButton(PLAY)
+                               .addButton(STOP)
+                               .addButton(VOLUME)
+                               .addButton(HIGH)
+                               .addButton(LOW)
+                               .addButton(HOWTOPLAY)
+                               .addButton(click_howtoplay)))
+    scene.setBackground("graphics/background_setting.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('OPTION')
+    return scene
+def RULES():
+    TITLE = Buttons.Title_Rule()
+    BACK = Buttons.Back()
+    scene = (Scene("scene3")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("rules")
+                               .addButton(TITLE)
+                               .addButton(BACK)))
+    scene.setBackground("graphics/background_rule.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('RULES')
+    return scene
+def CREATOR():
+    TITLE = Buttons.Title_creator()
+    BACK = Buttons.Back()
+    scene = (Scene("scene4")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("creator")
+                               .addButton(TITLE)
+                               .addButton(BACK)))
+    scene.setBackground("graphics/background_creator.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('CREATOR')
     return scene

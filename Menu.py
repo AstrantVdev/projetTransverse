@@ -17,7 +17,7 @@ image_texte3 = police3.render ( "QUITTER", 1 , "white")
 fond = pygame.image.load('img/fondbleu.jpg')
 fond = fond.convert()
 screen.blit(fond, (0, 0))
-fond_option = pygame.image.load('img/fondrouge.jpg')
+fond_option = pygame.image.load('graphics/fondrouge.jpg')
 fond_option = fond_option.convert()
 screen.blit(image_Game, (350, 235))
 #bouton menu
