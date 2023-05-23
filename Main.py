@@ -115,7 +115,9 @@ class Game:
                 elif "block\grass" in str(root):
                     img = pygame.transform.scale(img, (34, 34))
                 elif "block\door" in str(root):
-                    img = pygame.transform.scale(img, (60, 120))
+                    img = pygame.transform.scale(img, (300, 400))
+                elif "octopus" in str(root):
+                    img = pygame.transform.scale(img, (400, 400))
                 elif "bullet\default" in str(root):
                     img = pygame.transform.scale(img, (34, 42))
                 elif "background_start" in str(file):
@@ -230,6 +232,7 @@ class Game:
                     if e.getSubType() == "bullet":
                         hasToBeRemoved.append(e)
                         continue
+
 
                     e.setLanded(True)
 

@@ -35,8 +35,8 @@ class Entity(Bricks.Brick):
     def update_health(self, screen):
         color = (71, 209, 71)
         back_bar_color = (230, 0, 0)
-        position = [self.rect.x + 200, self.rect.y - 20, self.life, 7]
-        back_bar_position = [self.rect.x + 200, self.rect.y - 20, self.max_life, 7]
+        position = [self.rect.x, self.rect.y - 20, self.life, 5]
+        back_bar_position = [self.rect.x, self.rect.y - 20, self.max_life, 5]
         pygame.draw.rect(screen, back_bar_color, back_bar_position)
         pygame.draw.rect(screen, color, position)
 
