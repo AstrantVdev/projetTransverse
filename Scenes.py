@@ -247,7 +247,6 @@ def OPTION():
     HIGH = Buttons.High_song()
     LOW = Buttons.Low_song()
     HOWTOPLAY = Buttons.Howtoplay()
-    click_howtoplay = Buttons.how_play()
     BACK = Buttons.Back()
     scene = (Scene("scene2")
              .addUserInterface(UserInterfaces
@@ -260,8 +259,7 @@ def OPTION():
                                .addButton(VOLUME)
                                .addButton(HIGH)
                                .addButton(LOW)
-                               .addButton(HOWTOPLAY)
-                               .addButton(click_howtoplay)))
+                               .addButton(HOWTOPLAY)))
     scene.setBackground("graphics/background_setting.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('OPTION')

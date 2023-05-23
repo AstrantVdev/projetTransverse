@@ -1,6 +1,7 @@
 from abc import abstractmethod, ABC
 import pygame
 
+import Main
 import Scenes
 
 
@@ -169,13 +170,6 @@ class Low_song(Button):
 
     def exe(self, game, event):
         pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() - 0.1)
-
-class how_play(Button):
-    def __init__(self):
-        super().__init__(1310, 520, "how to play", "CLICK", "Mario-Kart-DS.ttf", 20, "White")
-
-    def exe(self, game, event):
-        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
 
 
 class Back(Button):
