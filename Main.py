@@ -179,6 +179,7 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self, self.screen, p)
 
+
             self.eventsHandler()
 
             self.clock.tick(FPS)
@@ -192,7 +193,13 @@ class Game:
             e = entities[i + 1]
 
             e.setLastLocation()
+
+            if not e.isFlying():
+                e.applyGravity()
+            e.setResultantSpeed()
+
             rect = e.getRect()
+
             rect.center = e.getTickNewCenter(player, False)
 
             for a in range(len(oldEntities) - 1):

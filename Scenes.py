@@ -132,7 +132,6 @@ class Scene:
 class loaded_map(Scene):
     def __init__(self, map, game):
         super().__init__(map, game)
-        self.setGame(game)
         self.setBackground("graphics/background_"+map+".jpg")
 
         with open("maps/" + map, "r") as file:
@@ -174,7 +173,6 @@ class loaded_map(Scene):
             )
 
             print("scene chargée ", self.getBricks())
-        self.setGame('LEVEL 1')
 
 
 class MENU(Scene):
@@ -196,14 +194,13 @@ class MENU(Scene):
             .addButton(CREATOR)
             .addButton(QUITTER))
          .setBackground("graphics/background_menu.jpg")
-         .setCurrentUserInterfaceIndex(0)
-         .setGame('MENU'))
+         .setCurrentUserInterfaceIndex(0))
 def load_map(map):
     print("loading map", map)
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
-    scene.setBackground("graphics/background_level1.jpg")
+    scene.setBackground("graphics/background_scene1.jpg")
 
 
 class NIVEAU(Scene):
@@ -220,8 +217,7 @@ class NIVEAU(Scene):
             .addButton(LEVEL1)
             .addButton(LEVEL2)
             .addButton(LEVEL3))
-         .setGame('NIVEAU')
-         .setBackground("graphics/fondrouge.jpg")
+         .setBackground("graphics/background_level.jpg")
          .setCurrentUserInterfaceIndex(0))
 
 
@@ -249,12 +245,9 @@ class OPTION(Scene):
             .addButton(VOLUME)
             .addButton(HIGH)
             .addButton(LOW)
-            .addButton(HOWTOPLAY)
-            .addButton(click_howtoplay))
-         .setBackground("graphics/fondrouge.jpg")
-         .setCurrentUserInterfaceIndex(0)
-         .setGame('OPTION'))
-
+            .addButton(HOWTOPLAY))
+         .setBackground("graphics/background_setting.jpg")
+         .setCurrentUserInterfaceIndex(0))
 
 class RULES(Scene):
     def __init__(self, game):
@@ -266,9 +259,8 @@ class RULES(Scene):
             .UserInterface("rules")
             .addButton(TITLE)
             .addButton(BACK))
-         .setBackground("graphics/fondrouge.jpg")
-         .setCurrentUserInterfaceIndex(0)
-         .setGame('RULES'))
+         .setBackground("graphics/background_rule.jpg")
+         .setCurrentUserInterfaceIndex(0))
 
 
 class CREATOR(Scene):
@@ -281,6 +273,5 @@ class CREATOR(Scene):
             .UserInterface("creator")
             .addButton(TITLE)
             .addButton(BACK))
-         .setBackground("graphics/fondrouge.jpg")
-         .setCurrentUserInterfaceIndex(0)
-         .setGame('CREATOR'))
+         .setBackground("graphics/background_creator.jpg")
+         .setCurrentUserInterfaceIndex(0))
