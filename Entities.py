@@ -44,7 +44,7 @@ class Entity(Bricks.Brick, ABC):
     @abstractmethod
     def collide(self, collider):
         self.life -= (collider.damage * (100 - self.defence) / 100)
-        print(self.subtype + " : " + collider.damage)
+        print(self.subtype + " : " + str(collider.damage))
 
     def respawn(self):
         self.setX(self.spawn[0])

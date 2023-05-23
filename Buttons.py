@@ -89,7 +89,7 @@ class Creator(Button):
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
-        game.currentScene = Scenes.CREATOR()
+        game.currentScene = Scenes.CREATOR(game)
 
 
 class Title_creator(Button):
@@ -218,6 +218,6 @@ class Back(Button):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         if name == "LEVEL 1" or name == "LEVEL 2" or name == "LEVEL 3":
             pygame.mixer.music.load('music/fond_menu.mp3')
-            game.currentScene = Scenes.NIVEAU()
+            game.currentScene = Scenes.NIVEAU(game)
         else:
-            game.currentScene = Scenes.MENU()
+            game.currentScene = Scenes.MENU(game)

@@ -5,8 +5,8 @@ import Entities
 
 class Bullet(Entities.Entity, ABC):
 
-    def __init__(self):
-        super().__init__(400, 400, "bullet", "bullet")
+    def __init__(self, x, y):
+        super().__init__(x, y, "bullet", "bullet")
         self.setDamage(10)
 
     def collide(self, collider):

@@ -159,10 +159,10 @@ class loaded_map(Scene):
                                 setX(x).
                                 setY(y - 32))
                         elif colonne == "+":
-                            self.spawn(Key().setX(x).setY(y - 32))
+                            self.spawn(Key(x, y - 32))
                         elif colonne == "p":
                             # spawning an octopus
-                            self.spawn(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
+                            self.spawn(Octopus(x, y - 32))
                         x += 32
                 y += 32
 
