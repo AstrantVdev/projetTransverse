@@ -150,7 +150,7 @@ class Play_song(Button):
         super().__init__(900, 485, "play song", "PLAY", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
-        pygame.mixer.music.pause()
+        pygame.mixer.music.unpause()
         #Menu.Menu.RULES()
 
 class Stop_song(Button):
@@ -158,7 +158,7 @@ class Stop_song(Button):
         super().__init__(898, 530, "stop song", "STOP", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
-        pygame.mixer.music.unpause()
+        pygame.mixer.music.pause()
         #Menu.Menu.CREATOR()
 
 class High_song(Button):
