@@ -178,6 +178,7 @@ class Back(Button):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         if name=="LEVEL 1" or name =="LEVEL 2" or name =="LEVEL 3":
             pygame.mixer.music.load('music/fond_menu.mp3')
+            pygame.mixer.music.play(-1)
             game.currentScene = Scenes.NIVEAU()
         else:
             game.currentScene = Scenes.MENU()
