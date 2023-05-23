@@ -99,7 +99,9 @@ class Game:
                 elif "block\grass" in str(root):
                     img = pygame.transform.scale(img, (34, 34))
                 elif "block\door" in str(root):
-                    img = pygame.transform.scale(img, (60, 120))
+                    img = pygame.transform.scale(img, (300, 400))
+                elif "octopus" in str(root):
+                    img = pygame.transform.scale(img, (400, 400))
                 elif "bullet\default" in str(root):
                     img = pygame.transform.scale(img, (34, 42))
                 elif "background_start" in str(file):
@@ -190,13 +192,7 @@ class Game:
             e = entities[i + 1]
 
             e.setLastLocation()
-
-            if not e.isFlying():
-                e.applyGravity()
-            e.setResultantSpeed()
-
             rect = e.getRect()
-
             rect.center = e.getTickNewCenter(player, False)
 
             for a in range(len(oldEntities) - 1):
@@ -272,8 +268,8 @@ class Game:
 
 
 if __name__ == "__main__":
-    TITLE = "BricKEY"
-    ICON = pygame.image.load("graphics/logo32x32.jpg")
+    TITLE = "Bloockey"
+    ICON = pygame.image.load("graphics/logo.jpg")
     FPS = 60
     GAME = Game()
     GAME.setUp()

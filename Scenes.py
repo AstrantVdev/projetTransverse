@@ -198,6 +198,12 @@ class MENU(Scene):
          .setBackground("graphics/background_menu.jpg")
          .setCurrentUserInterfaceIndex(0)
          .setGame('MENU'))
+def load_map(map):
+    print("loading map", map)
+    mapname = ""
+    spawn = (0, 0)
+    scene = Scene(map)
+    scene.setBackground("graphics/background_level1.jpg")
 
 
 class NIVEAU(Scene):
@@ -230,7 +236,7 @@ class OPTION(Scene):
         HIGH = Buttons.High_song()
         LOW = Buttons.Low_song()
         HOWTOPLAY = Buttons.Howtoplay()
-        click_howtoplay = Buttons.how_play()
+        click_howtoplay = Buttons.Howtoplay()
         BACK = Buttons.Back()
         (self.addUserInterface(
             UserInterfaces
