@@ -49,8 +49,7 @@ class Brick(pygame.sprite.Sprite):
         if self.type == "entity":
             if self.getPitch() == 270:
                 img = pygame.transform.flip(img, True, False)
-        if self.subtype == "bullet":
-            img = pygame.transform.rotate(img, -game.total_circle)
+
         screen.blit(img, self.rect)
 
         self.frame += 1

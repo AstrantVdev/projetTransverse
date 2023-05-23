@@ -63,12 +63,14 @@ class Scene:
         for i in list:
             self.addBrick(i)
 
-    def addBrick(self, e):
-        self.bricks.append(e)
+    def addBrick(self, brick):
+        brick.setRect(pygame.Rect(0, 0, 0, 0))
+        self.bricks.append(brick)
+        brick.setScene(self)
         return self
 
-    def popBrick(self, e):
-        self.bricks.pop(e)
+    def popBrick(self, brick):
+        self.bricks.pop(brick)
         return self
 
     def getBricks(self):
@@ -78,8 +80,8 @@ class Scene:
         self.entities.append(e)
         return self
 
-    def popEntity(self, e):
-        self.entities.pop(e)
+    def removeEntity(self, e):
+        self.entities.remove(e)
         return self
 
     def getEntities(self):
@@ -123,6 +125,7 @@ class Scene:
 
     def spawn(self, entity):
         entity.setRect(pygame.Rect(0, 0, 0, 0))
+        entity.setScene(self)
         self.addEntity(entity)
 
 
@@ -154,8 +157,7 @@ class loaded_map(Scene):
                             self.spawn(
                                 Player().
                                 setX(x).
-                                setY(y - 32)
-                                .setLife(3))
+                                setY(y - 32))
                         elif colonne == "+":
                             self.spawn(Key().setX(x).setY(y - 32))
                         elif colonne == "p":

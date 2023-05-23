@@ -7,5 +7,10 @@ class Octopus(Entities.Entity, ABC):
 
     def __init__(self):
         super().__init__(400, 400, "octopus", "octopus")
-        self.setDamage(10)\
-            .setDefence(90)
+        self.setDamage(10).setDefence(90)
+
+    def collide(self, collider):
+        super().collide(collider)
+
+    def death(self):
+        super().death()

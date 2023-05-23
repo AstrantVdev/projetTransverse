@@ -1,7 +1,4 @@
-import pygame
-
-import entity.Bullet
-from projetTransverse.entities.Bullet import Bullet
+from entity.Bullet import Bullet
 
 
 class Exe:

@@ -10,16 +10,6 @@ import Items
 METER = 64  # 64 pixels représentent 1 mètre dans le jeu
 
 
-def getCollisionRectCenter(rect, collidedRect):
-    x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
-    y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
-
-    x2 = min(rect.topright[0], collidedRect.topright[0])
-    y2 = max(rect.topright[1], collidedRect.topright[1])
-
-    return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
-
-
 class Entity(Bricks.Brick, ABC):
 
     def __init__(self, x, y, subtype, id):
@@ -53,12 +43,22 @@ class Entity(Bricks.Brick, ABC):
 
     @abstractmethod
     def collide(self, collider):
-        self.life -= collider.damage * (100 - self.defence)
+        self.life -= (collider.damage * (100 - self.defence) / 100)
+        print(self.subtype + " : " + collider.damage)
 
     def respawn(self):
         self.setX(self.spawn[0])
         self.setY(self.spawn[1])
         self.setSpeed([0, 0])
+
+    def getCollisionRectCenter(self, rect, collidedRect):
+        x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+        y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
+
+        x2 = min(rect.topright[0], collidedRect.topright[0])
+        y2 = max(rect.topright[1], collidedRect.topright[1])
+
+        return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
 
     def setLastLocation(self):
         self.last_location = [self.getX(), self.getY()]

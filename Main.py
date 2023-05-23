@@ -184,32 +184,28 @@ class Game:
             pygame.display.update()
 
     def moveEntities(self, entities, bricks, player):
-        updatedEntities = [Entities.Entity]
+        oldEntities = entities
 
         for i in range(len(entities) - 1):
             e = entities[i + 1]
-            updatedEntities.append(e)
-            e = updatedEntities[i + 1]
 
             e.setLastLocation()
 
+            if not e.isFlying():
+                e.applyGravity()
             e.setResultantSpeed()
 
             rect = e.getRect()
-            rect.center = e.getTickNewCenter(player, False)
-            if e.getSubType() == "bullet":
-                if e.getY() > 1000:
-                    e.setLife(-1)
 
-            for a in range(len(entities) - 1):
+            rect.center = e.getTickNewCenter(player, False)
+
+            for a in range(len(oldEntities) - 1):
 
                 if a != i:
-                    otherE = entities[a + 1]
+                    otherE = oldEntities[a + 1]
 
                     if otherE.getRect().colliderect(e.getRect()):
                         e.collide(otherE)
-
-            e.update_health(self.screen)
 
             e.setLanded(False)
             for o in range(len(bricks) - 1):
@@ -217,11 +213,6 @@ class Game:
                 bR = brick.getRect()
 
                 if rect.colliderect(bR):
-
-                    if e.getSubType() == "bullet":
-                        bin.append(e)
-                        continue
-
                     e.setLanded(True)
 
                     moveLine = [
@@ -239,10 +230,7 @@ class Game:
                     e.setSpeed([e.getSpeed()[0], 0])
 
                     for oi in range(4):
-
                         edge = brickEdges[oi]
-                        print(moveLine)
-                        print(edge)
                         intersection = Utils.getLineIntersection(moveLine, edge)
 
                         if intersection:
@@ -259,11 +247,17 @@ class Game:
             e.setX(co[0])
             e.setY(co[1])
 
-        entities = updatedEntities
+            if e.getY() > 8000:
+                print(e.getSubType())
+                if e.getSubType() == "player":
+                    e.attacked()
+                else:
+                    e.setLife(-1)
+            e.update_health(self.screen)
 
-        for e in entities:
+        for e in entities[1:]:
             if e.getLife() < 0:
-                e.death(e)
+                e.death()
 
     def eventsHandler(self):
 
