@@ -181,3 +181,15 @@ class Back(Button):
             game.currentScene = Scenes.NIVEAU()
         else:
             game.currentScene = Scenes.MENU()
+
+class Reprendre(Button):
+    def __init__(self):
+        super().__init__(790, 485,"reprendre","REPRENDRE","Mario-Kart-DS.ttf",60,"White")
+    def exe(self,game,event):
+        s = game.currentScene
+        i = s.getCurrentUserInterfaceIndex()
+
+        if i == -1:
+            s.setCurrentUserInterfaceIndex(0)
+        else:
+            s.setCurrentUserInterfaceIndex(i - 1)

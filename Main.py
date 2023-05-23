@@ -158,12 +158,6 @@ class Game:
 
             bricks = self.currentScene.getBricks()
             entities = self.getCurrentScene().getEntities()
-            if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
-                self.moveEntities(entities, bricks, player)
-            else:
-                self.screen.blit(self.images[self.currentScene.getBackground()],(0, 0))
-                self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
-
             for i in range(len(bricks) - 1):
                 b = bricks[i + 1]
                 b.blit(self, self.screen, player)
@@ -171,6 +165,13 @@ class Game:
             for i in range(len(entities) - 1):
                 e = entities[i + 1]
                 e.blit(self, self.screen, player)
+            if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
+                self.moveEntities(entities, bricks, player)
+            else:
+                self.screen.blit(self.images[self.currentScene.getBackground()],(0, 0))
+                self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
+
+
 
             if self.getCurrentScene().getPlayer() != None:
                 if self.getCurrentScene().getPlayer().getY()>2000:
