@@ -139,7 +139,9 @@ class Game:
         pygame.mixer.music.play(-1)
         loc = [163, 0]
         while self.running:
-            if self.getCurrentScene().getPlayer()!=None:
+
+            player = self.currentScene.getPlayer()
+            if player is not None:
                 if 180 > 163 - 0.05 * self.getCurrentScene().getPlayer().getX() > - 350:
                     loc[0] = 163 - 0.05 * self.getCurrentScene().getPlayer().getX()
                 loc[1] = 0 - 0.05 * self.getCurrentScene().getPlayer().getY()
@@ -153,7 +155,6 @@ class Game:
                 for i in range(self.getCurrentScene().getPlayer().getLife()):
                     self.screen.blit(self.images["graphics/images/coeur.jpg"], (200 + i * 45, 125))
 
-            player = self.currentScene.getPlayer()
 
             bricks = self.currentScene.getBricks()
             entities = self.getCurrentScene().getEntities()
@@ -190,18 +191,20 @@ class Game:
             e = entities[i + 1]
             e.setLastLocation()
 
-            if e.getSubType() == "octopus":
-                e.update_health(self.screen)
-
             if not e.isFlying():
                 e.applyGravity()
             e.setResultantSpeed()
 
             rect = e.getRect()
+            if rect==None:
+                continue
+
             rect.center= e.getTickNewCenter(player, False)
             if e.getSubType() == "bullet":
                 if e.getY() > 1000:
                     hasToBeRemoved.append(e)
+            elif e.getSubType() == "octopus":
+                e.update_health(self.screen)
 
             for a in range(len(entities) - 1):
 

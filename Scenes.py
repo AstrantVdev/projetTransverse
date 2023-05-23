@@ -4,6 +4,7 @@ import Bricks
 import Buttons
 import Entities
 import Main
+import Scenes
 import UserInterfaces
 from entity.Octopus import Octopus
 
@@ -152,6 +153,7 @@ def Scene1():
 
 
 def load_map(map):
+    print("loading map", map)
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
@@ -237,6 +239,7 @@ def NIVEAU():
     scene.setBackground("graphics/background_level.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('NIVEAU')
+    print("leveled")
     return scene
 def OPTION():
     TITLE = Buttons.Title_Setting()
