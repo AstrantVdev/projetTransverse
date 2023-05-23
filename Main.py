@@ -319,8 +319,8 @@ class Player(Entities.Entity):
 
 
 if __name__ == "__main__":
-    TITLE = "BricKEY"
-    ICON = pygame.image.load("graphics/logo32x32.jpg")
+    TITLE = "Bloockey"
+    ICON = pygame.image.load("graphics/logo.jpg")
     FPS = 60
     GAME = Game()
     GAME.setUp()
