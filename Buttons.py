@@ -70,7 +70,7 @@ class Rule(Button):
 
 class Title_Rule(Button):
     def __init__(self):
-        super().__init__(790, 235, "Title rule", "RULE", "Mario-Kart-DS.ttf", 80, "Black")
+        super().__init__(790, 235, "Title rule", "RULE", "Mario-Kart-DS.ttf", 80, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
@@ -85,7 +85,7 @@ class Creator(Button):
 
 class Title_creator(Button):
     def __init__(self):
-        super().__init__(790, 235, "Title creator", "CREATOR", "Mario-Kart-DS.ttf", 80, "Black")
+        super().__init__(790, 235, "Title creator", "CREATOR", "Mario-Kart-DS.ttf", 80, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
@@ -120,28 +120,28 @@ class LEVEL3(Button):
 
 class Title_Setting(Button):
     def __init__(self):
-        super().__init__(790, 235, "Title setting", "SETTING", "Mario-Kart-DS.ttf", 80, "Black")
+        super().__init__(790, 235, "Title setting", "SETTING", "Mario-Kart-DS.ttf", 80, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
 
 class Song(Button):
     def __init__(self):
-        super().__init__(850, 385, "Title song", "SONG", "Mario-Kart-DS.ttf", 60, "Black")
+        super().__init__(850, 385, "Title song", "SONG", "Mario-Kart-DS.ttf", 60, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
 
 class Volume(Button):
     def __init__(self):
-        super().__init__(450, 385, "Title volume", "VOLUME", "Mario-Kart-DS.ttf", 60, "Black")
+        super().__init__(450, 385, "Title volume", "VOLUME", "Mario-Kart-DS.ttf", 60, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
 
 class Howtoplay(Button):
     def __init__(self):
-        super().__init__(1150, 385, "Title how to play", "HOW TO PLAY", "Mario-Kart-DS.ttf", 60, "Black")
+        super().__init__(1150, 385, "Title how to play", "HOW TO PLAY", "Mario-Kart-DS.ttf", 60, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))

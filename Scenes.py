@@ -155,7 +155,7 @@ def load_map(map):
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
-    scene.setBackground("graphics/background_scene1.jpg")
+    scene.setBackground("graphics/background_level1.jpg")
 
     with open("maps/" + map, "r") as file:
         y = 0
@@ -234,7 +234,7 @@ def NIVEAU():
                                .addButton(LEVEL1)
                                .addButton(LEVEL2)
                                .addButton(LEVEL3)))
-    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setBackground("graphics/background_level.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('NIVEAU')
     return scene
@@ -262,7 +262,7 @@ def OPTION():
                                .addButton(LOW)
                                .addButton(HOWTOPLAY)
                                .addButton(click_howtoplay)))
-    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setBackground("graphics/background_setting.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('OPTION')
     return scene
@@ -274,7 +274,7 @@ def RULES():
                                .UserInterface("rules")
                                .addButton(TITLE)
                                .addButton(BACK)))
-    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setBackground("graphics/background_rule.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('RULES')
     return scene
@@ -286,7 +286,7 @@ def CREATOR():
                                .UserInterface("creator")
                                .addButton(TITLE)
                                .addButton(BACK)))
-    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setBackground("graphics/background_creator.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('CREATOR')
     return scene
