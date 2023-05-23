@@ -28,15 +28,33 @@ class Entity(Bricks.Brick):
         self.inv = Items.Inventory
         self.landed = False
         self.last_location = [0, 0]
+        self.spawn=[self.getX(), self.getY()]
+        #checkpoint system if we want
+        self.checkpoint=None
 
     def update_health(self, screen):
         color = (71, 209, 71)
         back_bar_color = (230, 0, 0)
-        position = [self.rect.x + 20, self.rect.y - 20, self.life + 20, 5]
-        back_bar_position = [self.rect.x + 20, self.rect.y - 20, self.max_life + 20, 5]
+        position = [self.rect.x + 200, self.rect.y - 20, self.life, 7]
+        back_bar_position = [self.rect.x + 200, self.rect.y - 20, self.max_life, 7]
         pygame.draw.rect(screen, back_bar_color, back_bar_position)
         pygame.draw.rect(screen, color, position)
 
+    def death(self):
+        #the entitie die and respawn if it has more than 0 life
+        if self.life == 1:
+            #death of the entitie
+            if self.subtype == "player":
+                #the game is finished
+                print("dead")
+        else:
+            self.life-=1
+            self.respawn()
+
+    def respawn(self):
+        self.setX(self.spawn[0])
+        self.setY(self.spawn[1])
+        self.setSpeed([0,0])
 
     def setLastLocation(self):
         self.last_location = [self.getX(), self.getY()]
@@ -112,6 +130,12 @@ class Entity(Bricks.Brick):
     def getWeight(self):
         return self.weight
 
+    def setMaxLife(self, life):
+        self.max_life = life
+        return self
+
+    def getMaxLife(self):
+        return self.max_life
     def setLife(self, life):
         self.life = life
         return self
