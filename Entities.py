@@ -25,6 +25,7 @@ class Entity(Bricks.Brick):
         self.max_life=15
         self.fly = False
         self.pitch = 0
+        self.cooldown = time.time()
         self.inv = Items.Inventory
         self.landed = False
         self.last_location = [0, 0]
@@ -35,8 +36,8 @@ class Entity(Bricks.Brick):
     def update_health(self, screen):
         color = (71, 209, 71)
         back_bar_color = (230, 0, 0)
-        position = [self.rect.x, self.rect.y - 20, self.life, 5]
-        back_bar_position = [self.rect.x, self.rect.y - 20, self.max_life, 5]
+        position = [self.rect.x + 100, self.rect.y + 50, self.life, 5]
+        back_bar_position = [self.rect.x + 100, self.rect.y + 50, self.max_life, 5]
         pygame.draw.rect(screen, back_bar_color, back_bar_position)
         pygame.draw.rect(screen, color, position)
 
@@ -56,6 +57,10 @@ class Entity(Bricks.Brick):
         self.setY(self.spawn[1])
         self.setSpeed([0,0])
 
+    def setCooldown(self):
+        self.cooldown=time.time()
+    def getCooldown(self):
+        return self.cooldown
     def setLastLocation(self):
         self.last_location = [self.getX(), self.getY()]
 

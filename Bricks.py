@@ -8,6 +8,7 @@ class Brick(pygame.sprite.Sprite):
         DEFAULT = "default"
         GRASS = "grass"
         DOOR = "door"
+        STATIC = "static"
 
     def __init__(self, x, y, type, subtype, id, state=STATE.DEFAULT):
         super().__init__()
@@ -33,7 +34,7 @@ class Brick(pygame.sprite.Sprite):
         scene.addEntity(self)
 
     def blit(self, game, screen, player):
-        tick = 5  # => une animation tous les 10 affichages
+        tick = 10  # => une animation tous les 10 affichages
 
         dir = "graphics/" + self.type + "/" + self.subtype + "/" + self.currentState  # => entity images directory
         if dir not in game.images:
@@ -47,6 +48,7 @@ class Brick(pygame.sprite.Sprite):
         self.rect.center = (self.x - player.x + 960, self.y - abs(player.y) + 540)
 
         if self.type == "entity":
+
             if self.getPitch() == 270:
                 img = pygame.transform.flip(img, True, False)
         if self.subtype == "bullet":

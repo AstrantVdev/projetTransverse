@@ -4,11 +4,13 @@ import pygame
 import os
 import time
 
+import Bricks
 import Entities
 import Items
 import Scenes
 import Utils
 from entity.Bullet import Bullet
+from entity.Waterball import Waterball
 
 
 class Game:
@@ -21,7 +23,7 @@ class Game:
         self.height = 1080
         self.t = pygame.time.Clock()
         self.images = {}
-        self.total_circle=0
+        self.total_circle = 0
 
     def addScene(self, scene):
         self.scenes = self.scenes.append(scene)
@@ -118,6 +120,8 @@ class Game:
                     img = pygame.transform.scale(img, (300, 400))
                 elif "octopus" in str(root):
                     img = pygame.transform.scale(img, (400, 400))
+                elif "waterball" in str(root):
+                    img = pygame.transform.scale(img, (50, 32))
                 elif "bullet\default" in str(root):
                     img = pygame.transform.scale(img, (34, 42))
                 elif "background_start" in str(file):
@@ -128,7 +132,7 @@ class Game:
         self.font = {"chiller": pygame.font.SysFont("chiller", 80), "dubai": pygame.font.SysFont("dubai", 30)}
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
 
-        #self.setCurrentScene(Scenes.load_map("map1"))
+        # self.setCurrentScene(Scenes.load_map("map1"))
         self.setCurrentScene(Scenes.MENU())
         self.running = True
 
@@ -155,7 +159,6 @@ class Game:
                 for i in range(self.getCurrentScene().getPlayer().getLife()):
                     self.screen.blit(self.images["graphics/images/coeur.jpg"], (200 + i * 45, 125))
 
-
             bricks = self.currentScene.getBricks()
             entities = self.getCurrentScene().getEntities()
             for i in range(len(bricks) - 1):
@@ -169,7 +172,7 @@ class Game:
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
                 self.moveEntities(entities, bricks, player)
             else:
-                self.screen.blit(self.images[self.currentScene.getBackground()],(0, 0))
+                self.screen.blit(self.images[self.currentScene.getBackground()], (0, 0))
 
                 for i in range(len(bricks) - 1):
                     b = bricks[i + 1]
@@ -181,14 +184,13 @@ class Game:
 
                 self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
 
-
             if self.getCurrentScene().getPlayer() != None:
-                if self.getCurrentScene().getPlayer().getY()>2000:
+                if self.getCurrentScene().getPlayer().getY() > 2000:
                     self.getCurrentScene().getPlayer().death()
 
                 self.total_circle -= 10
                 if self.total_circle == -360:
-                    self.total_circle=0
+                    self.total_circle = 0
             pygame.display.update()
 
             self.eventsHandler()
@@ -203,18 +205,33 @@ class Game:
 
             if not e.isFlying():
                 e.applyGravity()
+
+            #if player.isMoving():
+            #    player.setCurrentState(Bricks.Brick.STATE.DEFAULT)
+            #else:
+            #    player.setCurrentState(Bricks.Brick.STATE.STATIC)
+
             e.setResultantSpeed()
 
             rect = e.getRect()
-            if rect==None:
+            if rect == None:
                 continue
 
-            rect.center= e.getTickNewCenter(player, False)
+            rect.center = e.getTickNewCenter(player, False)
             if e.getSubType() == "bullet":
                 if e.getY() > 1000:
                     hasToBeRemoved.append(e)
             elif e.getSubType() == "octopus":
                 e.update_health(self.screen)
+                if time.time() - e.getCooldown() > 2.5:
+                    print("spawned")
+                    e.setCooldown()
+                    self.getCurrentScene().spawn(
+                        Waterball()
+                        .setX(e.getX())
+                        .setY(e.getY())
+                        .setSpeed([-0.3 * ((e.getX() - player.getX()) * 0.001), -0.3] if e.getX() > player.getX() else [0.3 * ((player.getX() - e.getX()) * 0.001), -0.3]))
+
 
             for a in range(len(entities) - 1):
 
@@ -237,16 +254,16 @@ class Game:
             e.setLanded(False)
             for o in range(len(bricks) - 1):
                 brick = bricks[o + 1]
+                if brick.getCurrentState() != Bricks.Brick.STATE.DEFAULT:
+                    continue
+
                 bR = brick.getRect()
-
                 t = time.time()
-
                 if rect.colliderect(bR):
 
                     if e.getSubType() == "bullet":
                         hasToBeRemoved.append(e)
                         continue
-
 
                     e.setLanded(True)
 
@@ -262,17 +279,13 @@ class Game:
 
                     brickEdges = [left, right, top, bottom]
 
-                    e.setSpeed([e.getSpeed()[0], 0])
-                    if(1==1):
-                        continue
                     for oi in range(4):
 
                         edge = brickEdges[oi]
-                        #very very laggy must be replaced
+                        # very very laggy must be replaced
                         print(moveLine)
                         print(edge)
                         intersection = Utils.getLineIntersection(moveLine, edge)
-
 
                         if intersection:
                             speed = e.getSpeed()
@@ -283,7 +296,6 @@ class Game:
 
                             e.setSpeed(speed)
                             break
-                    print("collide",round(time.time() * 1000) - t*1000,"ms")
 
             co = e.getTickNewCenter(player, True)
             e.setX(co[0])
