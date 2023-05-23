@@ -41,7 +41,7 @@ class Quit(Button):
 
 class Title(Button):
     def __init__(self):
-        super().__init__(790, 235, "Title", "Bloockey", "Mario-Kart-DS.ttf", 80, "Black")
+        super().__init__(690, 235, "Title", "Bloockey DEMO", "Mario-Kart-DS.ttf", 80, "Black")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
