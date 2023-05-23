@@ -148,7 +148,6 @@ def Scene1():
         )
 
     scene.setCurrentUserInterfaceIndex(-1)
-
     return scene
 
 
@@ -200,6 +199,7 @@ def load_map(map):
         )
 
         print("scene chargée ", scene.getBricks())
+    scene.setGame('LEVEL 1')
     return scene
 
 def MENU():
@@ -218,6 +218,7 @@ def MENU():
                                .addButton(QUITTER)))
     scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('MENU')
     return scene
 def NIVEAU():
     LEVEL1 = Buttons.LEVEL1()
@@ -233,6 +234,7 @@ def NIVEAU():
                                .addButton(LEVEL3)))
     scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('NIVEAU')
     return scene
 def OPTION():
     #SONG = Buttons.Buttons(880, 450, 1, "SONG", "dubai", 40, "White")
@@ -258,6 +260,7 @@ def OPTION():
                                .addButton(click_howtoplay)))
     scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('OPTION')
     return scene
 def RULES():
     BACK = Buttons.Back()
@@ -267,6 +270,7 @@ def RULES():
                                .addButton(BACK)))
     scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('RULES')
     return scene
 def CREATOR():
     BACK = Buttons.Back()
@@ -276,4 +280,5 @@ def CREATOR():
                                .addButton(BACK)))
     scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
+    scene.setGame('CREATOR')
     return scene

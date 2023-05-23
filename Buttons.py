@@ -132,4 +132,8 @@ class Back(Button):
     def __init__(self):
         super().__init__(390,800,"back","BACK","dubai",30,"White")
     def exe(self,game,event):
-        game.currentScene.setCurrentUserInterfaceIndex(self.getCurrentScene().getCurrentUserInterfaceIndex()-1)
+        name=game.currentScene.getGame()
+        if name=="LEVEL 1" or name =="LEVEL 2" or name =="LEVEL 3":
+            game.currentScene = Scenes.NIVEAU()
+        else:
+            game.currentScene = Scenes.MENU()
