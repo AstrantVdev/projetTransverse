@@ -133,7 +133,7 @@ class Game:
     def run(self):
         # music
         pygame.mixer.init()
-        pygame.mixer.music.load('music/fond_music.mp3')
+        pygame.mixer.music.load('music/fond_menu.mp3')
         pygame.mixer.music.play(-1)
         loc = [163, 0]
         while self.running:
@@ -196,7 +196,7 @@ class Game:
             e.setResultantSpeed()
 
             rect = e.getRect()
-            rect.center = e.getTickNewCenter(player, False)
+            rect.center= e.getTickNewCenter(player, False)
             if e.getSubType() == "bullet":
                 if e.getY() > 1000:
                     hasToBeRemoved.append(e)
