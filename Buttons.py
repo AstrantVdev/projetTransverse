@@ -119,12 +119,14 @@ class LEVEL2(Button):
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/money_sound.mp3"))
 
+
 class LEVEL3(Button):
     def __init__(self):
         super().__init__(890, 585, "level 3", "LEVEL 3", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/money_sound.mp3"))
+
 
 class Title_Setting(Button):
     def __init__(self):
@@ -165,12 +167,14 @@ class Play_song(Button):
     def exe(self, game, event):
         pygame.mixer.music.unpause()
 
+
 class Stop_song(Button):
     def __init__(self):
         super().__init__(898, 530, "stop song", "STOP", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.music.pause()
+
 
 class High_song(Button):
     def __init__(self):
@@ -179,6 +183,7 @@ class High_song(Button):
     def exe(self, game, event):
         pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() + 0.1)
 
+
 class Low_song(Button):
     def __init__(self):
         super().__init__(550, 530, "low song", "V", "Mario-Kart-DS.ttf", 30, "White")
@@ -186,23 +191,27 @@ class Low_song(Button):
     def exe(self, game, event):
         pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() - 0.1)
 
+
 class Back(Button):
     def __init__(self):
-        super().__init__(390,800,"back","RETOUR","Mario-Kart-DS.ttf",30,"White")
-    def exe(self,game,event):
-        name=game.currentScene.getGame()
+        super().__init__(390, 800, "back", "RETOUR", "Mario-Kart-DS.ttf", 30, "White")
+
+    def exe(self, game, event):
+        name = game.currentScene.getGame()
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         if name == "LEVEL 1" or name == "LEVEL 2" or name == "LEVEL 3":
             pygame.mixer.music.load('music/fond_menu.mp3')
             pygame.mixer.music.play(-1)
-            game.currentScene = Scenes.NIVEAU()
+            game.currentScene = Scenes.NIVEAU(game)
         else:
-            game.currentScene = Scenes.MENU()
+            game.currentScene = Scenes.MENU(game)
+
 
 class Reprendre(Button):
     def __init__(self):
-        super().__init__(790, 485,"reprendre","REPRENDRE","Mario-Kart-DS.ttf",60,"White")
-    def exe(self,game,event):
+        super().__init__(790, 485, "reprendre", "REPRENDRE", "Mario-Kart-DS.ttf", 60, "White")
+
+    def exe(self, game, event):
         s = game.currentScene
         i = s.getCurrentUserInterfaceIndex()
 

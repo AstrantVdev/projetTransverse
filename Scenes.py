@@ -167,9 +167,8 @@ class loaded_map(Scene):
 
             self.addUserInterface(
                 UserInterfaces.UserInterface("menu")
-                .addButton(
-                    Buttons.Quit
-                )
+                .addButton(Buttons.Quit())
+                .addButton(Buttons.Back())
             )
 
             print("scene chargée ", self.getBricks())
@@ -195,12 +194,6 @@ class MENU(Scene):
             .addButton(QUITTER))
          .setBackground("graphics/background_menu.jpg")
          .setCurrentUserInterfaceIndex(0))
-def load_map(map):
-    print("loading map", map)
-    mapname = ""
-    spawn = (0, 0)
-    scene = Scene(map)
-    scene.setBackground("graphics/background_scene1.jpg")
 
 
 class NIVEAU(Scene):

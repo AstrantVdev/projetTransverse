@@ -27,6 +27,7 @@ class Player(Entities.Entity, ABC):
             if self.subtype == "player":
                 # the game is finished
                 print("DEAAAAAAATH")
+                exit()
         else:
             self.life -= 1
             self.respawn()

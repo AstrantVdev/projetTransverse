@@ -160,16 +160,15 @@ class Game:
             p = self.currentScene.getPlayer()
             if p is not None:
                 self.showPlayerInfo(p)
-                if self.getCurrentScene().getPlayer().getY() > 2000:
-                    self.getCurrentScene().getPlayer().death()
 
             bricks = self.currentScene.getBricks()
             entities = self.getCurrentScene().getEntities()
 
+            blitInterface = False
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
                 self.moveEntities(entities, bricks, p)
             else:
-                self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
+                blitInterface = True
 
             for i in range(len(bricks) - 1):
                 b = bricks[i + 1]
@@ -179,6 +178,8 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self, self.screen, p)
 
+            if blitInterface:
+                self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
 
             self.eventsHandler()
 
@@ -251,7 +252,6 @@ class Game:
             e.setY(co[1])
 
             if e.getY() > 8000:
-                print(e.getSubType())
                 if e.getSubType() == "player":
                     e.attacked()
                 else:
