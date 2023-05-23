@@ -172,7 +172,7 @@ class Low_song(Button):
 
 class Back(Button):
     def __init__(self):
-        super().__init__(390,800,"back","BACK","Mario-Kart-DS.ttf",30,"White")
+        super().__init__(390,800,"back","RETOUR","Mario-Kart-DS.ttf",30,"White")
     def exe(self,game,event):
         name=game.currentScene.getGame()
         pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
