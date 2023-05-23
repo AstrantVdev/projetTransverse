@@ -20,8 +20,8 @@ def getLineIntersection(line1, line2):
     if z == 0:  # lines are parallel
         return None
 
-    x = round(x/z, 4)
-    y = round(y/z, 4)
+    x = round(x / z, 4)
+    y = round(y / z, 4)
 
     if not ((line1[0][0] <= x <= line1[1][0]) or (line1[1][0] <= x <= line1[0][0])):
         return None
@@ -33,3 +33,14 @@ def getLineIntersection(line1, line2):
         return None
 
     return x, y
+
+
+# https://www.oreilly.com/library/view/python-cookbook/0596001673/ch15s04.html
+def importName(modulename, name):
+    """ Import a named object from a module in the context of this function.
+    """
+    try:
+        module = __import__(modulename, globals(), locals(), [name])
+    except ImportError:
+        return None
+    return vars(module)[name]

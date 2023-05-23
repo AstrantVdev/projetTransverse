@@ -1,4 +1,5 @@
 import time
+from abc import abstractmethod, ABC
 from math import sqrt
 
 import pygame.draw
@@ -8,13 +9,17 @@ import Items
 
 METER = 64  # 64 pixels représentent 1 mètre dans le jeu
 
+def getCollisionRectCenter(rect, collidedRect):
+    x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
+    y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
 
-def getForcesAddition():
-    force = (0, 0)
-    return force
+    x2 = min(rect.topright[0], collidedRect.topright[0])
+    y2 = max(rect.topright[1], collidedRect.topright[1])
+
+    return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
 
 
-class Entity(Bricks.Brick):
+class Entity(Bricks.Brick, ABC):
 
     def __init__(self, x, y, subtype, id):
         super().__init__(x, y, "entity", subtype, id)
@@ -22,39 +27,39 @@ class Entity(Bricks.Brick):
         self.speed = [0, 0]  # => entity speed [[x, y] ...]
         self.weight = 32
         self.life = 15
-        self.max_life=15
+        self.max_life = 15
         self.fly = False
         self.pitch = 0
+        self.damage = 0
+        self.defence = 0 #en pourcentages de dégats non recus
         self.inv = Items.Inventory
         self.landed = False
         self.last_location = [0, 0]
-        self.spawn=[self.getX(), self.getY()]
-        #checkpoint system if we want
-        self.checkpoint=None
+        self.spawn = [self.getX(), self.getY()]
+        # checkpoint system if we want
+        self.checkpoint = None
 
     def update_health(self, screen):
-        color = (71, 209, 71)
-        back_bar_color = (230, 0, 0)
-        position = [self.rect.x + 200, self.rect.y - 20, self.life, 7]
-        back_bar_position = [self.rect.x + 200, self.rect.y - 20, self.max_life, 7]
-        pygame.draw.rect(screen, back_bar_color, back_bar_position)
-        pygame.draw.rect(screen, color, position)
+        pos = self.rect.topleft, self.rect.y - 20
+        position = [pos, self.life, 7]
+        back_bar_position = [pos, self.max_life, 7]
 
+        pygame.draw.rect(screen, (230, 0, 0), back_bar_position)
+        pygame.draw.rect(screen, (71, 209, 71), position)
+
+    @abstractmethod
     def death(self):
-        #the entitie die and respawn if it has more than 0 life
-        if self.life == 1:
-            #death of the entitie
-            if self.subtype == "player":
-                #the game is finished
-                print("dead")
-        else:
-            self.life-=1
-            self.respawn()
+        self.scene.removeEntity(self)
+        pass
+
+    @abstractmethod
+    def collide(self, collider):
+        self.life -= collider.damage*(100-self.defence)
 
     def respawn(self):
         self.setX(self.spawn[0])
         self.setY(self.spawn[1])
-        self.setSpeed([0,0])
+        self.setSpeed([0, 0])
 
     def setLastLocation(self):
         self.last_location = [self.getX(), self.getY()]
@@ -84,20 +89,15 @@ class Entity(Bricks.Brick):
     def getResultantForce(self):
         return [self.speed[0] * self.weight, self.speed[1] * self.weight]
 
+    def getForcesAddition(self):
+        force = (0, 0)
+        return force
+
     def setResultantSpeed(self):
         totalForce = self.getTotalForce()
         self.speed[0] += totalForce[0] / self.weight * (1 / 30)
         self.speed[1] += totalForce[1] / self.weight * (1 / 30)
         self.appliedForces = []
-
-    def getCollisionRectCenter(self, rect, collidedRect):
-        x1 = max(rect.bottomleft[0], collidedRect.bottomleft[0])
-        y1 = min(rect.bottomleft[1], collidedRect.bottomleft[1])
-
-        x2 = min(rect.topright[0], collidedRect.topright[0])
-        y2 = max(rect.topright[1], collidedRect.topright[1])
-
-        return [x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2)]
 
     def getTickNewCenter(self, player, real):
         center = [
@@ -136,6 +136,7 @@ class Entity(Bricks.Brick):
 
     def getMaxLife(self):
         return self.max_life
+
     def setLife(self, life):
         self.life = life
         return self
@@ -152,9 +153,24 @@ class Entity(Bricks.Brick):
 
     def setPitch(self, pitch):
         self.pitch = pitch
+        return self
 
     def getPitch(self):
         return self.pitch
+
+    def setDamage(self, damage):
+        self.damage = damage
+        return self
+
+    def getDamage(self):
+        return self.damage
+
+    def setDefence(self, defence):
+        self.defence = defence
+        return self
+
+    def getDefence(self):
+        return self.defence
 
     def setInv(self, inv):
         self.inv = inv
@@ -171,9 +187,3 @@ class Entity(Bricks.Brick):
 
     def setLanded(self, landed):
         self.landed = landed
-
-
-class Key(Entity):
-
-    def __init__(self):
-        super().__init__(400, 400, "key", "key")

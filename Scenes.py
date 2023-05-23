@@ -63,6 +63,8 @@ class Scene:
             self.addBrick(i)
 
     def addBrick(self, e):
+        img = self.game.images[dir + '/' + self.game.images[dir][0]]
+        e.setRect(img.get_rect())
         self.bricks.append(e)
         return self
 
@@ -128,6 +130,7 @@ class Scene:
 def Scene1():
     scene = (
         Scene("scene1")
+        .setGame(Main.GAME)
         .addEntity(
             Main.Player()
             .setX(700)
@@ -151,10 +154,11 @@ def Scene1():
     return scene
 
 
-def load_map(map):
+def load_map(game, map):
     mapname = ""
     spawn = (0, 0)
     scene = Scene(map)
+    scene.setGame(game)
     scene.setBackground("graphics/background_scene1.jpg")
 
     with open("maps/" + map, "r") as file:
@@ -178,16 +182,16 @@ def load_map(map):
                             Bricks.Brick(x, y - 32, "block", "block", "edge" + str(x), Bricks.Brick.STATE.DOOR)
                         )
                     elif colonne == "x":
-                        scene.addEntity(Main.
+                        scene.spawn(Main.
                                         Player().
                                         setX(x).
                                         setY(y - 32)
                                         .setLife(3))
                     elif colonne == "+":
-                        scene.addEntity(Entities.Key().setX(x).setY(y - 32))
+                        scene.spawn(Entities.Key().setX(x).setY(y - 32))
                     elif colonne == "p":
                         #spawning an octopus
-                        scene.addEntity(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
+                        scene.spawn(Octopus().setX(x).setY(y - 32).setLife(100).setMaxLife(100))
                     x += 32
             y += 32
 
