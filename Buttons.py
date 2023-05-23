@@ -106,16 +106,14 @@ class LEVEL2(Button):
         super().__init__(890, 485, "level 2", "LEVEL 2", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
-        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
-        game.currentScene.setCurrentUserInterfaceIndex(0)
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/money_sound.mp3"))
 
 class LEVEL3(Button):
     def __init__(self):
         super().__init__(890, 585, "level 3", "LEVEL 3", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
-        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
-        game.currentScene.setCurrentUserInterfaceIndex(0)
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/money_sound.mp3"))
 
 class Title_Setting(Button):
     def __init__(self):
