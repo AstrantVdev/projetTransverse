@@ -192,3 +192,76 @@ def load_map(map):
 
         print("scene chargée ", scene.getBricks())
     return scene
+
+def MENU():
+    JOUER = Buttons.Play()
+    OPTION = Buttons.Setting()
+    REGLE = Buttons.Rule()
+    CREATOR = Buttons.Creator()
+    BACK = Buttons.Back()
+    QUITTER = Buttons.Quit()
+    scene = (Scene("scene0")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("menu")
+                               .addButton(BACK)
+                               .addButton(JOUER)
+                               .addButton(OPTION)
+                               .addButton(REGLE)
+                               .addButton(CREATOR)
+                               .addButton(QUITTER)))
+    scene.setCurrentUserInterfaceIndex(0)
+    return scene
+def NIVEAU():
+    LEVEL1 = Buttons.LEVEL1()
+    LEVEL2 = Buttons.LEVEL2()
+    LEVEL3 = Buttons.LEVEL3()
+    BACK = Buttons.Back()
+    scene = (Scene("scene1")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("niveau")
+                               .addButton(BACK)
+                               .addButton(LEVEL1)
+                               .addButton(LEVEL2)
+                               .addButton(LEVEL3)))
+    scene.setCurrentUserInterfaceIndex(1)
+    return scene
+def OPTION():
+    #SONG = Buttons.Buttons(880, 450, 1, "SONG", "dubai", 40, "White")
+    PLAY = Buttons.Play_song()
+    STOP = Buttons.Stop_song()
+    #VOLUME = Buttons.Buttons(590, 450, 1, "VOLUME", "dubai", 40, "White")
+    HIGH = Buttons.High_song()
+    LOW = Buttons.Low_song()
+    #HOWTOPLAY = Buttons.Buttons(1100, 450, 1, "HOW TO PLAY", "dubai", 40, "White")
+    click_howtoplay = Buttons.how_play()
+    BACK = Buttons.Back()
+    scene = (Scene("scene2")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("option")
+                               .addButton(BACK)
+                               .addButton(SONG)
+                               .addButton(PLAY)
+                               .addButton(STOP)
+                               .addButton(VOLUME)
+                               .addButton(HIGH)
+                               .addButton(LOW)
+                               .addButton(HOWTOPLAY)
+                               .addButton(click_howtoplay)))
+    scene.setCurrentUserInterfaceIndex(2)
+    return scene
+def RULES():
+    BACK = Buttons.Back()
+    scene = (Scene("scene3")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("rules")
+                               .addButton(BACK)))
+    scene.setCurrentUserInterfaceIndex(3)
+    return scene
+def CREATOR():
+    BACK = Buttons.Back()
+    scene = (Scene("scene4")
+             .addUserInterface(UserInterfaces
+                               .UserInterface("creator")
+                               .addButton(BACK)))
+    scene.setCurrentUserInterfaceIndex(4)
+    return scene

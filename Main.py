@@ -120,8 +120,8 @@ class Game:
         self.font = {"chiller": pygame.font.SysFont("chiller", 80), "dubai": pygame.font.SysFont("dubai", 30)}
         print("Loaded all image in", round(time.time() * 1000) - time1, "ms")
 
-        self.setCurrentScene(Scenes.load_map("map1"))
-
+        #self.setCurrentScene(Scenes.load_map("map1"))
+        self.setCurrentScene(Scenes.MENU())
         self.running = True
 
     def run(self):
