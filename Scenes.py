@@ -194,7 +194,7 @@ def load_map(map):
         scene.addUserInterface(
             UserInterfaces.UserInterface("menu")
             .addButton(
-                Buttons.Quit
+                Buttons.Back()
             )
         )
 
