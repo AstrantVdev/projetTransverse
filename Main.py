@@ -131,25 +131,25 @@ class Game:
         self.running = True
 
     def run(self):
+        # music
+        pygame.mixer.init()
+        pygame.mixer.music.load('music/fond_music.mp3')
+        pygame.mixer.music.play(-1)
         loc = [163, 0]
         while self.running:
-            if 180 > 163 - 0.05 * self.getCurrentScene().getPlayer().getX() > - 350:
-                loc[0] = 163 - 0.05 * self.getCurrentScene().getPlayer().getX()
-            loc[1] = 0 - 0.05 * self.getCurrentScene().getPlayer().getY()
+            if self.getCurrentScene().getPlayer()!=None:
+                if 180 > 163 - 0.05 * self.getCurrentScene().getPlayer().getX() > - 350:
+                    loc[0] = 163 - 0.05 * self.getCurrentScene().getPlayer().getX()
+                loc[1] = 0 - 0.05 * self.getCurrentScene().getPlayer().getY()
 
-            self.screen.blit(self.images[self.currentScene.getBackground()],
-                             [loc[0] if loc[0] is not None else 195, loc[1] if loc[1] is not None else 0])
-            fps = self.font["dubai"].render(
-                "fps: " + str(round(self.t.get_fps())) + " locscreen: x " + str(round(loc[0])) + ",y " + str(
-                    round(loc[1])), 1, "white")
-            self.screen.blit(fps, (1340, 130))
-            for i in range(self.getCurrentScene().getPlayer().getLife()):
-                self.screen.blit(self.images["graphics/images/coeur.jpg"], (200 + i * 45, 125))
-
-            # music
-            pygame.mixer.init()
-            pygame.mixer.music.load('music/fond_music.mp3')
-            pygame.mixer.music.play(-1)
+                self.screen.blit(self.images[self.currentScene.getBackground()],
+                                 [loc[0] if loc[0] is not None else 195, loc[1] if loc[1] is not None else 0])
+                fps = self.font["dubai"].render(
+                    "fps: " + str(round(self.t.get_fps())) + " locscreen: x " + str(round(loc[0])) + ",y " + str(
+                        round(loc[1])), 1, "white")
+                self.screen.blit(fps, (1340, 130))
+                for i in range(self.getCurrentScene().getPlayer().getLife()):
+                    self.screen.blit(self.images["graphics/images/coeur.jpg"], (200 + i * 45, 125))
 
             player = self.currentScene.getPlayer()
 
@@ -158,6 +158,7 @@ class Game:
             if self.getCurrentScene().getCurrentUserInterfaceIndex() == -1:
                 self.moveEntities(entities, bricks, player)
             else:
+                self.screen.blit(self.images[self.currentScene.getBackground()],(0, 0))
                 self.getCurrentScene().getCurrentUserInterface().blit(self.screen)
 
             for i in range(len(bricks) - 1):
@@ -168,13 +169,13 @@ class Game:
                 e = entities[i + 1]
                 e.blit(self, self.screen, player)
 
+            if self.getCurrentScene().getPlayer() != None:
+                if self.getCurrentScene().getPlayer().getY()>2000:
+                    self.getCurrentScene().getPlayer().death()
 
-            if self.getCurrentScene().getPlayer().getY()>2000:
-                self.getCurrentScene().getPlayer().death()
-
-            self.total_circle -= 10
-            if self.total_circle == -360:
-                self.total_circle=0
+                self.total_circle -= 10
+                if self.total_circle == -360:
+                    self.total_circle=0
             pygame.display.update()
 
             self.eventsHandler()

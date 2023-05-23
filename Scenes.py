@@ -207,17 +207,16 @@ def MENU():
     OPTION = Buttons.Setting()
     REGLE = Buttons.Rule()
     CREATOR = Buttons.Creator()
-    BACK = Buttons.Back()
     QUITTER = Buttons.Quit()
     scene = (Scene("scene0")
              .addUserInterface(UserInterfaces
                                .UserInterface("menu")
-                               .addButton(BACK)
                                .addButton(JOUER)
                                .addButton(OPTION)
                                .addButton(REGLE)
                                .addButton(CREATOR)
                                .addButton(QUITTER)))
+    scene.setBackground("graphics/fondrouge.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     return scene
 def NIVEAU():
@@ -232,7 +231,8 @@ def NIVEAU():
                                .addButton(LEVEL1)
                                .addButton(LEVEL2)
                                .addButton(LEVEL3)))
-    scene.setCurrentUserInterfaceIndex(1)
+    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
     return scene
 def OPTION():
     #SONG = Buttons.Buttons(880, 450, 1, "SONG", "dubai", 40, "White")
@@ -248,15 +248,16 @@ def OPTION():
              .addUserInterface(UserInterfaces
                                .UserInterface("option")
                                .addButton(BACK)
-                               .addButton(SONG)
+                               #.addButton(SONG)
                                .addButton(PLAY)
                                .addButton(STOP)
-                               .addButton(VOLUME)
+                               #.addButton(VOLUME)
                                .addButton(HIGH)
                                .addButton(LOW)
-                               .addButton(HOWTOPLAY)
+                               #.addButton(HOWTOPLAY)
                                .addButton(click_howtoplay)))
-    scene.setCurrentUserInterfaceIndex(2)
+    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
     return scene
 def RULES():
     BACK = Buttons.Back()
@@ -264,7 +265,8 @@ def RULES():
              .addUserInterface(UserInterfaces
                                .UserInterface("rules")
                                .addButton(BACK)))
-    scene.setCurrentUserInterfaceIndex(3)
+    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
     return scene
 def CREATOR():
     BACK = Buttons.Back()
@@ -272,5 +274,6 @@ def CREATOR():
              .addUserInterface(UserInterfaces
                                .UserInterface("creator")
                                .addButton(BACK)))
-    scene.setCurrentUserInterfaceIndex(4)
+    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setCurrentUserInterfaceIndex(0)
     return scene
