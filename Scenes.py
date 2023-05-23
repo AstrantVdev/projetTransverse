@@ -203,6 +203,7 @@ def load_map(map):
     return scene
 
 def MENU():
+    TITLE = Buttons.Title()
     JOUER = Buttons.Play()
     OPTION = Buttons.Setting()
     REGLE = Buttons.Rule()
@@ -211,12 +212,13 @@ def MENU():
     scene = (Scene("scene0")
              .addUserInterface(UserInterfaces
                                .UserInterface("menu")
+                               .addButton(TITLE)
                                .addButton(JOUER)
                                .addButton(OPTION)
                                .addButton(REGLE)
                                .addButton(CREATOR)
                                .addButton(QUITTER)))
-    scene.setBackground("graphics/fondrouge.jpg")
+    scene.setBackground("graphics/background_menu.jpg")
     scene.setCurrentUserInterfaceIndex(0)
     scene.setGame('MENU')
     return scene

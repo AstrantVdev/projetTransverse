@@ -16,7 +16,7 @@ class Button(ABC):
         self.rect = None
 
     def blit(self, screen):
-        font = pygame.font.SysFont(self.font, self.size)
+        font = pygame.font.Font("font/"+self.font, self.size)
         img = font.render(self.text, True, self.color)
         self.rect = img.get_rect()
         self.rect.center = (self.x + self.rect.centerx, self.y + self.rect.centery)
@@ -31,66 +31,80 @@ class Button(ABC):
 
 class Quit(Button):
     def __init__(self):
-        super().__init__(890, 685, "quit", "QUITTER", "dubai", 30, "White")
+        super().__init__(890, 685, "quit", "QUITTER", "Mario-Kart-DS.ttf", 30, "Black")
 
     def exe(self, game, event):
         game.running=False
         game.currentScene.setCurrentUserInterfaceIndex(-1)
         exit()
-class Play(Button):
+
+class Title(Button):
     def __init__(self):
-        super().__init__(400, 385, "play", "JOUER", "dubai", 30, "White")
+        super().__init__(790, 235, "Title", "Bloockey", "Mario-Kart-DS.ttf", 80, "Black")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/Title_sound.mp3"))
+class Play(Button):
+    def __init__(self):
+        super().__init__(400, 385, "play", "JOUER", "Mario-Kart-DS.ttf", 30, "Black")
+
+    def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene=Scenes.NIVEAU()
 class Setting(Button):
     def __init__(self):
 
-        super().__init__(400, 485, "setting", "OPTION", "dubai", 30, "White")
+        super().__init__(400, 485, "setting", "OPTION", "Mario-Kart-DS.ttf", 30, "Black")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene=Scenes.OPTION()
 
 class Rule(Button):
     def __init__(self):
-        super().__init__(1420, 385, "rule", "REGLE", "dubai", 30, "White")
+        super().__init__(1420, 385, "rule", "REGLE", "Mario-Kart-DS.ttf", 30, "Black")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene = Scenes.RULES()
 
 class Creator(Button):
     def __init__(self):
-        super().__init__(1400, 485, "creator", "CREATOR", "dubai", 30, "White")
+        super().__init__(1400, 485, "creator", "CREATOR", "Mario-Kart-DS.ttf", 30, "Black")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene = Scenes.CREATOR()
 
 class LEVEL1(Button):
     def __init__(self):
-        super().__init__(890, 385, "level 1", "LEVEL 1", "dubai", 30, "White")
+        super().__init__(890, 385, "level 1", "LEVEL 1", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene = Scenes.load_map("map1")
 
 class LEVEL2(Button):
     def __init__(self):
-        super().__init__(890, 485, "level 2", "LEVEL 2", "dubai", 30, "White")
+        super().__init__(890, 485, "level 2", "LEVEL 2", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene.setCurrentUserInterfaceIndex(0)
         #Menu.Menu.CREATOR()
 
 class LEVEL3(Button):
     def __init__(self):
-        super().__init__(890, 585, "level 3", "LEVEL 3", "dubai", 30, "White")
+        super().__init__(890, 585, "level 3", "LEVEL 3", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene.setCurrentUserInterfaceIndex(0)
         #Menu.Menu.CREATOR()
 
 class Play_song(Button):
     def __init__(self):
-        super().__init__(900, 485, "play song", "PLAY", "dubai", 30, "White")
+        super().__init__(900, 485, "play song", "PLAY", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.music.pause()
@@ -98,7 +112,7 @@ class Play_song(Button):
 
 class Stop_song(Button):
     def __init__(self):
-        super().__init__(898, 530, "stop song", "STOP", "dubai", 30, "White")
+        super().__init__(898, 530, "stop song", "STOP", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.music.unpause()
@@ -106,7 +120,7 @@ class Stop_song(Button):
 
 class High_song(Button):
     def __init__(self):
-        super().__init__(650, 485, "high song", "▲", "arial", 30, "White")
+        super().__init__(650, 485, "high song", "▲", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() + 0.1)
@@ -114,7 +128,7 @@ class High_song(Button):
 
 class Low_song(Button):
     def __init__(self):
-        super().__init__(650, 530, "low song", "▼", "arial", 30, "White")
+        super().__init__(650, 530, "low song", "▼", "Mario-Kart-DS.ttf", 30, "White")
 
     def exe(self, game, event):
         pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() - 0.1)
@@ -122,17 +136,19 @@ class Low_song(Button):
 
 class how_play(Button):
     def __init__(self):
-        super().__init__(1160, 520, "how to play", "◄CLICK ►", "arial", 20, "White")
+        super().__init__(1160, 520, "how to play", "◄CLICK ►", "Mario-Kart-DS.ttf", 20, "White")
 
     def exe(self, game, event):
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         game.currentScene.setCurrentUserInterfaceIndex(0)
         #Menu.Menu.CREATOR()
 
 class Back(Button):
     def __init__(self):
-        super().__init__(390,800,"back","BACK","dubai",30,"White")
+        super().__init__(390,800,"back","BACK","Mario-Kart-DS.ttf",30,"White")
     def exe(self,game,event):
         name=game.currentScene.getGame()
+        pygame.mixer.Sound.play(pygame.mixer.Sound("music/click_sound.mp3"))
         if name=="LEVEL 1" or name =="LEVEL 2" or name =="LEVEL 3":
             game.currentScene = Scenes.NIVEAU()
         else:
