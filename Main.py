@@ -155,7 +155,7 @@ class Game:
     def run(self):
 
         while self.running:
-            self.screen.blit(self.images[self.currentScene.getBackground()], (200, 100))
+            self.screen.blit(self.images[self.currentScene.getBackground()], (0, 0))
 
             p = self.currentScene.getPlayer()
             if p is not None:
