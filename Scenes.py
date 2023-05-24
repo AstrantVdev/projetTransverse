@@ -169,6 +169,7 @@ class loaded_map(Scene):
                 UserInterfaces.UserInterface("menu")
                 .addButton(Buttons.Quit())
                 .addButton(Buttons.Back())
+                .addButton(Buttons.Reprendre())
             )
 
             print("scene chargée ", self.getBricks())
