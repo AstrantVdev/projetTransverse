@@ -195,9 +195,9 @@ def load_map(map):
 
         scene.addUserInterface(
             UserInterfaces.UserInterface("menu")
-            .addButton(
-                Buttons.Back()
-            )
+            .addButton(Buttons.Back())
+            .addButton(Buttons.Quit())
+            .addButton(Buttons.Reprendre())
         )
 
         print("scene chargée ", scene.getBricks())
